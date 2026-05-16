@@ -1,0 +1,328 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#993C1D;color:#fff;border-color:#993C1D}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:22px;font-weight:500;color:#993C1D;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #993C1D;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#FAECE7;color:#712B13;padding:2px 7px;border-radius:5px;font-weight:500}
+.rbox{background:#FAECE7;border:0.5px solid #F0997B;border-right:4px solid #993C1D;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.9}
+.gbox{background:#EAF3DE;border:0.5px solid #97C459;border-right:4px solid #3B6D11;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #BA7517;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.bbox{background:#E6F1FB;border:0.5px solid #85B7EB;border-right:4px solid #185FA5;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.9}
+.factors-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.factor-card{border-radius:var(--border-radius-md);padding:1rem;font-size:13px;line-height:1.75;border:0.5px solid}
+.energy-diag{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.2rem;margin:.8rem 0;font-size:13px;line-height:1.9;color:var(--color-text-secondary)}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.v-item{background:#FAECE7;color:#712B13;border:0.5px solid #F0997B;border-radius:var(--border-radius-md);text-align:center;padding:.55rem;font-size:13px;font-weight:500}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#993C1D;background:#FAECE7;color:#712B13}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.sc-num{font-size:38px;font-weight:500;color:#993C1D}
+.sc-lbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#993C1D;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#712B13}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">درس العوامل المؤثرة في سرعة التفاعل الكيميائي</h2>
+
+<div class="hdr">
+  <h1>الدرس 2-2: العوامل المؤثرة في سرعة التفاعل الكيميائي</h1>
+  <p>Factors Affecting Reaction Rates — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">نظرة عامة — العوامل الخمسة المؤثرة في سرعة التفاعل</div>
+    <div class="cbody">
+      <div class="factors-grid">
+        <div class="factor-card" style="background:#FAECE7;color:#712B13;border-color:#F0997B"><b>① طبيعة المواد المتفاعلة</b><br>بعض المواد أكثر نشاطًا كيميائيًا من غيرها</div>
+        <div class="factor-card" style="background:#E6F1FB;color:#042C53;border-color:#85B7EB"><b>② التركيز</b><br>زيادة التركيز ← زيادة التصادمات ← سرعة أعلى</div>
+        <div class="factor-card" style="background:#EAF3DE;color:#27500A;border-color:#97C459"><b>③ مساحة السطح</b><br>تقسيم المادة ← مساحة أكبر ← سرعة أعلى</div>
+        <div class="factor-card" style="background:#FAEEDA;color:#633806;border-color:#EF9F27"><b>④ درجة الحرارة</b><br>رفع الحرارة ← طاقة حركية أعلى ← سرعة أعلى</div>
+        <div class="factor-card" style="background:#EEEDFE;color:#26215C;border-color:#AFA9EC" style="grid-column:1/-1"><b>⑤ المحفزات والمثبطات</b><br>محفز ← يخفض طاقة التنشيط ← سرعة أعلى | مثبط ← يرفع طاقة التنشيط ← سرعة أقل</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">أولًا: طبيعة المواد المتفاعلة</div>
+    <div class="cbody">
+      تتفاعل بعض المواد أسرع من غيرها بسبب اختلاف نشاطها الكيميائي.
+      <div class="rbox" style="margin-top:8px">
+        <b>مثال:</b> وضع شريط نحاس وشريط خارصين (زنك) كلٍّ في محلول نترات الفضة بتركيز 0.05 M:<br>
+        • الخارصين أنشط كيميائيًا من النحاس<br>
+        • الخارصين يتفاعل بسرعة أكبر ← ينتج كمية فضة أكبر خلال نفس الزمن<br>
+        • السبب: طبيعة المادة (نشاطها الكيميائي) وليس فقط ظروف التفاعل
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثانيًا: التركيز</div>
+    <div class="cbody">
+      زيادة تركيز المواد المتفاعلة → زيادة عدد الجسيمات → زيادة عدد التصادمات → <b>سرعة تفاعل أعلى</b>.
+      <div class="gbox" style="margin-top:8px">
+        <b>مثال:</b> شمعة تحترق في هواء عادي (أكسجين ~20%) مقارنة بشمعة داخل وعاء أكسجين نقي (100%):<br>
+        الشمعة في الأكسجين النقي تحترق بلهب أشد إضاءة وأسرع بكثير، لأن تركيز الأكسجين أعلى بـ 5 أضعاف ← تصادمات أكثر بين جزيئات الشمع والأكسجين.
+      </div>
+      <div class="wbox">
+        <b>قاعدة:</b> إذا زاد تركيز مادة متفاعلة A أو B، ازداد عدد التصادمات بينهما، وبالتالي ازدادت سرعة التفاعل.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثالثًا: مساحة السطح</div>
+    <div class="cbody">
+      زيادة مساحة السطح → مزيد من الجسيمات المعرضة للتصادم → <b>سرعة أعلى</b>.
+      <div class="bbox" style="margin-top:8px">
+        <b>مثال:</b> مقارنة بين مسمار حديد ساخن وكتلة سلك تنظيف معدنية في الأكسجين:<br>
+        • المسمار: مساحة سطح صغيرة → يتوهج ببطء<br>
+        • سلك التنظيف: مساحة سطح كبيرة جدًا → يشتعل بشدة وبسرعة<br>
+        <b>السبب:</b> السلك مقطّع إلى خيوط رفيعة توفر مساحة سطح أكبر بكثير.
+      </div>
+      <b>تطبيق عملي:</b> طحن المادة إلى مسحوق يزيد مساحة سطحها ويسرّع التفاعل.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: درجة الحرارة</div>
+    <div class="cbody">
+      رفع درجة الحرارة يزيد من متوسط الطاقة الحركية للجسيمات → تصادمات أكثر وأقوى → <b>سرعة أعلى</b>.
+      <div class="pbox" style="margin-top:8px">
+        <b>قاعدة تجريبية:</b> زيادة درجة الحرارة بمقدار 10 K تؤدي إلى مضاعفة سرعة التفاعل تقريبًا.<br><br>
+        <b>من الرسم البياني:</b><br>
+        • عند 290 K → السرعة النسبية = 2<br>
+        • عند 300 K → السرعة النسبية = 4<br>
+        • عند 310 K → السرعة النسبية = 8<br>
+        • عند 320 K → السرعة النسبية = 16<br>
+        • عند 330 K → السرعة النسبية = 32
+      </div>
+      <div class="wbox">
+        <b>التفسير:</b> عند درجة الحرارة العالية T₂، عدد الجسيمات التي تمتلك طاقة ≥ طاقة التنشيط أكبر بكثير مما في T₁ → اصطدامات مثمرة أكثر.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">خامسًا: المحفزات والمثبطات</div>
+    <div class="cbody">
+      <div class="factors-grid">
+        <div class="factor-card" style="background:#EAF3DE;color:#27500A;border-color:#97C459">
+          <b>المحفز (Catalyst)</b><br>
+          • يزيد سرعة التفاعل<br>
+          • يخفّض طاقة التنشيط Eₐ<br>
+          • لا يُستهلك في التفاعل<br>
+          • لا يُضمَّن في المعادلة الكيميائية<br>
+          • مثال: الإنزيمات في جسم الإنسان
+        </div>
+        <div class="factor-card" style="background:#FAECE7;color:#712B13;border-color:#F0997B">
+          <b>المثبط (Inhibitor)</b><br>
+          • يبطئ سرعة التفاعل أو يوقفه<br>
+          • يرفع طاقة التنشيط<br>
+          • يمكنه تدمير المحفز<br>
+          • مثال: المواد الحافظة في الأغذية (مضادات الأكسدة)
+        </div>
+      </div>
+      <div class="energy-diag">
+        <b>مخطط الطاقة مع المحفز وبدونه:</b><br>
+        المسار بدون محفز: طاقة تنشيط عالية → تفاعل بطيء<br>
+        المسار مع محفز: طاقة تنشيط أقل بكثير → نفس المنتجات ← تفاعل أسرع<br>
+        <b>ملاحظة:</b> المحفز لا يغير كمية الطاقة المنطلقة (ΔH) — يغير فقط الطريق!
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div class="vocab-grid">
+        <div class="v-item">المحفزات</div>
+        <div class="v-item">المثبطات</div>
+        <div class="v-item">طاقة التنشيط Eₐ</div>
+        <div class="v-item">تركيز المواد</div>
+        <div class="v-item">مساحة السطح</div>
+        <div class="v-item">الإنزيمات</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="sc-num" id="snum">0/10</div>
+    <div class="sc-lbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const Qs=[
+  {
+    q:"ما العوامل الخمسة الرئيسية المؤثرة في سرعة التفاعل الكيميائي؟",
+    opts:["اللون والكثافة والكتلة والحجم والشكل","طبيعة المواد المتفاعلة والتركيز ومساحة السطح ودرجة الحرارة والمحفزات","الضغط والكتلة والحجم والتركيز واللون","درجة الحرارة فقط"],
+    ans:1,
+    exp:"العوامل الخمسة: ① طبيعة المواد المتفاعلة ② التركيز ③ مساحة السطح ④ درجة الحرارة ⑤ المحفزات والمثبطات."
+  },
+  {
+    q:"وُضع شريط خارصين وشريط نحاس كلٌّ منهما في محلول نترات فضة بنفس التركيز. لماذا تفاعل الخارصين بسرعة أكبر؟",
+    opts:["لأن كتلة الخارصين أكبر","لأن الخارصين أنشط كيميائيًا من النحاس","لأن التركيز كان مختلفًا","لأن درجة الحرارة كانت أعلى للخارصين"],
+    ans:1,
+    exp:"الخارصين أنشط كيميائيًا من النحاس، لذا يتفاعل بسرعة أكبر — هذا يعود لطبيعة المادة المتفاعلة."
+  },
+  {
+    q:"وفق نظرية التصادم، كيف تؤثر زيادة تركيز المواد المتفاعلة في سرعة التفاعل؟",
+    opts:["تقلل عدد الاصطدامات فتبطئ التفاعل","تزيد عدد الجسيمات فتزيد عدد الاصطدامات فتزيد سرعة التفاعل","لا تأثير للتركيز على سرعة التفاعل","تغير طاقة التنشيط فقط"],
+    ans:1,
+    exp:"زيادة التركيز → زيادة عدد الجسيمات → زيادة عدد التصادمات بينها → زيادة سرعة التفاعل. هذا مباشرةً من نظرية التصادم."
+  },
+  {
+    q:"شمعة تحترق في هواء عادي (أكسجين 20%). ماذا يحدث لسرعة احتراقها إذا وُضعت في وعاء أكسجين نقي 100%؟",
+    opts:["تبطؤ سرعة الاحتراق","لا يتغير شيء","تزداد سرعة الاحتراق بسبب زيادة تركيز الأكسجين","تتوقف عن الاحتراق"],
+    ans:2,
+    exp:"تركيز الأكسجين النقي (100%) أعلى بـ5 أضعاف من الهواء العادي (20%) ← تصادمات أكثر ← سرعة احتراق أعلى بكثير."
+  },
+  {
+    q:"لماذا تزيد مساحة السطح من سرعة التفاعل الكيميائي؟",
+    opts:["لأنها تخفض درجة الحرارة","لأنها تزيد عدد الجسيمات المعرضة للتصادم مع المادة الأخرى","لأنها تغير طبيعة المادة المتفاعلة","لأنها ترفع طاقة التنشيط"],
+    ans:1,
+    exp:"زيادة مساحة السطح → مزيد من الجسيمات المعرضة للتصادم المباشر → زيادة عدد التصادمات المثمرة → سرعة أعلى."
+  },
+  {
+    q:"تفاعل كيميائي سرعته النسبية عند 300 K هي 4. إذا كانت زيادة 10 K تضاعف السرعة، ما السرعة النسبية عند 320 K؟",
+    opts:["4","8","16","32"],
+    ans:2,
+    exp:"من 300 K → 310 K: السرعة تضاعف من 4 إلى 8. من 310 K → 320 K: تضاعف من 8 إلى 16. الإجابة: 16."
+  },
+  {
+    q:"ما تأثير رفع درجة الحرارة على طاقة التنشيط Eₐ؟",
+    opts:["يرفع طاقة التنشيط","يخفض طاقة التنشيط","لا يؤثر في طاقة التنشيط — بل يزيد عدد الجسيمات ذات الطاقة الكافية","يلغي طاقة التنشيط تمامًا"],
+    ans:2,
+    exp:"رفع درجة الحرارة لا يغير طاقة التنشيط Eₐ — بل يزيد عدد الجسيمات التي تمتلك طاقة ≥ Eₐ، مما يزيد التصادمات المثمرة."
+  },
+  {
+    q:"ما تعريف المحفز (Catalyst)؟",
+    opts:["مادة تبطئ التفاعل وتُستهلك فيه","مادة تزيد سرعة التفاعل دون أن تُستهلك فيه","مادة تغير ΔH للتفاعل","مادة تمنع التفاعل من الحدوث"],
+    ans:1,
+    exp:"المحفز يزيد سرعة التفاعل بتخفيض طاقة التنشيط، دون أن يُستهلك في التفاعل ولا يُضمَّن في المعادلة الكيميائية."
+  },
+  {
+    q:"كيف يؤثر المحفز في طاقة التنشيط ومخطط الطاقة؟",
+    opts:["يرفع طاقة التنشيط","يخفض طاقة التنشيط مع بقاء ΔH ثابتًا","يغير ΔH للتفاعل","يلغي الحاجة إلى طاقة تنشيط"],
+    ans:1,
+    exp:"المحفز يخفض طاقة التنشيط Eₐ (الحاجز الطاقوي) مما يسمح لتصادمات أكثر بتجاوزه — لكن ΔH (الطاقة الكلية المنطلقة) لا يتغير."
+  },
+  {
+    q:"ما الفرق الجوهري بين المحفز والمثبط؟",
+    opts:["المحفز يزيد سرعة التفاعل بتخفيض Eₐ، والمثبط يبطئه برفع Eₐ أو تعطيل المحفز","المحفز يُستهلك في التفاعل والمثبط لا يُستهلك","المحفز مادة صلبة والمثبط مادة سائلة","لا فرق بينهما في التأثير على سرعة التفاعل"],
+    ans:0,
+    exp:"المحفز: يزيد السرعة بتخفيض طاقة التنشيط. المثبط: يبطئ التفاعل برفع Eₐ أو تعطيل المحفز أو منع التفاعل كليًا — مثال: المواد الحافظة في الأغذية."
+  }
+];
+
+let uAns=new Array(10).fill(-1),submitted=false;
+
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#993C1D':'';
+    o.style.background=j===oi?'#FAECE7':'';
+    o.style.color=j===oi?'#712B13':'';
+  });
+}
+
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show ok';
+    } else {
+      if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show bad';
+    }
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
