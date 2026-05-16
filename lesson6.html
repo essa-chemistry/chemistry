@@ -1,0 +1,326 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#854F0B;color:#fff;border-color:#854F0B}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:22px;font-weight:500;color:#854F0B;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #854F0B;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#FAEEDA;color:#633806;padding:2px 7px;border-radius:5px;font-weight:500}
+.abox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #854F0B;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.9}
+.gbox{background:#EAF3DE;border:0.5px solid #97C459;border-right:4px solid #3B6D11;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.ibox{background:#FAECE7;border:0.5px solid #F0997B;border-right:4px solid #993C1D;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.9}
+.bbox{background:#E6F1FB;border:0.5px solid #85B7EB;border-right:4px solid #185FA5;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.85}
+.wbox{background:#F1EFE8;border:0.5px solid #B4B2A9;border-right:4px solid #5F5E5A;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#2C2C2A;font-size:14px;line-height:1.85}
+.formula{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.8rem 1.2rem;text-align:center;margin:.6rem 0;font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.step-row{display:flex;align-items:flex-start;gap:12px;margin:.5rem 0}
+.snum{min-width:26px;height:26px;border-radius:50%;background:#854F0B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px}
+.stxt{font-size:14px;color:var(--color-text-secondary);line-height:1.7}
+.eq{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem 1rem;margin:.3rem 0;font-size:14px;color:var(--color-text-primary);text-align:center}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.col-card{border-radius:var(--border-radius-md);padding:.9rem 1rem;font-size:13px;line-height:1.75}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.v-item{background:#FAEEDA;color:#633806;border:0.5px solid #EF9F27;border-radius:var(--border-radius-md);text-align:center;padding:.55rem;font-size:13px;font-weight:500}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#854F0B;background:#FAEEDA;color:#633806}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.sc-num{font-size:38px;font-weight:500;color:#854F0B}
+.sc-lbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#854F0B;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#633806}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">درس قانون هس وحرارة التكوين القياسية التفاعلي مع اختبار</h2>
+
+<div class="hdr">
+  <h1>الدرس 1-4: حساب التغير في المحتوى الحراري</h1>
+  <p>قانون هس | حرارة التكوين القياسية — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">أولًا: قانون هس — لماذا نحتاجه؟</div>
+    <div class="cbody">
+      أحيانًا يستحيل قياس ΔH لتفاعل باستخدام المسعر، مثل:
+      <div class="abox" style="margin-top:8px">
+        <b>مثال:</b> تحول الألماس إلى جرافيت — يحدث ببطء شديد جدًا لدرجة يستحيل قياس ΔH له مباشرة.<br>
+        C(s, ألماس) → C(s, جرافيت) &nbsp; ΔH = ؟
+      </div>
+      <span class="hl">قانون هس</span> ينص على أن: <b>حرارة التفاعل (ΔH) تتوقف على طبيعة المواد الداخلة والناتجة فقط، وليس على الخطوات أو المسار الذي يتم فيه التفاعل.</b>
+      <div class="gbox" style="margin-top:8px">
+        <b>النتيجة العملية:</b> يمكننا جمع معادلتين كيميائيتين حراريتين أو أكثر — مع قيم ΔH الخاصة بها — للحصول على ΔH للتفاعل المطلوب.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثانيًا: خطوات تطبيق قانون هس</div>
+    <div class="cbody">
+      <div class="step-row"><div class="snum">1</div><div class="stxt">ابحث عن معادلات كيميائية حرارية معلومة تحتوي على جميع مواد التفاعل المطلوب.</div></div>
+      <div class="step-row"><div class="snum">2</div><div class="stxt">إذا احتجت مضاعفة معادلة — اضرب المعاملات وقيمة ΔH في نفس العدد.</div></div>
+      <div class="step-row"><div class="snum">3</div><div class="stxt">إذا احتجت عكس معادلة — اعكسها وغيّر إشارة ΔH (موجب ← سالب والعكس).</div></div>
+      <div class="step-row"><div class="snum">4</div><div class="stxt">اجمع جميع المعادلات المعدّلة، واحذف المواد المتكررة على الطرفين، واجمع قيم ΔH.</div></div>
+      <div class="abox" style="margin-top:8px">
+        <b>مثال — تكوين SO₃:</b><br>
+        التفاعل المطلوب: 2S(s) + 3O₂(g) → 2SO₃(g) &nbsp; ΔH = ؟<br><br>
+        المعادلة a: &nbsp; S + O₂ → SO₂ &nbsp; ΔH = −297 kJ &nbsp;&nbsp;× 2 = −594 kJ<br>
+        المعادلة b المعكوسة: &nbsp; 2SO₂ + O₂ → 2SO₃ &nbsp; ΔH = −198 kJ<br>
+        <b>المجموع: ΔH = −594 + (−198) = −792 kJ</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثالثًا: حرارة التكوين القياسية (ΔH°<sub>f</sub>)</div>
+    <div class="cbody">
+      <span class="hl">حرارة التكوين القياسية (ΔH°<sub>f</sub>)</span> هي التغير في المحتوى الحراري الذي يرافق تكوين <b>مول واحد</b> من المركب في الظروف القياسية (25°C, 1 atm) من عناصره في حالاتها القياسية.
+      <div class="wbox" style="margin-top:8px">
+        <b>قاعدة أساسية:</b> حرارة التكوين القياسية لأي عنصر في حالته القياسية = <b>صفر (0.0 kJ/mol)</b><br>
+        أمثلة: O₂(g) وN₂(g) وFe(s) وHg(l) كلها تساوي صفرًا.
+      </div>
+      <b>أمثلة على قيم ΔH°f:</b>
+      <div class="eq">S(s) + 3/2 O₂(g) → SO₃(g) &nbsp; ΔH°f = −396 kJ/mol</div>
+      <div class="eq">1/2 N₂(g) + O₂(g) → NO₂(g) &nbsp; ΔH°f = +33.2 kJ/mol</div>
+      <div class="eq">H₂(g) + 1/2 O₂(g) → H₂O(l) &nbsp; ΔH°f = −286 kJ/mol</div>
+      <div class="ibox" style="margin-top:8px">
+        ΔH°f موجب ← المركب أقل استقرارًا من عناصره<br>
+        ΔH°f سالب ← المركب أكثر استقرارًا من عناصره (الحالة الأشيع)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: معادلة التجميع لحساب ΔH°<sub>rxn</sub></div>
+    <div class="cbody">
+      <div class="formula">ΔH°<sub>rxn</sub> = Σ ΔH°<sub>f</sub> (منتجات) − Σ ΔH°<sub>f</sub> (مواد متفاعلة)</div>
+      <div class="wbox">
+        <b>Σ = مجموع</b> | تضرب كل قيمة في معامل المادة في المعادلة الموزونة.<br>
+        العناصر في حالاتها القياسية لها ΔH°f = 0 فلا تؤثر في الحساب.
+      </div>
+      <div class="pbox" style="margin-top:8px">
+        <b>مثال محلول — احتراق الميثان:</b><br>
+        CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)<br>
+        ΔH°f: CH₄ = −75 kJ، CO₂ = −394 kJ، H₂O = −286 kJ، O₂ = 0<br><br>
+        ΔH°rxn = [ΔH°f(CO₂) + 2×ΔH°f(H₂O)] − [ΔH°f(CH₄) + 2×ΔH°f(O₂)]<br>
+        = [(−394) + 2×(−286)] − [(−75) + 2×(0)]<br>
+        = [−966] − [−75]<br>
+        <b>= −891 kJ</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">خامسًا: مقارنة الطريقتين</div>
+    <div class="cbody">
+      <div class="two-col">
+        <div class="col-card" style="background:#FAEEDA;color:#633806;border:0.5px solid #EF9F27">
+          <b>قانون هس</b><br>
+          نجمع معادلات حرارية معلومة<br>
+          نضرب / نعكس المعادلات<br>
+          نجمع ΔH للمعادلات المعدّلة<br>
+          مناسب عندما تتوفر تفاعلات وسيطة
+        </div>
+        <div class="col-card" style="background:#E6F1FB;color:#042C53;border:0.5px solid #85B7EB">
+          <b>معادلة التجميع</b><br>
+          ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات)<br>
+          نستخدم جدول حرارة التكوين<br>
+          أسرع وأكثر منهجية
+        </div>
+      </div>
+      <div class="bbox" style="margin-top:8px">
+        <b>التآصل (Allotropy):</b> ظاهرة وجود شكل أو أكثر لعنصر بتراكيب وخصائص مختلفة عند نفس الحالة الفيزيائية. مثال: الكربون يوجد كألماس وكجرافيت — لكل منهما حرارة تكوين مختلفة.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div class="vocab-grid">
+        <div class="v-item">قانون هس</div>
+        <div class="v-item">حرارة التكوين القياسية ΔH°f</div>
+        <div class="v-item">التآصل</div>
+        <div class="v-item">ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات)</div>
+        <div class="v-item">الظروف القياسية 25°C, 1atm</div>
+        <div class="v-item">عكس المعادلة ← عكس الإشارة</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="sc-num" id="snum">0/10</div>
+    <div class="sc-lbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const Qs=[
+  {
+    q:"ما الذي ينص عليه قانون هس؟",
+    opts:["حرارة التفاعل تتوقف على الخطوات التي يمر بها التفاعل","حرارة التفاعل تتوقف على طبيعة المواد الداخلة والناتجة فقط، وليس على مسار التفاعل","حرارة التفاعل تزداد كلما زادت خطوات التفاعل","حرارة التفاعل لا يمكن حسابها بدون المسعر"],
+    ans:1,
+    exp:"قانون هس: ΔH يتوقف على طبيعة المواد الداخلة والناتجة فقط، وليس على الخطوات أو المسار — لذا يمكن جمع معادلات وسيطة للحصول على ΔH للتفاعل الكلي."
+  },
+  {
+    q:"عند تطبيق قانون هس، ماذا يحدث لـ ΔH عند عكس معادلة كيميائية؟",
+    opts:["يبقى ΔH كما هو","تتضاعف قيمة ΔH","تتغير إشارة ΔH (موجب يصبح سالبًا والعكس)","تصبح قيمة ΔH صفرًا"],
+    ans:2,
+    exp:"عند عكس معادلة كيميائية يجب تغيير إشارة ΔH. إذا كان التفاعل الأصلي ΔH = −200 kJ فعند عكسه يصبح ΔH = +200 kJ."
+  },
+  {
+    q:"معادلة a: A→B ΔH = −100 kJ. إذا احتجنا إلى 3mol من B، كيف نعدّل المعادلة والـ ΔH؟",
+    opts:["3A→3B ΔH = −100 kJ","3A→3B ΔH = −300 kJ","3A→3B ΔH = +300 kJ","A→B ΔH = −300 kJ"],
+    ans:1,
+    exp:"عند ضرب معادلة في عدد، تُضرب جميع المعاملات وقيمة ΔH في نفس العدد. 3 × (−100) = −300 kJ."
+  },
+  {
+    q:"ما تعريف حرارة التكوين القياسية (ΔH°f) لمركب ما؟",
+    opts:["التغير في المحتوى الحراري عند احتراق مول واحد من المركب","التغير في المحتوى الحراري عند تكوين مول واحد من المركب في الظروف القياسية من عناصره","التغير في الحرارة عند تبخر مول واحد من المركب","درجة حرارة تفكك المركب"],
+    ans:1,
+    exp:"ΔH°f هو التغير في المحتوى الحراري لتكوين مول واحد من المركب في الظروف القياسية (25°C, 1atm) من عناصره في حالاتها القياسية."
+  },
+  {
+    q:"ما قيمة حرارة التكوين القياسية (ΔH°f) لغاز الأكسجين O₂(g)؟",
+    opts:["−393 kJ/mol","+33 kJ/mol","0.0 kJ/mol","−286 kJ/mol"],
+    ans:2,
+    exp:"ΔH°f لأي عنصر في حالته القياسية = 0.0 kJ/mol. والأكسجين في حالته القياسية هو O₂(g)، إذن ΔH°f = 0.0 kJ/mol."
+  },
+  {
+    q:"ما الصيغة الصحيحة لحساب ΔH°rxn من حرارات التكوين القياسية؟",
+    opts:["ΔH°rxn = Σ ΔH°f(متفاعلات) − Σ ΔH°f(منتجات)","ΔH°rxn = Σ ΔH°f(منتجات) + Σ ΔH°f(متفاعلات)","ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات)","ΔH°rxn = Σ ΔH°f(منتجات) × Σ ΔH°f(متفاعلات)"],
+    ans:2,
+    exp:"الصيغة الصحيحة: ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات). الترتيب مهم: المنتجات ناقص المتفاعلات."
+  },
+  {
+    q:"باستخدام قانون هس: a: X→Y ΔH = −200 kJ ، b: Y→Z ΔH = −150 kJ. ما ΔH للتفاعل X→Z؟",
+    opts:["−50 kJ","−350 kJ","+350 kJ","+50 kJ"],
+    ans:1,
+    exp:"نجمع المعادلتين a + b مباشرة: X→Y→Z، فيكون ΔH = −200 + (−150) = −350 kJ. Y تُحذف لأنها ناتج في a ومتفاعل في b."
+  },
+  {
+    q:"تفاعل: N₂(g) + O₂(g) → 2NO(g). ΔH°f للـ NO(g) = +91.3 kJ/mol. ما ΔH°rxn؟",
+    opts:["−91.3 kJ","+91.3 kJ","+182.6 kJ","−182.6 kJ"],
+    ans:2,
+    exp:"ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات) = [2×(+91.3)] − [0+0] = +182.6 kJ. N₂ وO₂ عناصر في حالتها القياسية فـ ΔH°f لهما = 0."
+  },
+  {
+    q:"ما المقصود بالتآصل (Allotropy)؟",
+    opts:["تحول المادة من صلب إلى سائل","وجود شكل أو أكثر لعنصر بتراكيب وخصائص مختلفة عند نفس الحالة الفيزيائية","اتحاد عنصرين لتكوين مركب","تفكك المركب إلى عناصره"],
+    ans:1,
+    exp:"التآصل: وجود شكل أو أكثر لعنصر بتراكيب وخصائص مختلفة عند نفس الحالة الفيزيائية. مثال: الكربون يوجد كألماس وجرافيت — كلاهما صلب لكن بخصائص مختلفة."
+  },
+  {
+    q:"تفاعل: A(s) + B(g) → C(g). المعطيات: ΔH°f(A) = 0 (عنصر)، ΔH°f(B) = −50 kJ/mol، ΔH°f(C) = −200 kJ/mol. ما ΔH°rxn؟",
+    opts:["−150 kJ","−250 kJ","+150 kJ","+250 kJ"],
+    ans:0,
+    exp:"ΔH°rxn = ΔH°f(C) − [ΔH°f(A) + ΔH°f(B)] = (−200) − [0 + (−50)] = −200 + 50 = −150 kJ. جميع المعطيات في السؤال."],
+  }
+];
+
+let uAns=new Array(10).fill(-1),submitted=false;
+
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#854F0B':'';
+    o.style.background=j===oi?'#FAEEDA':'';
+    o.style.color=j===oi?'#633806':'';
+  });
+}
+
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show ok';
+    } else {
+      if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show bad';
+    }
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
