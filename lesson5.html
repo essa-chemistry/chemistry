@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>درس الألكانات - Alkanes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { direction: rtl; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f5f5f3; color: #1a1a1a; padding: 24px 16px; }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #5f5e5a; margin-bottom: 1.5rem; }
+  .tab-bar { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 0.5px solid #d3d1c7; padding-bottom: 12px; }
+  .tab { padding: 8px 20px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; border: 0.5px solid #b4b2a9; background: transparent; color: #5f5e5a; }
+  .tab.active { background: #185FA5; color: #E6F1FB; border-color: #185FA5; }
+  .section { display: none; }
+  .section.show { display: block; }
+  .card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .card-title { font-size: 16px; font-weight: 500; color: #1a1a1a; margin: 0 0 10px; }
+  .badge { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 8px; font-weight: 500; margin-bottom: 8px; }
+  .badge-blue { background: #E6F1FB; color: #0C447C; }
+  .badge-teal { background: #E1F5EE; color: #085041; }
+  .badge-amber { background: #FAEEDA; color: #633806; }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .info-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; }
+  .info-label { font-size: 13px; color: #5f5e5a; min-width: 110px; }
+  .info-val { font-size: 13px; color: #1a1a1a; font-family: 'Courier New', monospace; }
+  .formula-box { background: #f1efe8; border-radius: 8px; padding: 10px 16px; font-family: 'Courier New', monospace; font-size: 22px; text-align: center; color: #185FA5; margin: 10px 0; font-weight: 500; }
+  .alkane-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .alkane-table th { background: #f1efe8; padding: 8px 12px; text-align: right; font-weight: 500; color: #5f5e5a; font-size: 12px; border-bottom: 0.5px solid #d3d1c7; }
+  .alkane-table td { padding: 7px 12px; border-bottom: 0.5px solid #d3d1c7; color: #1a1a1a; font-family: 'Courier New', monospace; font-size: 13px; }
+  .alkane-table tr:last-child td { border-bottom: none; }
+  .alkane-table td:first-child { font-family: inherit; }
+  .steps-list { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  .steps-list li { counter-increment: step; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 14px; color: #1a1a1a; line-height: 1.6; }
+  .steps-list li::before { content: counter(step); min-width: 24px; height: 24px; background: #185FA5; color: #E6F1FB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
+  .note-box { background: #FAEEDA; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #633806; margin: 10px 0; }
+  .q-box { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .q-num { font-size: 12px; color: #5f5e5a; margin-bottom: 6px; }
+  .q-text { font-size: 15px; color: #1a1a1a; font-weight: 500; margin-bottom: 14px; line-height: 1.6; }
+  .q-options { display: flex; flex-direction: column; gap: 8px; }
+  .opt { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 0.5px solid #b4b2a9; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1a1a1a; transition: background 0.1s; }
+  .opt:hover { background: #f1efe8; }
+  .opt.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; }
+  .opt.wrong { background: #FCEBEB; border-color: #A32D2D; color: #791F1F; }
+  .opt.disabled { pointer-events: none; }
+  .opt-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #b4b2a9; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; }
+  .opt.correct .opt-circle { background: #3B6D11; border-color: #3B6D11; color: white; }
+  .opt.wrong .opt-circle { background: #A32D2D; border-color: #A32D2D; color: white; }
+  .q-result { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 8px; display: none; line-height: 1.6; }
+  .q-result.show { display: block; }
+  .q-result.ok { background: #EAF3DE; color: #27500A; }
+  .q-result.no { background: #FCEBEB; color: #791F1F; }
+  .score-box { background: #f1efe8; border-radius: 12px; padding: 2rem; text-align: center; margin-top: 1rem; }
+  .score-big { font-size: 52px; font-weight: 500; color: #185FA5; }
+  .score-label { font-size: 14px; color: #5f5e5a; margin-top: 4px; }
+  .btn-primary { background: #185FA5; color: #E6F1FB; border: none; padding: 10px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
+  .btn-primary:hover { background: #0C447C; }
+  .progress-bar { height: 6px; background: #d3d1c7; border-radius: 3px; margin-bottom: 1.5rem; }
+  .progress-fill { height: 100%; background: #185FA5; border-radius: 3px; transition: width 0.3s; }
+  p { font-size: 14px; line-height: 1.7; color: #1a1a1a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>الألكانات — Alkanes</h1>
+  <p class="subtitle">درس تفاعلي متكامل مع اختبار 10 أسئلة | الكيمياء العضوية</p>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab('lesson', this)">الدرس</button>
+    <button class="tab" onclick="showTab('quiz', this)">الاختبار</button>
+  </div>
+
+  <div id="lesson" class="section show">
+
+    <div class="card">
+      <div class="badge badge-blue">تعريف</div>
+      <div class="card-title">ما هي الألكانات؟</div>
+      <p>الألكانات هي هيدروكربونات تحتوي على روابط أحادية فقط بين ذرات الكربون والهيدروجين. تُعدّ من أبسط المركبات العضوية، وأصغرها الميثان CH₄. تُستخدم في الحياة اليومية كالغاز الطبيعي (ميثان) والبروبان وقود الطبخ.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge badge-teal">الصيغة العامة</div>
+      <div class="card-title">القاعدة الرياضية</div>
+      <div class="formula-box">CₙH₂ₙ₊₂</div>
+      <p>حيث n = عدد ذرات الكربون. مثال: الهبتان (n=7) صيغته C₇H₁₆ لأن 2×7+2=16.</p>
+    </div>
+
+    <div class="card">
+      <div class="badge badge-purple">الألكانات العشرة الأولى</div>
+      <div class="card-title">جدول المركبات ذات السلاسل المستقيمة</div>
+      <table class="alkane-table">
+        <tr><th>الاسم</th><th>الصيغة الجزيئية</th><th>الصيغة المكثفة</th></tr>
+        <tr><td>ميثان</td><td>CH₄</td><td>CH₄</td></tr>
+        <tr><td>إيثان</td><td>C₂H₆</td><td>CH₃CH₃</td></tr>
+        <tr><td>بروبان</td><td>C₃H₈</td><td>CH₃CH₂CH₃</td></tr>
+        <tr><td>بيوتان</td><td>C₄H₁₀</td><td>CH₃CH₂CH₂CH₃</td></tr>
+        <tr><td>بنتان</td><td>C₅H₁₂</td><td>CH₃(CH₂)₃CH₃</td></tr>
+        <tr><td>هكسان</td><td>C₆H₁₄</td><td>CH₃(CH₂)₄CH₃</td></tr>
+        <tr><td>هبتان</td><td>C₇H₁₆</td><td>CH₃(CH₂)₅CH₃</td></tr>
+        <tr><td>أوكتان</td><td>C₈H₁₈</td><td>CH₃(CH₂)₆CH₃</td></tr>
+        <tr><td>نونان</td><td>C₉H₂₀</td><td>CH₃(CH₂)₇CH₃</td></tr>
+        <tr><td>ديكان</td><td>C₁₀H₂₂</td><td>CH₃(CH₂)₈CH₃</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="badge badge-amber">السلسلة المتماثلة</div>
+      <div class="card-title">مفهوم مهم</div>
+      <p>سلسلة المركبات التي يختلف بعضها عن بعض بوحدة −CH₂− واحدة تُسمى <strong>السلسلة المتماثلة</strong>. لكل الألكانات صيغة رقمية ثابتة بين أعداد الذرات.</p>
+      <div class="note-box">مثال: البنتان يزيد عن البيوتان بوحدة −CH₂− واحدة فقط.</div>
+    </div>
+
+    <div class="card">
+      <div class="badge badge-blue">الألكانات ذات السلاسل المتفرعة</div>
+      <div class="card-title">الأيزومرات والمجموعات البديلة</div>
+      <p style="margin-bottom:10px">مركبان بنفس الصيغة الجزيئية لكن بترتيب مختلف للذرات يُسميان <strong>أيزومرين</strong>. مثال: البيوتان والأيزوبيوتان كلاهما C₄H₁₀ لكنهما مختلفان تماماً في الخصائص.</p>
+      <div class="info-row"><span class="info-label">السلسلة الرئيسة:</span><span class="info-val">أطول سلسلة كربونية متصلة</span></div>
+      <div class="info-row"><span class="info-label">المجموعة البديلة:</span><span class="info-val">تفرع جانبي يحل محل H</span></div>
+      <div class="info-row"><span class="info-label">مجموعة الألكيل:</span><span class="info-val">ألكان − H (مثل: ميثيل CH₃−)</span></div>
+    </div>
+
+    <div class="card">
+      <div class="badge badge-teal">قواعد التسمية IUPAC</div>
+      <div class="card-title">خطوات تسمية الألكانات المتفرعة</div>
+      <ol class="steps-list">
+        <li>حدد أطول سلسلة كربونية متصلة — اسمها هو اسم السلسلة الرئيسة</li>
+        <li>رقّم ذرات الكربون من الطرف الأقرب للمجموعة البديلة (لتحصل على أصغر أرقام)</li>
+        <li>سمّ كل مجموعة ألكيل بديلة وضع اسمها قبل اسم السلسلة الرئيسة</li>
+        <li>إذا تكررت نفس المجموعة استخدم: ثنائي، ثلاثي، رباعي...</li>
+        <li>إذا اختلفت المجموعات رتّبها هجائياً بالإنجليزية (تجاهل البادئات)</li>
+        <li>اكتب الاسم كاملاً مع شرطات لفصل الأرقام عن الكلمات وفواصل بين الأرقام</li>
+      </ol>
+      <div class="note-box">مثال: 4-إيثيل-3،5-ثنائي ميثيل أوكتان — السلسلة الرئيسة 8 كربون، مجموعة إيثيل على C4، مجموعتا ميثيل على C3 وC5.</div>
+    </div>
+
+    <div class="card">
+      <div class="badge badge-purple">مجموعات الألكيل الشائعة</div>
+      <div class="card-title">جدول مجموعات الألكيل</div>
+      <table class="alkane-table">
+        <tr><th>الاسم</th><th>الصيغة</th><th>مشتقة من</th></tr>
+        <tr><td>ميثيل</td><td>CH₃−</td><td>ميثان</td></tr>
+        <tr><td>إيثيل</td><td>CH₃CH₂−</td><td>إيثان</td></tr>
+        <tr><td>بروبيل</td><td>CH₃CH₂CH₂−</td><td>بروبان</td></tr>
+        <tr><td>بيوتيل</td><td>CH₃CH₂CH₂CH₂−</td><td>بيوتان</td></tr>
+        <tr><td>أيزوبروبيل</td><td>CH₃CHCH₃−</td><td>بروبان (متفرع)</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <div id="quiz" class="section">
+    <div class="progress-bar"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
+    <p style="font-size:13px;color:#5f5e5a;margin-bottom:1rem">اختر الإجابة الصحيحة — الإجابة الصحيحة ستظهر باللون الأخضر بعد اختيارك</p>
+    <div id="questions"></div>
+    <div id="score-section" style="display:none">
+      <div class="score-box">
+        <div class="score-big" id="score-num">0/10</div>
+        <div class="score-label">نتيجتك النهائية</div>
+        <div id="score-msg" style="margin-top:12px;font-size:15px;color:#1a1a1a"></div>
+        <button class="btn-primary" onclick="resetQuiz()">إعادة الاختبار</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(t, btn) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+  document.getElementById(t).classList.add('show');
+  btn.classList.add('active');
+}
+
+const questions = [
+  {
+    q: "ما الصيغة العامة للألكانات؟",
+    opts: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂", "CₙHₙ"],
+    ans: 1,
+    exp: "الصيغة العامة للألكانات هي CₙH₂ₙ₊₂ حيث n عدد ذرات الكربون."
+  },
+  {
+    q: "الألكان الذي يحتوي على 5 ذرات كربون يُسمى:",
+    opts: ["هكسان", "بنتان", "بيوتان", "هبتان"],
+    ans: 1,
+    exp: "البنتان يحتوي على 5 ذرات كربون وصيغته C₅H₁₂."
+  },
+  {
+    q: "كم عدد ذرات الهيدروجين في الأوكتان (C₈H_x)؟ (استخدم الصيغة العامة CₙH₂ₙ₊₂)",
+    opts: ["16", "18", "20", "14"],
+    ans: 1,
+    exp: "n=8 إذاً 2×8+2 = 18 ذرة هيدروجين، والصيغة C₈H₁₈."
+  },
+  {
+    q: "مجموعة الألكيل المشتقة من الميثان تُسمى:",
+    opts: ["إيثيل", "بروبيل", "ميثيل", "بيوتيل"],
+    ans: 2,
+    exp: "مجموعة الميثيل (CH₃−) مشتقة من الميثان بحذف ذرة هيدروجين."
+  },
+  {
+    q: "البيوتان والأيزوبيوتان لهما نفس الصيغة الجزيئية C₄H₁₀. ماذا يُسميان؟",
+    opts: ["متماثلان", "أيزومران", "متشابهان", "مختلفان كلياً"],
+    ans: 1,
+    exp: "يُسميان أيزومرين لأن لهما نفس الصيغة الجزيئية لكن ترتيب ذراتهما مختلف."
+  },
+  {
+    q: "عند تسمية الألكانات المتفرعة، أين يبدأ الترقيم؟",
+    opts: ["من اليسار دائماً", "من الطرف الأقرب للمجموعة البديلة", "من المنتصف", "من اليمين دائماً"],
+    ans: 1,
+    exp: "نبدأ الترقيم من الطرف الأقرب للمجموعة البديلة لنحصل على أصغر أرقام ممكنة."
+  },
+  {
+    q: "إذا تكررت مجموعة الإيثيل مرتين في السلسلة الرئيسة، ما البادئة المستخدمة؟",
+    opts: ["ثلاثي إيثيل", "ثنائي إيثيل", "رباعي إيثيل", "إيثيل إيثيل"],
+    ans: 1,
+    exp: "البادئة 'ثنائي' تعني التكرار مرتين، فيصبح الاسم ثنائي إيثيل."
+  },
+  {
+    q: "ما اسم الوحدة المتكررة في سلسلة الألكانات المتماثلة؟",
+    opts: ["−CH₃", "−CH₂−", "−CH−", "−C−"],
+    ans: 1,
+    exp: "الوحدة المتكررة في السلسلة المتماثلة هي −CH₂−، كل مركب يزيد عن السابق بهذه الوحدة."
+  },
+  {
+    q: "عند وجود مجموعتي ألكيل مختلفتين (إيثيل وميثيل) على السلسلة الرئيسة، كيف يُرتَّبان في الاسم؟",
+    opts: ["الميثيل أولاً", "الإيثيل أولاً لأن E قبل M هجائياً بالإنجليزية", "الأطول أولاً", "الأقصر أولاً"],
+    ans: 1,
+    exp: "يُرتَّب هجائياً بالإنجليزية: Ethyl (E) يسبق Methyl (M) لذا يُذكر الإيثيل أولاً."
+  },
+  {
+    q: "ما الصيغة الجزيئية لألكان يحتوي على 13 ذرة كربون؟ (الصيغة العامة: CₙH₂ₙ₊₂)",
+    opts: ["C₁₃H₂₄", "C₁₃H₂₈", "C₁₃H₂₆", "C₁₃H₃₀"],
+    ans: 1,
+    exp: "n=13 إذاً 2×13+2 = 28، والصيغة هي C₁₃H₂₈."
+  }
+];
+
+let answered = 0, score = 0;
+
+function buildQuiz() {
+  const c = document.getElementById('questions');
+  c.innerHTML = '';
+  answered = 0; score = 0;
+  document.getElementById('score-section').style.display = 'none';
+  document.getElementById('pbar').style.width = '0%';
+  const letters = ['أ','ب','ج','د'];
+  questions.forEach((q, i) => {
+    const box = document.createElement('div');
+    box.className = 'q-box';
+    box.innerHTML = `
+      <div class="q-num">سؤال ${i+1} من ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options" id="opts-${i}">
+        ${q.opts.map((o, j) => `
+          <div class="opt" onclick="answer(${i},${j})" id="opt-${i}-${j}">
+            <div class="opt-circle">${letters[j]}</div>
+            <span>${o}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="q-result" id="res-${i}"></div>
+    `;
+    c.appendChild(box);
+  });
+}
+
+function answer(qi, chosen) {
+  const q = questions[qi];
+  const opts = document.querySelectorAll(`#opts-${qi} .opt`);
+  opts.forEach(o => o.classList.add('disabled'));
+  opts[q.ans].classList.add('correct');
+  opts[q.ans].querySelector('.opt-circle').textContent = '✓';
+  if (chosen !== q.ans) {
+    opts[chosen].classList.add('wrong');
+    opts[chosen].querySelector('.opt-circle').textContent = '✗';
+  } else { score++; }
+  const res = document.getElementById(`res-${qi}`);
+  res.className = `q-result show ${chosen === q.ans ? 'ok' : 'no'}`;
+  res.textContent = (chosen === q.ans ? 'إجابة صحيحة! ' : 'إجابة خاطئة. ') + q.exp;
+  answered++;
+  document.getElementById('pbar').style.width = Math.round((answered / questions.length) * 100) + '%';
+  if (answered === questions.length) {
+    setTimeout(() => {
+      const ss = document.getElementById('score-section');
+      ss.style.display = 'block';
+      document.getElementById('score-num').textContent = score + '/' + questions.length;
+      const pct = Math.round((score / questions.length) * 100);
+      document.getElementById('score-msg').textContent =
+        pct === 100 ? 'ممتاز! أتقنت الدرس بالكامل.' :
+        pct >= 80  ? 'جيد جداً! أداء رائع.' :
+        pct >= 60  ? 'جيد، راجع النقاط التي أخطأت فيها.' :
+                     'تحتاج لمراجعة الدرس مرة أخرى.';
+      ss.scrollIntoView({behavior:'smooth'});
+    }, 600);
+  }
+}
+
+function resetQuiz() {
+  buildQuiz();
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
