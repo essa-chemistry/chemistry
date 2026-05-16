@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حالة الاتزان الديناميكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --primary-light: #2563a8;
+    --accent: #e8a020;
+    --accent-light: #fdf3dc;
+    --success: #15803d;
+    --success-bg: #dcfce7;
+    --danger: #b91c1c;
+    --danger-bg: #fee2e2;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --teal: #0f766e;
+    --teal-light: #ccfbf1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    direction: rtl;
+  }
+
+  /* HEADER */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, #0f2847 60%, #1a4a7a 100%);
+    color: white;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(232,160,32,0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(37,99,168,0.3) 0%, transparent 50%);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(232,160,32,0.2);
+    border: 1px solid rgba(232,160,32,0.4);
+    color: #fcd34d;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .hero h1 span { color: #fcd34d; }
+  .hero p {
+    font-size: 17px;
+    opacity: 0.85;
+    max-width: 620px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* NAV */
+  .nav-tabs {
+    display: flex;
+    background: white;
+    border-bottom: 2px solid var(--border);
+    padding: 0 30px;
+    gap: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 16px 22px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: 'Tajawal', sans-serif;
+    background: none;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+  }
+  .nav-tab:hover { color: var(--primary-light); }
+  .nav-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--accent);
+    background: rgba(232,160,32,0.05);
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 40px 30px; max-width: 960px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 28px 30px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  /* DEFINITION BOX */
+  .def-box {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border-right: 5px solid var(--primary-light);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 18px 0;
+    font-size: 16px;
+  }
+  .def-label {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  /* CONCEPT GRID */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .concept-card {
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+  }
+  .concept-card.blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .concept-card.teal { background: #f0fdfa; border: 1px solid #99f6e4; }
+  .concept-card.amber { background: #fffbeb; border: 1px solid #fde68a; }
+  .concept-card.red { background: #fff1f2; border: 1px solid #fecdd3; }
+  .concept-card .c-num {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .concept-card.blue .c-num { color: var(--primary-light); }
+  .concept-card.teal .c-num { color: var(--teal); }
+  .concept-card.amber .c-num { color: #b45309; }
+  .concept-card.red .c-num { color: var(--danger); }
+  .concept-card .c-label { font-size: 14px; font-weight: 600; color: var(--text); }
+  .concept-card .c-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  /* EQUATION */
+  .equation-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 16px 0;
+    letter-spacing: 0.5px;
+    font-family: 'Courier New', monospace;
+  }
+  .equation-box.formula {
+    background: linear-gradient(135deg, #fdf4ff, #faf5ff);
+    border-color: #e9d5ff;
+    color: #6b21a8;
+  }
+
+  /* LIST STYLES */
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+  .feature-list li .bullet {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .bullet.b1 { background: #dbeafe; color: var(--primary-light); }
+  .bullet.b2 { background: #dcfce7; color: var(--success); }
+  .bullet.b3 { background: #fef3c7; color: #b45309; }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 12px;
+  }
+  .data-table th {
+    background: var(--primary);
+    color: white;
+    padding: 12px 14px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .data-table th:first-child { border-radius: 10px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 10px 0 0; }
+  .data-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+  }
+  .data-table tr:nth-child(even) td { background: #f8fafc; }
+  .data-table tr:hover td { background: #eff6ff; }
+
+  /* CALLOUT */
+  .callout {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin: 16px 0;
+    align-items: flex-start;
+  }
+  .callout.info { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .callout.warning { background: #fffbeb; border: 1px solid #fde68a; }
+  .callout.success { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .callout-icon { font-size: 20px; margin-top: 1px; flex-shrink: 0; }
+  .callout-text { font-size: 15px; line-height: 1.7; }
+  .callout-text strong { font-weight: 700; }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* REACTION ARROW */
+  .reaction-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    padding: 24px;
+    background: #f8fafc;
+    border-radius: 14px;
+    border: 1px dashed var(--border);
+  }
+  .rxn-box {
+    background: white;
+    border: 1.5px solid;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .rxn-box.reactant { border-color: #93c5fd; color: var(--primary-light); }
+  .rxn-box.product { border-color: #6ee7b7; color: var(--teal); }
+  .rxn-arrow {
+    font-size: 28px;
+    color: var(--text-muted);
+    font-weight: 900;
+  }
+
+  /* ===== QUIZ SECTION ===== */
+  .quiz-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .quiz-header h2 {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .quiz-header p { color: var(--text-muted); font-size: 15px; }
+
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 10px;
+    height: 8px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-light), var(--accent));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 18px;
+    border: 1.5px solid var(--border);
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
+  }
+  .question-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+  .q-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .q-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    background: #fafafa;
+    text-align: right;
+    transition: all 0.18s;
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    width: 100%;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: var(--primary);
+  }
+  .option-btn .opt-letter {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: white;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .option-btn:hover:not(:disabled) .opt-letter {
+    background: var(--primary-light);
+    border-color: var(--primary-light);
+    color: white;
+  }
+
+  .option-btn.correct {
+    background: var(--success-bg);
+    border-color: #4ade80;
+    color: var(--success);
+  }
+  .option-btn.correct .opt-letter {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+  }
+  .option-btn.wrong {
+    background: var(--danger-bg);
+    border-color: #f87171;
+    color: var(--danger);
+  }
+  .option-btn.wrong .opt-letter {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: white;
+  }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback {
+    display: none;
+    margin-top: 14px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  .feedback.show { display: flex; gap: 10px; align-items: flex-start; }
+  .feedback.correct-fb { background: var(--success-bg); color: #166534; border: 1px solid #86efac; }
+  .feedback.wrong-fb { background: var(--danger-bg); color: #991b1b; border: 1px solid #fca5a5; }
+
+  /* RESULTS */
+  .result-panel {
+    display: none;
+    text-align: center;
+    padding: 40px 30px;
+  }
+  .result-panel.show { display: block; }
+  .score-ring {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    border: 8px solid var(--border);
+    position: relative;
+  }
+  .score-ring.excellent { border-color: #4ade80; background: #f0fdf4; }
+  .score-ring.good { border-color: #fbbf24; background: #fffbeb; }
+  .score-ring.needs-work { border-color: #f87171; background: #fff1f2; }
+  .score-ring .score-num { font-size: 36px; font-weight: 900; }
+  .score-ring.excellent .score-num { color: var(--success); }
+  .score-ring.good .score-num { color: #b45309; }
+  .score-ring.needs-work .score-num { color: var(--danger); }
+  .score-label { font-size: 14px; color: var(--text-muted); }
+  .result-msg { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+  .result-sub { color: var(--text-muted); font-size: 16px; margin-bottom: 28px; }
+
+  .restart-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Tajawal', sans-serif;
+  }
+  .restart-btn:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,58,92,0.25); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .badge.new-term { background: var(--accent-light); color: #92400e; }
+  .badge.important { background: #fce7f3; color: #9d174d; }
+
+  h3 { font-size: 17px; font-weight: 700; color: var(--primary); margin: 20px 0 12px; }
+
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  /* Summary stats in lesson */
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  .stat-chip {
+    flex: 1;
+    min-width: 130px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-chip .s-val { font-size: 26px; font-weight: 900; color: var(--primary); }
+  .stat-chip .s-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">📘 كيمياء — القسم 3-1</div>
+  <h1>حالة <span>الاتزان الديناميكي</span></h1>
+  <p>A State of Dynamic Balance — درس شامل ومراجعة تفاعلية</p>
+</div>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('lesson')">📖 الدرس</button>
+  <button class="nav-tab" onclick="showSection('vocab')">📚 المفردات</button>
+  <button class="nav-tab" onclick="showSection('quiz')">✏️ الاختبار</button>
+</div>
+
+<!-- ============================= LESSON ============================= -->
+<div id="lesson" class="section active">
+
+  <!-- 1. ما الاتزان -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:#dbeafe">⚖️</div>
+      ما الاتزان؟
+    </div>
+    <div class="def-box">
+      <div class="def-label">التعريف</div>
+      الاتزان هو نقطة توازن تُلغي عندها التغييرات المتعارضة بعضها بعضًا. في التفاعلات الكيميائية، يصف الاتزان الحالة التي تتساوى فيها سرعة التفاعل الأمامي مع سرعة التفاعل العكسي.
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div class="callout-text">
+        <strong>مثال من الحياة:</strong> في لعبة شد الحبل، إذا سحب الفريقان بقوى متساوية ومتعاكسة لا يتحرك الحبل — هذا اتزان. كذلك في الكيمياء: التفاعل الأمامي والعكسي يحدثان بنفس السرعة.
+      </div>
+    </div>
+
+    <div class="reaction-visual">
+      <div class="rxn-box reactant">N₂ + 3H₂</div>
+      <div class="rxn-arrow">⇌</div>
+      <div class="rxn-box product">2NH₃</div>
+    </div>
+    <p style="text-align:center; font-size:14px; color:var(--text-muted);">السهم المزدوج (⇌) يعني أن التفاعل يحدث في كلا الاتجاهين</p>
+  </div>
+
+  <!-- 2. خواص الاتزان -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:#dcfce7">✅</div>
+      خواص الاتزان الكيميائي الثلاث
+    </div>
+    <ul class="feature-list">
+      <li>
+        <div class="bullet b1">1</div>
+        <div><strong>نظام مغلق:</strong> يجب أن يتم التفاعل في نظام مغلق — لا يخرج أو يدخل أي من المتفاعلات أو النواتج.</div>
+      </li>
+      <li>
+        <div class="bullet b2">2</div>
+        <div><strong>درجة حرارة ثابتة:</strong> يجب أن تبقى درجة الحرارة ثابتة طوال التفاعل.</div>
+      </li>
+      <li>
+        <div class="bullet b3">3</div>
+        <div><strong>اتزان ديناميكي:</strong> النواتج والمتفاعلات موجودة معًا في حركة ديناميكية ثابتة — الاتزان ليس ساكنًا بل يستمر التفاعل في كلا الاتجاهين.</div>
+      </li>
+    </ul>
+
+    <div class="callout warning" style="margin-top:18px">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-text">
+        <strong>تنبيه:</strong> تراكيز المتفاعلات والنواتج تبقى <strong>ثابتة</strong> عند الاتزان، لكنها <strong>ليست بالضرورة متساوية</strong>. المتفاعلات ≠ النواتج كميًا.
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. قانون الاتزان -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:#fef3c7">⚗️</div>
+      قانون الاتزان الكيميائي وثابت الاتزان Keq
+    </div>
+    <p style="font-size:15px; margin-bottom:16px;">قدّمه جولدبرج وويج عام 1864م. للتفاعل العام:</p>
+
+    <div class="equation-box">aA + bB ⇌ cC + dD</div>
+
+    <div class="equation-box formula">
+      Keq = [C]<sup>c</sup> × [D]<sup>d</sup> ÷ [A]<sup>a</sup> × [B]<sup>b</sup>
+    </div>
+
+    <div class="two-col" style="margin-top:20px">
+      <div class="callout success" style="margin:0">
+        <span class="callout-icon">📈</span>
+        <div class="callout-text">
+          <strong>Keq &gt; 1</strong><br>
+          النواتج أكثر من المتفاعلات عند الاتزان — التفاعل يسير للأمام
+        </div>
+      </div>
+      <div class="callout" style="background:#fff1f2; border:1px solid #fecdd3; margin:0">
+        <span class="callout-icon">📉</span>
+        <div class="callout-text">
+          <strong>Keq &lt; 1</strong><br>
+          المتفاعلات أكثر من النواتج عند الاتزان — التفاعل يميل للعكس
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3>🔬 مثال: تفاعل تكوين الأمونيا</h3>
+    <div class="equation-box">N₂(g) + 3H₂(g) ⇌ 2NH₃(g)</div>
+    <div class="equation-box formula">Keq = [NH₃]² ÷ [N₂][H₂]³</div>
+    <p style="font-size:14px; color:var(--text-muted); text-align:center; margin-top:8px">تُرفع كل تركيزات إلى أس يساوي معاملها في المعادلة الموزونة</p>
+  </div>
+
+  <!-- 4. أنواع الاتزان -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:#fdf4ff">🔀</div>
+      أنواع الاتزان
+    </div>
+    <div class="two-col">
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:14px; padding:20px">
+        <div style="font-size:16px; font-weight:700; color:var(--primary); margin-bottom:10px">⚖️ الاتزان المتجانس</div>
+        <p style="font-size:14px; line-height:1.7">المتفاعلات والنواتج في <strong>نفس الحالة الفيزيائية</strong>.</p>
+        <div class="equation-box" style="margin-top:12px; font-size:14px">H₂(g) + I₂(g) ⇌ 2HI(g)</div>
+        <div class="equation-box formula" style="font-size:14px">Keq = [HI]² ÷ [H₂][I₂]</div>
+        <p style="font-size:13px; color:var(--teal); margin-top:8px">Keq = 49.7 عند 731 K</p>
+      </div>
+      <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:14px; padding:20px">
+        <div style="font-size:16px; font-weight:700; color:var(--teal); margin-bottom:10px">🌊 الاتزان غير المتجانس</div>
+        <p style="font-size:14px; line-height:1.7">المتفاعلات والنواتج في <strong>حالات فيزيائية مختلفة</strong>.</p>
+        <div class="equation-box" style="margin-top:12px; font-size:14px">I₂(s) ⇌ I₂(g)</div>
+        <div class="equation-box formula" style="font-size:14px">Keq = [I₂(g)]</div>
+        <p style="font-size:13px; color:var(--teal); margin-top:8px">المواد الصلبة والسائلة النقية تُحذف من تعبير Keq</p>
+      </div>
+    </div>
+
+    <div class="callout warning" style="margin-top:20px">
+      <span class="callout-icon">📌</span>
+      <div class="callout-text">
+        <strong>قاعدة مهمة:</strong> عند الاتزان غير المتجانس، تُحذف تراكيز المواد <strong>الصلبة والسائلة النقية</strong> من تعبير ثابت الاتزان؛ لأن كثافتها ثابتة عند درجة حرارة ثابتة وتُدمج مع Keq.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. بيانات تجريبية -->
+  <div class="card">
+    <div class="card-title">
+      <div class="icon" style="background:#f0fdf4">📊</div>
+      ثبات Keq بغض النظر عن التراكيز الابتدائية
+    </div>
+    <p style="font-size:15px; margin-bottom:16px;">للتفاعل: H₂(g) + I₂(g) ⇌ 2HI(g) عند 731 K — ثلاث تجارب بتراكيز ابتدائية مختلفة:</p>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>التجربة</th>
+            <th>[H₂] ابتدائي</th>
+            <th>[I₂] ابتدائي</th>
+            <th>[HI] ابتدائي</th>
+            <th>[HI] عند الاتزان</th>
+            <th>Keq</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>1.0000</td><td>2.0000</td><td>0</td><td>1.8682</td><td style="font-weight:700;color:var(--primary)">49.70</td></tr>
+          <tr><td>2</td><td>0</td><td>0</td><td>5.0000</td><td>3.8950</td><td style="font-weight:700;color:var(--primary)">49.70</td></tr>
+          <tr><td>3</td><td>1.0000</td><td>1.0000</td><td>1.0000</td><td>1.7515</td><td style="font-weight:700;color:var(--primary)">49.70</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout success" style="margin-top:16px">
+      <span class="callout-icon">✅</span>
+      <div class="callout-text">
+        <strong>الاستنتاج:</strong> رغم اختلاف التراكيز الابتدائية، قيمة Keq <strong>ثابتة = 49.70</strong> في التجارب الثلاث عند درجة الحرارة نفسها. قيمة Keq تتغير فقط بتغير درجة الحرارة.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================= VOCAB ============================= -->
+<div id="vocab" class="section">
+  <div class="card">
+    <div class="card-title">📚 المفردات الجديدة</div>
+
+    <div style="display:flex; flex-direction:column; gap:14px">
+
+      <div style="background:#f8fafc; border-radius:12px; padding:18px; border-right:4px solid var(--primary-light)">
+        <div style="font-size:17px; font-weight:700; color:var(--primary); margin-bottom:6px">التفاعل العكسي</div>
+        <p style="font-size:15px; color:var(--text)">التفاعل الكيميائي الذي يحدث في الاتجاهين الأمامي والعكسي. يُرمز له بسهم مزدوج (⇌).</p>
+        <div class="equation-box" style="margin-top:10px; font-size:14px">N₂ + 3H₂ ⇌ 2NH₃</div>
+      </div>
+
+      <div style="background:#f8fafc; border-radius:12px; padding:18px; border-right:4px solid var(--teal)">
+        <div style="font-size:17px; font-weight:700; color:var(--teal); margin-bottom:6px">الاتزان الكيميائي</div>
+        <p style="font-size:15px; color:var(--text)">حالة النظام عندما تتساوى سرعتا التفاعل الأمامي والعكسي، وتثبت تراكيز المواد المتفاعلة والناتجة.</p>
+        <div class="equation-box formula" style="margin-top:10px; font-size:15px">سرعة الأمامي = سرعة العكسي</div>
+      </div>
+
+      <div style="background:#f8fafc; border-radius:12px; padding:18px; border-right:4px solid #b45309">
+        <div style="font-size:17px; font-weight:700; color:#b45309; margin-bottom:6px">قانون الاتزان الكيميائي</div>
+        <p style="font-size:15px; color:var(--text)">صاغه جولدبرج وويج عام 1864م. عند درجة حرارة معينة، تصبح نسب تراكيز المتفاعلات والنواتج ثابتة.</p>
+      </div>
+
+      <div style="background:#f8fafc; border-radius:12px; padding:18px; border-right:4px solid #6b21a8">
+        <div style="font-size:17px; font-weight:700; color:#6b21a8; margin-bottom:6px">ثابت الاتزان (Keq)</div>
+        <p style="font-size:15px; color:var(--text)">القيمة العددية لنسبة حاصل ضرب تراكيز النواتج إلى حاصل ضرب تراكيز المتفاعلات. يُرفع كل تركيز إلى أس مساوٍ لمعاملة. ثابت عند درجة حرارة معينة فقط.</p>
+      </div>
+
+      <div style="background:#f8fafc; border-radius:12px; padding:18px; border-right:4px solid var(--success)">
+        <div style="font-size:17px; font-weight:700; color:var(--success); margin-bottom:6px">الاتزان المتجانس</div>
+        <p style="font-size:15px; color:var(--text)">اتزان تكون فيه المتفاعلات والنواتج في الحالة الفيزيائية نفسها (جميعها غازية أو جميعها في محلول).</p>
+      </div>
+
+      <div style="background:#f8fafc; border-radius:12px; padding:18px; border-right:4px solid var(--danger)">
+        <div style="font-size:17px; font-weight:700; color:var(--danger); margin-bottom:6px">الاتزان غير المتجانس</div>
+        <p style="font-size:15px; color:var(--text)">اتزان تكون فيه المتفاعلات والنواتج في أكثر من حالة فيزيائية واحدة (مثل صلب + غاز). تُحذف المواد الصلبة والسائلة النقية من تعبير Keq.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= QUIZ ============================= -->
+<div id="quiz" class="section">
+  <div class="quiz-header">
+    <h2>اختبار الاتزان الديناميكي</h2>
+    <p>10 أسئلة اختيار متعدد — المعطيات كاملة داخل كل سؤال</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <div class="progress-label">
+    <span id="q-count">السؤال 0 من 10</span>
+    <span id="score-live">النقاط: 0</span>
+  </div>
+
+  <div id="quiz-questions">
+
+    <!-- Q1 -->
+    <div class="question-card" id="qc-1">
+      <div class="q-number">1</div>
+      <div class="q-text">ما تعريف الاتزان الكيميائي؟</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,1,'A')"><span class="opt-letter">أ</span> حالة يتوقف فيها التفاعل الكيميائي كليًا</button>
+        <button class="option-btn" onclick="answer(this,1,'B')"><span class="opt-letter">ب</span> حالة تتساوى فيها سرعتا التفاعل الأمامي والعكسي وتثبت التراكيز</button>
+        <button class="option-btn" onclick="answer(this,1,'C')"><span class="opt-letter">ج</span> حالة تتساوى فيها كميات المتفاعلات والنواتج</button>
+        <button class="option-btn" onclick="answer(this,1,'D')"><span class="opt-letter">د</span> حالة تنتهي فيها المتفاعلات كليًا</button>
+      </div>
+      <div class="feedback" id="fb-1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card" id="qc-2">
+      <div class="q-number">2</div>
+      <div class="q-text">ما الرمز المستخدم للدلالة على التفاعل العكسي (المزدوج الاتجاه) في المعادلة الكيميائية؟</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,2,'A')"><span class="opt-letter">أ</span> →</button>
+        <button class="option-btn" onclick="answer(this,2,'B')"><span class="opt-letter">ب</span> ←</button>
+        <button class="option-btn" onclick="answer(this,2,'C')"><span class="opt-letter">ج</span> ⇌</button>
+        <button class="option-btn" onclick="answer(this,2,'D')"><span class="opt-letter">د</span> ↔</button>
+      </div>
+      <div class="feedback" id="fb-2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card" id="qc-3">
+      <div class="q-number">3</div>
+      <div class="q-text">للتفاعل: N₂(g) + 3H₂(g) ⇌ 2NH₃(g) — ما تعبير ثابت الاتزان الصحيح؟</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,3,'A')"><span class="opt-letter">أ</span> Keq = [NH₃] ÷ ([N₂][H₂])</button>
+        <button class="option-btn" onclick="answer(this,3,'B')"><span class="opt-letter">ب</span> Keq = [NH₃]² ÷ ([N₂][H₂]³)</button>
+        <button class="option-btn" onclick="answer(this,3,'C')"><span class="opt-letter">ج</span> Keq = [N₂][H₂]³ ÷ [NH₃]²</button>
+        <button class="option-btn" onclick="answer(this,3,'D')"><span class="opt-letter">د</span> Keq = [NH₃]² × [N₂] × [H₂]³</button>
+      </div>
+      <div class="feedback" id="fb-3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card" id="qc-4">
+      <div class="q-number">4</div>
+      <div class="q-text">إذا كانت قيمة Keq = 0.0001 لتفاعل معين عند درجة حرارة معينة، فماذا يعني ذلك؟</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,4,'A')"><span class="opt-letter">أ</span> النواتج أكثر بكثير من المتفاعلات عند الاتزان</button>
+        <button class="option-btn" onclick="answer(this,4,'B')"><span class="opt-letter">ب</span> كميات المتفاعلات والنواتج متساوية عند الاتزان</button>
+        <button class="option-btn" onclick="answer(this,4,'C')"><span class="opt-letter">ج</span> المتفاعلات أكثر بكثير من النواتج عند الاتزان</button>
+        <button class="option-btn" onclick="answer(this,4,'D')"><span class="opt-letter">د</span> التفاعل لم يبدأ بعد</button>
+      </div>
+      <div class="feedback" id="fb-4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card" id="qc-5">
+      <div class="q-number">5</div>
+      <div class="q-text">
+        للتفاعل: H₂(g) + I₂(g) ⇌ 2HI(g)<br>
+        المعطيات عند الاتزان: [H₂] = 0.06587 M، [I₂] = 1.0659 M، [HI] = 1.8682 M<br>
+        احسب قيمة Keq:
+      </div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,5,'A')"><span class="opt-letter">أ</span> 49.70</button>
+        <button class="option-btn" onclick="answer(this,5,'B')"><span class="opt-letter">ب</span> 3.48</button>
+        <button class="option-btn" onclick="answer(this,5,'C')"><span class="opt-letter">ج</span> 0.02</button>
+        <button class="option-btn" onclick="answer(this,5,'D')"><span class="opt-letter">د</span> 28.34</button>
+      </div>
+      <div class="feedback" id="fb-5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-card" id="qc-6">
+      <div class="q-number">6</div>
+      <div class="q-text">أي من الآتية صحيحة بشأن المواد الصلبة النقية في تعبير ثابت الاتزان غير المتجانس؟</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,6,'A')"><span class="opt-letter">أ</span> تُوضع في البسط فقط</button>
+        <button class="option-btn" onclick="answer(this,6,'B')"><span class="opt-letter">ب</span> تُوضع في المقام فقط</button>
+        <button class="option-btn" onclick="answer(this,6,'C')"><span class="opt-letter">ج</span> تُحذف من تعبير ثابت الاتزان كليًا</button>
+        <button class="option-btn" onclick="answer(this,6,'D')"><span class="opt-letter">د</span> تُضرب في قيمة Keq</button>
+      </div>
+      <div class="feedback" id="fb-6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="question-card" id="qc-7">
+      <div class="q-number">7</div>
+      <div class="q-text">
+        للتفاعل: 2NaHCO₃(s) ⇌ Na₂CO₃(s) + CO₂(g) + H₂O(g)<br>
+        ما تعبير ثابت الاتزان الصحيح؟
+      </div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,7,'A')"><span class="opt-letter">أ</span> Keq = [Na₂CO₃][CO₂][H₂O] ÷ [NaHCO₃]²</button>
+        <button class="option-btn" onclick="answer(this,7,'B')"><span class="opt-letter">ب</span> Keq = [CO₂][H₂O]</button>
+        <button class="option-btn" onclick="answer(this,7,'C')"><span class="opt-letter">ج</span> Keq = [CO₂] ÷ [H₂O]</button>
+        <button class="option-btn" onclick="answer(this,7,'D')"><span class="opt-letter">د</span> Keq = [CO₂][H₂O] ÷ [NaHCO₃]²</button>
+      </div>
+      <div class="feedback" id="fb-7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question-card" id="qc-8">
+      <div class="q-number">8</div>
+      <div class="q-text">أيٌّ من الشروط الآتية ضروري لحدوث الاتزان الكيميائي؟</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,8,'A')"><span class="opt-letter">أ</span> أن يكون النظام مفتوحًا لتجديد المتفاعلات</button>
+        <button class="option-btn" onclick="answer(this,8,'B')"><span class="opt-letter">ب</span> أن يُستهلك أحد المتفاعلات تمامًا</button>
+        <button class="option-btn" onclick="answer(this,8,'C')"><span class="opt-letter">ج</span> أن يتم التفاعل في نظام مغلق بدرجة حرارة ثابتة</button>
+        <button class="option-btn" onclick="answer(this,8,'D')"><span class="opt-letter">د</span> أن تكون جميع المواد في الحالة الغازية</button>
+      </div>
+      <div class="feedback" id="fb-8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question-card" id="qc-9">
+      <div class="q-number">9</div>
+      <div class="q-text">
+        التفاعل: PCl₅(g) ⇌ PCl₃(g) + Cl₂(g)<br>
+        عند الاتزان: [PCl₅] = 0.135 M، [PCl₃] = 0.550 M، [Cl₂] = 0.550 M<br>
+        ما قيمة Keq؟
+      </div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,9,'A')"><span class="opt-letter">أ</span> 0.240</button>
+        <button class="option-btn" onclick="answer(this,9,'B')"><span class="opt-letter">ب</span> 2.24</button>
+        <button class="option-btn" onclick="answer(this,9,'C')"><span class="opt-letter">ج</span> 0.135</button>
+        <button class="option-btn" onclick="answer(this,9,'D')"><span class="opt-letter">د</span> 4.47</button>
+      </div>
+      <div class="feedback" id="fb-9"></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question-card" id="qc-10">
+      <div class="q-number">10</div>
+      <div class="q-text">
+        ما الذي يتغير قيمة ثابت الاتزان Keq لتفاعل معين؟
+      </div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,10,'A')"><span class="opt-letter">أ</span> تغيير التراكيز الابتدائية للمتفاعلات فقط</button>
+        <button class="option-btn" onclick="answer(this,10,'B')"><span class="opt-letter">ب</span> تغيير التراكيز الابتدائية للنواتج فقط</button>
+        <button class="option-btn" onclick="answer(this,10,'C')"><span class="opt-letter">ج</span> تغيير درجة الحرارة</button>
+        <button class="option-btn" onclick="answer(this,10,'D')"><span class="opt-letter">د</span> إضافة عامل حفاز</button>
+      </div>
+      <div class="feedback" id="fb-10"></div>
+    </div>
+
+  </div>
+
+  <!-- Results Panel -->
+  <div class="result-panel" id="result-panel">
+    <div class="score-ring" id="score-ring">
+      <span class="score-num" id="final-score">0</span>
+      <span class="score-label">من 10</span>
+    </div>
+    <div class="result-msg" id="result-msg">أحسنت!</div>
+    <div class="result-sub" id="result-sub">نتيجتك النهائية</div>
+    <button class="restart-btn" onclick="restartQuiz()">🔄 إعادة الاختبار</button>
+  </div>
+</div>
+
+<script>
+const correct = {
+  1: 'B',
+  2: 'C',
+  3: 'B',
+  4: 'C',
+  5: 'A',
+  6: 'C',
+  7: 'B',
+  8: 'C',
+  9: 'B',
+  10: 'C'
+};
+
+const explanations = {
+  1: 'الاتزان الكيميائي هو الحالة التي تتساوى فيها سرعتا التفاعل الأمامي والعكسي — التفاعلان يستمران لكن بنفس السرعة، لذا تبقى التراكيز ثابتة.',
+  2: 'السهم المزدوج (⇌) يُستخدم للدلالة على أن التفاعل يحدث في كلا الاتجاهين (أمامي وعكسي).',
+  3: 'القاعدة: تراكيز النواتج في البسط وتراكيز المتفاعلات في المقام، كل تركيز يُرفع إلى أسٍّ مساوٍ لمعامله. NH₃ معاملها 2 → [NH₃]²، وH₂ معاملها 3 → [H₂]³.',
+  4: 'عندما Keq < 1 (خاصة جداً صغيرة مثل 0.0001)، فهذا يعني أن تراكيز المتفاعلات أكبر بكثير من النواتج عند الاتزان — التفاعل لا يسير كثيرًا للأمام.',
+  5: 'Keq = [HI]² ÷ ([H₂][I₂]) = (1.8682)² ÷ (0.06587 × 1.0659) = 3.4902 ÷ 0.07021 ≈ 49.70',
+  6: 'المواد الصلبة والسائلة النقية تُحذف كليًا من تعبير ثابت الاتزان؛ لأن تراكيزها (كثافاتها) ثابتة عند درجة حرارة ثابتة وتُدمج مع K لتعطي Keq.',
+  7: 'NaHCO₃ وNa₂CO₃ مواد صلبة → تُحذف. يبقى فقط الغازات: Keq = [CO₂][H₂O]',
+  8: 'شرطا الاتزان الأساسيان: (1) نظام مغلق لا يدخله أو يخرج منه شيء، (2) درجة حرارة ثابتة.',
+  9: 'Keq = [PCl₃][Cl₂] ÷ [PCl₅] = (0.550 × 0.550) ÷ 0.135 = 0.3025 ÷ 0.135 ≈ 2.24',
+  10: 'قيمة Keq ثابتة عند درجة حرارة معينة — تتغير فقط بتغير درجة الحرارة. تغيير التراكيز أو إضافة عامل حفاز لا يغير قيمة Keq.'
+};
+
+let score = 0;
+let answered = 0;
+
+function answer(btn, qNum, chosen) {
+  const btns = btn.parentElement.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('fb-' + qNum);
+  const rightAnswer = correct[qNum];
+  const opts = ['A','B','C','D'];
+  
+  btns.forEach((b, i) => {
+    if (opts[i] === rightAnswer) b.classList.add('correct');
+    else if (opts[i] === chosen && chosen !== rightAnswer) b.classList.add('wrong');
+  });
+
+  const isCorrect = chosen === rightAnswer;
+  if (isCorrect) {
+    score++;
+    fb.className = 'feedback show correct-fb';
+    fb.innerHTML = '✅ <span><strong>إجابة صحيحة!</strong> ' + explanations[qNum] + '</span>';
+  } else {
+    fb.className = 'feedback show wrong-fb';
+    fb.innerHTML = '❌ <span><strong>إجابة خاطئة.</strong> ' + explanations[qNum] + '</span>';
+  }
+
+  answered++;
+  updateProgress();
+
+  if (answered === 10) {
+    setTimeout(showResults, 800);
+  }
+}
+
+function updateProgress() {
+  const pct = (answered / 10) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-count').textContent = 'السؤال ' + answered + ' من 10';
+  document.getElementById('score-live').textContent = 'النقاط: ' + score;
+}
+
+function showResults() {
+  document.getElementById('quiz-questions').style.display = 'none';
+  const panel = document.getElementById('result-panel');
+  panel.classList.add('show');
+  
+  const ring = document.getElementById('score-ring');
+  document.getElementById('final-score').textContent = score;
+  
+  let msg, sub, cls;
+  if (score >= 9) {
+    cls = 'excellent'; msg = '🏆 ممتاز! أداء رائع!';
+    sub = 'أجبت على ' + score + ' أسئلة صحيحة من 10 — معرفتك بالاتزان ممتازة!';
+  } else if (score >= 6) {
+    cls = 'good'; msg = '👍 جيد جدًا!';
+    sub = 'أجبت على ' + score + ' أسئلة صحيحة. راجع الأسئلة التي أخطأت فيها.';
+  } else {
+    cls = 'needs-work'; msg = '📚 تحتاج إلى مزيد من المراجعة';
+    sub = 'أجبت على ' + score + ' أسئلة فقط. راجع الدرس ثم أعد الاختبار.';
+  }
+  
+  ring.className = 'score-ring ' + cls;
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-sub').textContent = sub;
+}
+
+function restartQuiz() {
+  score = 0; answered = 0;
+  document.getElementById('result-panel').classList.remove('show');
+  document.getElementById('quiz-questions').style.display = 'block';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('q-count').textContent = 'السؤال 0 من 10';
+  document.getElementById('score-live').textContent = 'النقاط: 0';
+
+  document.querySelectorAll('.option-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct','wrong');
+  });
+  document.querySelectorAll('.feedback').forEach(f => {
+    f.className = 'feedback';
+    f.innerHTML = '';
+  });
+}
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
