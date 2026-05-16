@@ -1,0 +1,337 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#185FA5;color:#fff;border-color:#185FA5}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:22px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #185FA5;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#E6F1FB;color:#0C447C;padding:2px 7px;border-radius:5px;font-weight:500}
+.bbox{background:#E6F1FB;border:0.5px solid #85B7EB;border-right:4px solid #185FA5;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.9}
+.gbox{background:#EAF3DE;border:0.5px solid #97C459;border-right:4px solid #3B6D11;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #BA7517;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.9}
+.ibox{background:#FAECE7;border:0.5px solid #F0997B;border-right:4px solid #993C1D;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.85}
+.formula{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.8rem 1.2rem;text-align:center;margin:.6rem 0;font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin-top:.8rem}
+.tbl th{background:#185FA5;color:#fff;padding:8px 12px;text-align:right;font-weight:500}
+.tbl td{padding:7px 12px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+.tbl tr:nth-child(even) td{background:var(--color-background-secondary)}
+.order-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:.8rem 0}
+.order-card{border-radius:var(--border-radius-md);padding:.9rem 1rem;font-size:13px;line-height:1.75;border:0.5px solid;text-align:center}
+.step-row{display:flex;align-items:flex-start;gap:12px;margin:.5rem 0}
+.snum{min-width:26px;height:26px;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px}
+.stxt{font-size:14px;color:var(--color-text-secondary);line-height:1.7}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.v-item{background:#E6F1FB;color:#0C447C;border:0.5px solid #85B7EB;border-radius:var(--border-radius-md);text-align:center;padding:.55rem;font-size:13px;font-weight:500}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#185FA5;background:#E6F1FB;color:#0C447C}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.sc-num{font-size:38px;font-weight:500;color:#185FA5}
+.sc-lbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#185FA5;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#0C447C}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">درس قوانين سرعة التفاعل الكيميائي</h2>
+
+<div class="hdr">
+  <h1>الدرس 2-3: قوانين سرعة التفاعل الكيميائي</h1>
+  <p>Reaction Rate Laws — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">أولًا: قانون سرعة التفاعل — التعريف والمعادلة</div>
+    <div class="cbody">
+      <span class="hl">قانون سرعة التفاعل</span> هو معادلة رياضية تعبر عن العلاقة بين سرعة التفاعل الكيميائي وتركيز المواد المتفاعلة.
+      <div class="bbox" style="margin-top:8px">
+        <b>للتفاعل البسيط من خطوة واحدة A → B:</b><br>
+        <div style="text-align:center;font-size:18px;font-weight:500;margin:.5rem 0">R = k[A]</div>
+        <b>R</b> = سرعة التفاعل (mol/L·s)<br>
+        <b>k</b> = ثابت سرعة التفاعل — قيمة ثابتة لكل تفاعل عند درجة حرارة محددة<br>
+        <b>[A]</b> = التركيز المولاري للمادة المتفاعلة
+      </div>
+      <div class="wbox">
+        <b>خصائص ثابت السرعة k:</b><br>
+        • لا يتغير بتغير التركيز<br>
+        • يتغير بتغير درجة الحرارة<br>
+        • القيمة الكبيرة لـ k تعني تفاعلًا سريعًا<br>
+        • وحداته مختلفة: s⁻¹ أو L/mol·s أو L²/mol²·s
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثانيًا: رتبة التفاعل</div>
+    <div class="cbody">
+      <span class="hl">رتبة التفاعل</span> هي الأس (الرقم العلوي) للمادة المتفاعلة في قانون السرعة، وتحدد كيف تتغير السرعة بتغير التركيز. <b>تُحدَّد تجريبيًا لا من المعادلة الموزونة.</b>
+      <div class="order-grid" style="margin-top:8px">
+        <div class="order-card" style="background:#E6F1FB;color:#042C53;border-color:#85B7EB">
+          <b>الرتبة الأولى</b><br>
+          R = k[A]¹<br>
+          تضاعف [A] ← تضاعف R مرة
+        </div>
+        <div class="order-card" style="background:#EAF3DE;color:#27500A;border-color:#97C459">
+          <b>الرتبة الثانية</b><br>
+          R = k[A]²<br>
+          تضاعف [A] ← تضاعف R 4 مرات
+        </div>
+        <div class="order-card" style="background:#FAEEDA;color:#633806;border-color:#EF9F27">
+          <b>الرتبة الثالثة</b><br>
+          R = k[A]³<br>
+          تضاعف [A] ← تضاعف R 8 مرات
+        </div>
+      </div>
+      <div class="ibox" style="margin-top:4px">
+        <b>مثال:</b> تحلل فوق أكسيد الهيدروجين: R = k[H₂O₂]<br>
+        هذا تفاعل من الرتبة الأولى — إذا انخفض [H₂O₂] إلى النصف انخفضت R إلى النصف.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثالثًا: القانون العام لسرعة التفاعل (مادتان متفاعلتان)</div>
+    <div class="cbody">
+      للتفاعل العام: aA + bB → نواتج
+      <div class="formula">R = k[A]ᵐ[B]ⁿ</div>
+      <div class="bbox">
+        <b>m</b> = رتبة المادة A &nbsp;|&nbsp; <b>n</b> = رتبة المادة B<br>
+        <b>الرتبة الكلية للتفاعل</b> = m + n (مجموع جميع الأسس)<br>
+        كلٌّ من m وn يُحدَّد تجريبيًا — لا يُستنتج من المعاملات a وb
+      </div>
+      <b>مثال — تفاعل NO مع H₂:</b><br>
+      2NO(g) + 2H₂(g) → N₂(g) + 2H₂O(g)<br>
+      قانون السرعة التجريبي: <b>R = k[H₂][NO]²</b><br>
+      &nbsp;&nbsp;→ رتبة أولى في H₂ + رتبة ثانية في NO = <b>رتبة ثالثة كلية</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: تحديد رتبة التفاعل — طريقة مقارنة السرعات الابتدائية</div>
+    <div class="cbody">
+      <div class="step-row"><div class="snum">1</div><div class="stxt">ابحث عن محاولتين يثبت فيهما تركيز مادة واحدة ويتغير تركيز المادة الأخرى فقط.</div></div>
+      <div class="step-row"><div class="snum">2</div><div class="stxt">قارن نسبة التركيز بنسبة السرعة: إذا تضاعف التركيز وتضاعفت السرعة مرة → رتبة أولى (2¹=2). إذا تضاعفت السرعة 4 مرات → رتبة ثانية (2²=4).</div></div>
+      <div class="step-row"><div class="snum">3</div><div class="snum" style="background:transparent;color:var(--color-text-secondary);font-size:13px;padding-right:4px">كرر لكل مادة متفاعلة للحصول على رتبتها.</div></div>
+      <div class="pbox" style="margin-top:8px">
+        <b>مثال — بيانات تجريبية:</b>
+        <table class="tbl" style="margin-top:8px">
+          <tr><th>المحاولة</th><th>[A] (M)</th><th>[B] (M)</th><th>السرعة (mol/L·s)</th></tr>
+          <tr><td>1</td><td>0.100</td><td>0.100</td><td>2.00 × 10⁻³</td></tr>
+          <tr><td>2</td><td>0.200</td><td>0.100</td><td>4.00 × 10⁻³</td></tr>
+          <tr><td>3</td><td>0.200</td><td>0.200</td><td>16.00 × 10⁻³</td></tr>
+        </table>
+        <br>
+        <b>تحليل A (محاولة 1 vs 2):</b> [A] تضاعف، R تضاعف مرتين → 2¹=2 → رتبة A = 1<br>
+        <b>تحليل B (محاولة 2 vs 3):</b> [B] تضاعف، R تضاعف 4 مرات → 2²=4 → رتبة B = 2<br>
+        <b>قانون السرعة:</b> R = k[A]¹[B]² &nbsp;|&nbsp; <b>الرتبة الكلية = 3</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">خامسًا: ملخص قواعد رتبة التفاعل</div>
+    <div class="cbody">
+      <table class="tbl">
+        <tr><th>إذا تضاعف التركيز...</th><th>وتضاعفت السرعة...</th><th>الرتبة</th></tr>
+        <tr><td>مرتين (×2)</td><td>مرتين (×2)</td><td>الأولى (m=1)</td></tr>
+        <tr><td>مرتين (×2)</td><td>أربع مرات (×4)</td><td>الثانية (m=2)</td></tr>
+        <tr><td>مرتين (×2)</td><td>ثماني مرات (×8)</td><td>الثالثة (m=3)</td></tr>
+        <tr><td>مرتين (×2)</td><td>مرة واحدة (×1)</td><td>الصفرية (m=0)</td></tr>
+      </table>
+      <div class="gbox" style="margin-top:10px">
+        <b>ملاحظة مهمة:</b> رتبة التفاعل تُحدَّد تجريبيًا فقط — لا علاقة لها بمعاملات المعادلة الكيميائية الموزونة إلا في حالة تفاعلات خطوة واحدة.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div class="vocab-grid">
+        <div class="v-item">قانون سرعة التفاعل</div>
+        <div class="v-item">ثابت سرعة التفاعل k</div>
+        <div class="v-item">رتبة التفاعل</div>
+        <div class="v-item">R = k[A]ᵐ[B]ⁿ</div>
+        <div class="v-item">السرعة الابتدائية</div>
+        <div class="v-item">الرتبة الكلية = m+n</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="sc-num" id="snum">0/10</div>
+    <div class="sc-lbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const Qs=[
+  {
+    q:"ما تعريف قانون سرعة التفاعل؟",
+    opts:["معادلة توازن التفاعل الكيميائي","معادلة رياضية تعبر عن العلاقة بين سرعة التفاعل وتركيز المواد المتفاعلة","معادلة حساب الطاقة المنطلقة من التفاعل","معادلة حساب كتلة المواد الناتجة"],
+    ans:1,
+    exp:"قانون سرعة التفاعل: معادلة رياضية تُحدَّد تجريبيًا، تربط سرعة التفاعل بتركيز المواد المتفاعلة على شكل R = k[A]ᵐ[B]ⁿ."
+  },
+  {
+    q:"تفاعل A → B: قانون سرعته R = k[A]. ماذا يحدث لسرعة التفاعل إذا تضاعف تركيز A ثلاث مرات؟",
+    opts:["تتضاعف السرعة 9 مرات","تتضاعف السرعة 3 مرات","تتضاعف السرعة مرة واحدة","تنخفض السرعة إلى الثلث"],
+    ans:1,
+    exp:"قانون السرعة R = k[A]¹ — رتبة أولى. إذا تضاعف [A] ثلاث مرات، تتضاعف R ثلاث مرات. الرتبة الأولى: السرعة تتغير بنفس نسبة تغير التركيز."
+  },
+  {
+    q:"ما المقصود بثابت سرعة التفاعل k؟",
+    opts:["قيمة تتغير بتغير تركيز المواد المتفاعلة","قيمة ثابتة عند درجة حرارة معينة تربط سرعة التفاعل بالتركيز","رتبة التفاعل الكلية","عدد مولات المواد المتفاعلة"],
+    ans:1,
+    exp:"ثابت سرعة التفاعل k قيمة ثابتة لكل تفاعل عند درجة حرارة محددة. لا يتغير بتغير التركيز لكنه يتغير بتغير درجة الحرارة."
+  },
+  {
+    q:"تفاعل له قانون السرعة: R = k[A]²[B]. ما الرتبة الكلية للتفاعل؟",
+    opts:["رتبة أولى","رتبة ثانية","رتبة ثالثة","رتبة رابعة"],
+    ans:2,
+    exp:"الرتبة الكلية = مجموع جميع الأسس = 2 (للمادة A) + 1 (للمادة B) = 3. إذن التفاعل من الرتبة الثالثة."
+  },
+  {
+    q:"بيانات تجريبية لتفاعل A → نواتج: في المحاولة 1: [A]=0.10M، السرعة=2×10⁻³ mol/L·s. في المحاولة 2: [A]=0.20M، السرعة=4×10⁻³ mol/L·s. ما رتبة التفاعل في A؟",
+    opts:["رتبة صفرية","رتبة أولى","رتبة ثانية","رتبة ثالثة"],
+    ans:1,
+    exp:"[A] تضاعف (0.10→0.20) والسرعة تضاعفت مرتين (2→4). نسبة السرعة/نسبة التركيز = 2/2 = 2¹ → الرتبة = 1 (أولى)."
+  },
+  {
+    q:"في تفاعل A + B → نواتج: عند مضاعفة [B] مع ثبات [A]، تضاعفت السرعة 4 مرات. ما رتبة التفاعل في المادة B؟",
+    opts:["رتبة صفرية","رتبة أولى","رتبة ثانية","رتبة ثالثة"],
+    ans:2,
+    exp:"تضاعف التركيز (×2) وتضاعفت السرعة 4 مرات (×4). 2ⁿ = 4 → n = 2. إذن رتبة B ثانية."
+  },
+  {
+    q:"قانون سرعة تفاعل: R = k[NO]²[H₂]. ما الرتبة الكلية للتفاعل؟",
+    opts:["رتبة أولى","رتبة ثانية","رتبة ثالثة","رتبة رابعة"],
+    ans:2,
+    exp:"الرتبة الكلية = 2 (لـ NO) + 1 (لـ H₂) = 3. التفاعل من الرتبة الثالثة الكلية. هذا من بيانات تفاعل NO مع H₂ في الكتاب."
+  },
+  {
+    q:"كيف تُحدَّد رتبة التفاعل؟",
+    opts:["من معاملات المعادلة الكيميائية الموزونة مباشرة","من البيانات التجريبية بمقارنة السرعات الابتدائية","من حساب ΔH للتفاعل","من قياس درجة الحرارة"],
+    ans:1,
+    exp:"رتبة التفاعل تُحدَّد تجريبيًا من مقارنة السرعات الابتدائية عند تراكيز مختلفة — ليس من معاملات المعادلة الموزونة."
+  },
+  {
+    q:"تفاعل A → نواتج، رتبته الثانية: R = k[A]². إذا تضاعف [A] مرتين، كم تتضاعف سرعة التفاعل؟",
+    opts:["مرتين","ثلاث مرات","أربع مرات","ثماني مرات"],
+    ans:2,
+    exp:"في الرتبة الثانية: مضاعفة التركيز مرتين تعني السرعة تتضاعف 2² = 4 مرات. هذه قاعدة الرتب الأساسية."
+  },
+  {
+    q:"تفاعل A → B، قانون سرعته R = k[A]. ما الذي يحدث لقيمة k إذا رُفعت درجة حرارة التفاعل؟",
+    opts:["تبقى k ثابتة لأنها ثابت سرعة","تتغير k لأنها تعتمد على درجة الحرارة","تنخفض k لأن التركيز ثابت","تصبح k = صفر"],
+    ans:1,
+    exp:"ثابت السرعة k ثابت عند درجة حرارة معينة — لكنه يتغير بتغير درجة الحرارة. رفع الحرارة يزيد k مما يزيد سرعة التفاعل."
+  }
+];
+
+let uAns=new Array(10).fill(-1),submitted=false;
+
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#185FA5':'';
+    o.style.background=j===oi?'#E6F1FB':'';
+    o.style.color=j===oi?'#0C447C':'';
+  });
+}
+
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show ok';
+    } else {
+      if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show bad';
+    }
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
