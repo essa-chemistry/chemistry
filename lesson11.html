@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>العوامل المؤثرة في الاتزان الكيميائي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0f4c75;
+    --primary-mid: #1b6ca8;
+    --primary-light: #3498db;
+    --accent: #e67e22;
+    --accent-light: #fef5ec;
+    --teal: #0d6e6e;
+    --teal-light: #e0f5f5;
+    --success: #1a7a4a;
+    --success-bg: #e6f9f0;
+    --danger: #c0392b;
+    --danger-bg: #fdecea;
+    --warn: #d35400;
+    --warn-bg: #fdf0e6;
+    --purple: #6c3483;
+    --purple-bg: #f5eef8;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1a2530;
+    --muted: #607080;
+    --border: #dce4ed;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    direction: rtl;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(145deg, #062a4a 0%, #0f4c75 55%, #1a6fa0 100%);
+    color: #fff;
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse at 80% 30%, rgba(230,126,34,.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 10% 80%, rgba(52,152,219,.22) 0%, transparent 50%);
+    pointer-events:none;
+  }
+  .hero-tag {
+    display:inline-block;
+    background:rgba(230,126,34,.22);
+    border:1px solid rgba(230,126,34,.45);
+    color:#f5cba7;
+    padding:5px 18px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:18px;
+    position:relative; z-index:1;
+  }
+  .hero h1 {
+    font-size: clamp(26px,5vw,46px);
+    font-weight:900;
+    margin-bottom:12px;
+    position:relative; z-index:1;
+  }
+  .hero h1 span { color:#f5cba7; }
+  .hero p {
+    font-size:16px; opacity:.88;
+    max-width:600px; margin:0 auto;
+    position:relative; z-index:1;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    display:flex;
+    background:#fff;
+    border-bottom:2px solid var(--border);
+    padding:0 28px;
+    gap:2px;
+    position:sticky; top:0; z-index:100;
+    box-shadow:0 2px 10px rgba(0,0,0,.07);
+    overflow-x:auto;
+  }
+  .nav button {
+    padding:15px 22px;
+    font-size:15px; font-weight:700;
+    color:var(--muted);
+    background:none;
+    border:none; border-bottom:3px solid transparent;
+    cursor:pointer; white-space:nowrap;
+    font-family:'Tajawal',sans-serif;
+    transition:all .2s;
+  }
+  .nav button:hover { color:var(--primary-mid); }
+  .nav button.active {
+    color:var(--primary);
+    border-bottom-color:var(--accent);
+    background:rgba(230,126,34,.05);
+  }
+
+  /* ── SECTIONS ── */
+  .sec { display:none; padding:38px 28px; max-width:980px; margin:0 auto; }
+  .sec.on { display:block; }
+
+  /* ── CARD ── */
+  .card {
+    background:var(--card);
+    border-radius:18px;
+    border:1px solid var(--border);
+    padding:28px 30px;
+    margin-bottom:24px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+  }
+  .card-h {
+    font-size:18px; font-weight:800;
+    color:var(--primary);
+    margin-bottom:16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .ico {
+    width:38px; height:38px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; flex-shrink:0;
+  }
+
+  /* ── PRINCIPLE BOX ── */
+  .principle {
+    background: linear-gradient(135deg, #ebf5fb, #d6eaf8);
+    border-right:6px solid var(--primary-mid);
+    border-radius:14px;
+    padding:22px 26px;
+    margin:16px 0;
+  }
+  .principle .label {
+    font-size:12px; font-weight:800;
+    color:var(--primary); letter-spacing:1.2px;
+    text-transform:uppercase; margin-bottom:6px;
+  }
+  .principle p { font-size:16px; line-height:1.8; }
+
+  /* ── CALLOUT ── */
+  .call {
+    display:flex; gap:14px;
+    padding:15px 18px;
+    border-radius:12px;
+    margin:14px 0;
+    align-items:flex-start;
+    font-size:15px;
+  }
+  .call.info  { background:#ebf5fb; border:1px solid #aed6f1; }
+  .call.warn  { background:var(--warn-bg); border:1px solid #f0b27a; }
+  .call.good  { background:var(--success-bg); border:1px solid #82e0aa; }
+  .call.danger{ background:var(--danger-bg); border:1px solid #f1948a; }
+  .call.purple{ background:var(--purple-bg); border:1px solid #c39bd3; }
+  .call .ci { font-size:22px; flex-shrink:0; margin-top:1px; }
+  .call .ct { line-height:1.75; }
+  .call .ct strong { font-weight:800; }
+
+  /* ── EQUATION ── */
+  .eq {
+    background:#f8f9fa;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px 20px;
+    text-align:center;
+    font-size:17px; font-weight:700;
+    color:var(--primary);
+    margin:14px 0;
+    font-family:'Courier New', monospace;
+    letter-spacing:.4px;
+  }
+  .eq.teal { background:#e0f5f5; border-color:#76c9c9; color:var(--teal); }
+  .eq.amber { background:#fef5ec; border-color:#f0b27a; color:var(--warn); }
+  .eq.purple { background:var(--purple-bg); border-color:#c39bd3; color:var(--purple); }
+
+  /* ── FACTOR CARDS ── */
+  .factors { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin:20px 0; }
+  .factor {
+    border-radius:16px;
+    padding:22px;
+    border:1.5px solid;
+    position:relative; overflow:hidden;
+  }
+  .factor::before {
+    content:attr(data-icon);
+    position:absolute; top:12px; left:14px;
+    font-size:36px; opacity:.12;
+  }
+  .factor.blue  { background:#ebf5fb; border-color:#aed6f1; }
+  .factor.teal  { background:#e0f5f5; border-color:#76c9c9; }
+  .factor.orange{ background:var(--warn-bg); border-color:#f0b27a; }
+  .factor.purple{ background:var(--purple-bg); border-color:#c39bd3; }
+  .factor h3 { font-size:16px; font-weight:800; margin-bottom:10px; }
+  .factor.blue   h3 { color:var(--primary); }
+  .factor.teal   h3 { color:var(--teal); }
+  .factor.orange h3 { color:var(--warn); }
+  .factor.purple h3 { color:var(--purple); }
+  .factor p  { font-size:14px; line-height:1.75; }
+
+  /* ── SHIFT TABLE ── */
+  .shift-table { width:100%; border-collapse:collapse; font-size:14px; margin-top:14px; }
+  .shift-table th { background:var(--primary); color:#fff; padding:11px 14px; font-weight:800; text-align:center; }
+  .shift-table th:first-child { border-radius:10px 0 0 0; }
+  .shift-table th:last-child  { border-radius:0 10px 0 0; }
+  .shift-table td { padding:10px 14px; border-bottom:1px solid var(--border); text-align:center; vertical-align:middle; font-size:14px; }
+  .shift-table tr:nth-child(even) td { background:#f8fafc; }
+  .shift-table tr:hover td { background:#ebf5fb; }
+  .right { color:var(--success); font-weight:700; }
+  .left  { color:var(--danger);  font-weight:700; }
+  .none  { color:var(--muted);   font-weight:600; }
+
+  /* ── TWO COL ── */
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media(max-width:580px){ .two{ grid-template-columns:1fr; } }
+
+  /* ── REACTION VISUAL ── */
+  .rxn {
+    display:flex; align-items:center; justify-content:center;
+    gap:14px; flex-wrap:wrap;
+    margin:16px 0; padding:20px 16px;
+    background:#f8f9fa; border-radius:14px;
+    border:1px dashed var(--border);
+  }
+  .rxn-box {
+    border-radius:10px; padding:10px 18px;
+    font-size:15px; font-weight:700; text-align:center;
+    border:1.5px solid;
+  }
+  .rxn-box.r { border-color:#aed6f1; color:var(--primary-mid); background:#ebf5fb; }
+  .rxn-box.p { border-color:#82e0aa; color:var(--success); background:var(--success-bg); }
+  .rxn-box.h { border-color:#f0b27a; color:var(--warn); background:var(--warn-bg); }
+  .arr { font-size:30px; color:var(--muted); font-weight:900; }
+
+  /* ── LIST ── */
+  .flist { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .flist li {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:12px 16px; background:#f8f9fa;
+    border-radius:10px; font-size:15px;
+  }
+  .bul {
+    width:28px; height:28px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:13px; flex-shrink:0; margin-top:1px;
+  }
+  .bul.b { background:#d6eaf8; color:var(--primary-mid); }
+  .bul.g { background:#d5f5e3; color:var(--success); }
+  .bul.o { background:#fdebd0; color:var(--warn); }
+
+  h3.sub { font-size:16px; font-weight:800; color:var(--primary); margin:20px 0 10px; }
+  .divider { height:1px; background:var(--border); margin:22px 0; }
+
+  /* ═══════════════ QUIZ ═══════════════ */
+  .quiz-h { text-align:center; margin-bottom:28px; }
+  .quiz-h h2 { font-size:26px; font-weight:900; color:var(--primary); margin-bottom:6px; }
+  .quiz-h p { color:var(--muted); font-size:15px; }
+
+  .pbar-wrap { background:var(--border); border-radius:10px; height:8px; margin:18px 0; overflow:hidden; }
+  .pbar-fill { height:100%; background:linear-gradient(90deg,var(--primary-mid),var(--accent)); border-radius:10px; transition:width .4s ease; }
+  .plabels { display:flex; justify-content:space-between; font-size:13px; color:var(--muted); margin-top:5px; }
+
+  .qcard {
+    background:#fff;
+    border-radius:18px;
+    border:1.5px solid var(--border);
+    padding:28px 28px 22px;
+    margin-bottom:20px;
+    box-shadow:0 3px 14px rgba(0,0,0,.06);
+    transition:box-shadow .2s;
+  }
+  .qcard:hover { box-shadow:0 5px 22px rgba(0,0,0,.09); }
+  .qnum {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px;
+    background:var(--primary); color:#fff;
+    border-radius:50%; font-size:14px; font-weight:800;
+    margin-bottom:12px;
+  }
+  .qtext { font-size:16px; font-weight:700; color:var(--text); margin-bottom:18px; line-height:1.65; }
+  .qtext .eq-inline {
+    display:block;
+    background:#f0f4f8; border:1px solid var(--border);
+    border-radius:8px; padding:8px 14px;
+    font-family:'Courier New',monospace;
+    font-size:14px; font-weight:600;
+    color:var(--primary); margin:8px 0;
+  }
+
+  .opts { display:flex; flex-direction:column; gap:9px; }
+  .opt {
+    display:flex; align-items:center; gap:12px;
+    padding:13px 16px;
+    border:1.5px solid var(--border);
+    border-radius:12px; cursor:pointer;
+    font-size:15px; font-weight:500; color:var(--text);
+    background:#fafbfc; text-align:right;
+    transition:all .18s;
+    font-family:'Tajawal',sans-serif;
+    direction:rtl; width:100%;
+  }
+  .opt:hover:not(:disabled) { background:#ebf5fb; border-color:#aed6f1; color:var(--primary); }
+  .opt .ol {
+    width:30px; height:30px; border-radius:50%;
+    background:#fff; border:1.5px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:800; flex-shrink:0;
+    transition:all .18s;
+  }
+  .opt:hover:not(:disabled) .ol { background:var(--primary-mid); border-color:var(--primary-mid); color:#fff; }
+  .opt.ok  { background:var(--success-bg); border-color:#82e0aa; color:var(--success); }
+  .opt.ok .ol  { background:var(--success); border-color:var(--success); color:#fff; }
+  .opt.bad { background:var(--danger-bg); border-color:#f1948a; color:var(--danger); }
+  .opt.bad .ol { background:var(--danger); border-color:var(--danger); color:#fff; }
+  .opt:disabled { cursor:default; }
+
+  .fb { display:none; margin-top:12px; padding:13px 17px; border-radius:12px; font-size:15px; font-weight:500; line-height:1.7; }
+  .fb.show { display:flex; gap:10px; align-items:flex-start; }
+  .fb.ok-fb { background:var(--success-bg); color:#145a32; border:1px solid #82e0aa; }
+  .fb.bad-fb { background:var(--danger-bg); color:#922b21; border:1px solid #f1948a; }
+
+  /* RESULTS */
+  .result { display:none; text-align:center; padding:40px 24px; }
+  .result.show { display:block; }
+  .ring {
+    width:148px; height:148px; border-radius:50%;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    margin:0 auto 22px;
+    border:8px solid var(--border);
+  }
+  .ring.ex { border-color:#52be80; background:#eafaf1; }
+  .ring.gd { border-color:#f0b27a; background:#fef5ec; }
+  .ring.nw { border-color:#f1948a; background:#fdecea; }
+  .ring .sn { font-size:38px; font-weight:900; }
+  .ring.ex .sn { color:var(--success); }
+  .ring.gd .sn { color:var(--warn); }
+  .ring.nw .sn { color:var(--danger); }
+  .ring .sl { font-size:14px; color:var(--muted); }
+  .rmsg { font-size:22px; font-weight:800; margin-bottom:8px; }
+  .rsub { color:var(--muted); font-size:16px; margin-bottom:28px; }
+  .rbtn {
+    background:var(--primary); color:#fff;
+    border:none; border-radius:12px;
+    padding:14px 38px;
+    font-size:16px; font-weight:800; cursor:pointer;
+    font-family:'Tajawal',sans-serif;
+    transition:all .2s;
+  }
+  .rbtn:hover { background:var(--primary-mid); transform:translateY(-2px); box-shadow:0 6px 20px rgba(15,76,117,.28); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">📘 كيمياء — القسم 3-2</div>
+  <h1>العوامل المؤثرة في <span>الاتزان الكيميائي</span></h1>
+  <p>Factors Affecting Chemical Equilibrium — مبدأ لوتشاتلييه وتطبيقاته</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="tab('lesson',this)">📖 الدرس</button>
+  <button onclick="tab('summary',this)">📋 الملخص</button>
+  <button onclick="tab('quiz',this)">✏️ الاختبار</button>
+</div>
+
+<!-- ══════════════════════════ LESSON ══════════════════════════ -->
+<div id="lesson" class="sec on">
+
+  <!-- مبدأ لوتشاتلييه -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#d6eaf8">⚗️</div>مبدأ لوتشاتلييه</div>
+    <p style="font-size:15px;margin-bottom:14px">اكتشفه العالم الفرنسي <strong>هنري لويس لوتشاتلييه</strong> عام 1888م.</p>
+    <div class="principle">
+      <div class="label">مبدأ لوتشاتلييه</div>
+      <p>إذا بُذل <strong>جهد</strong> على نظام في حالة اتزان، فإن ذلك يؤدي إلى <strong>إزاحة النظام</strong> في الاتجاه الذي يُخفف أثر هذا الجهد.</p>
+    </div>
+    <div class="call info">
+      <span class="ci">💡</span>
+      <div class="ct"><strong>الجهد</strong> هو أي تغيير يؤثر في اتزان نظام معين — كتغيير التركيز أو الحجم أو درجة الحرارة.</div>
+    </div>
+    <p style="font-size:15px;margin-top:14px">التفاعل الأساسي الذي سندرسه (إنتاج الميثان بطريقة هابر):</p>
+    <div class="eq">CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) &nbsp;|&nbsp; ΔH° = −206.5 kJ</div>
+    <div class="call warn">
+      <span class="ci">📊</span>
+      <div class="ct">قيمة ثابت الاتزان عند الاتزان الأول: <strong>Keq = 3.933</strong><br>
+      [CO]=0.300 M &nbsp;|&nbsp; [H₂]=0.100 M &nbsp;|&nbsp; [CH₄]=0.0590 M &nbsp;|&nbsp; [H₂O]=0.0200 M</div>
+    </div>
+  </div>
+
+  <!-- العامل 1: التركيز -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#d5f5e3">🧪</div>العامل الأول: التغير في التركيز</div>
+
+    <h3 class="sub">أ) إضافة متفاعل → إزاحة نحو اليمين (↓ نحو النواتج)</h3>
+    <p style="font-size:15px;margin-bottom:12px">عند زيادة تركيز CO من 0.300 M إلى 1.00 M:</p>
+    <div class="rxn">
+      <div class="rxn-box r">CO ↑</div>
+      <div class="rxn-box r">+ 3H₂</div>
+      <div class="arr">⟹</div>
+      <div class="rxn-box p">CH₄ ↑</div>
+      <div class="rxn-box p">+ H₂O ↑</div>
+    </div>
+    <div class="call good">
+      <span class="ci">✅</span>
+      <div class="ct">بعد الإزاحة: Keq = 3.933 (لم يتغير!) ✔ &nbsp;|&nbsp; [CH₄] ارتفع من 0.0590 إلى 0.06648 M</div>
+    </div>
+
+    <div class="divider"></div>
+    <h3 class="sub">ب) إزالة ناتج → إزاحة نحو اليمين (↓ نحو النواتج)</h3>
+    <p style="font-size:15px;margin-bottom:12px">إزالة H₂O بإضافة مجفف → النظام يعوّض الماء المُزال:</p>
+    <div class="rxn">
+      <div class="rxn-box r">CO + 3H₂</div>
+      <div class="arr">⟹</div>
+      <div class="rxn-box p">CH₄ ↑</div>
+      <div class="rxn-box h">H₂O (مُزال)</div>
+    </div>
+
+    <div class="divider"></div>
+    <h3 class="sub">ج) إضافة ناتج أو إزالة متفاعل → إزاحة نحو اليسار (↓ نحو المتفاعلات)</h3>
+    <div class="call danger">
+      <span class="ci">⬅️</span>
+      <div class="ct">إضافة H₂O (ناتج) → اتزان يزاح نحو اليسار → يتحول إلى متفاعلات<br>إزالة CO (متفاعل) → اتزان يزاح نحو اليسار</div>
+    </div>
+
+    <div class="call info" style="margin-top:16px">
+      <span class="ci">📌</span>
+      <div class="ct"><strong>القاعدة الذهبية:</strong> تغيير التركيز يغيّر موضع الاتزان، لكن <strong>Keq يبقى ثابتًا</strong> عند نفس درجة الحرارة.</div>
+    </div>
+  </div>
+
+  <!-- العامل 2: الضغط والحجم -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#fdebd0">📦</div>العامل الثاني: التغير في الحجم والضغط</div>
+
+    <p style="font-size:15px;margin-bottom:14px">يؤثر تغيير الضغط فقط إذا <strong>اختلف عدد مولات الغازات</strong> بين طرفي المعادلة.</p>
+
+    <div class="eq amber">CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g)</div>
+
+    <div class="two" style="margin-top:16px">
+      <div style="background:#e0f5f5;border:1.5px solid #76c9c9;border-radius:14px;padding:18px">
+        <p style="font-weight:800;color:var(--teal);margin-bottom:8px;font-size:15px">↙ تقليل الحجم = رفع الضغط</p>
+        <p style="font-size:14px">مولات المتفاعلات = 4 مولات<br>مولات النواتج = 2 مولات</p>
+        <p style="font-size:14px;margin-top:8px;color:var(--teal);font-weight:700">الاتزان يزاح نحو اليمين ✔<br>(نحو الجهة ذات المولات الأقل)</p>
+      </div>
+      <div style="background:#fdecea;border:1.5px solid #f1948a;border-radius:14px;padding:18px">
+        <p style="font-weight:800;color:var(--danger);margin-bottom:8px;font-size:15px">↗ زيادة الحجم = خفض الضغط</p>
+        <p style="font-size:14px">الضغط يقل → الاتزان يزاح نحو الجهة ذات المولات الأكثر</p>
+        <p style="font-size:14px;margin-top:8px;color:var(--danger);font-weight:700">الاتزان يزاح نحو اليسار ✔<br>(4 مولات &gt; 2 مولات)</p>
+      </div>
+    </div>
+
+    <div class="call warn" style="margin-top:18px">
+      <span class="ci">⚠️</span>
+      <div class="ct"><strong>حالة خاصة:</strong> إذا تساوى عدد مولات الغازات على طرفي المعادلة، فإن تغيير الضغط <strong>لا يؤثر</strong> في الاتزان.<br>
+      مثال: H₂(g) + Cl₂(g) ⇌ 2HCl(g) → مولان على كل طرف → الضغط لا يؤثر.</div>
+    </div>
+
+    <div class="call info" style="margin-top:10px">
+      <span class="ci">📌</span>
+      <div class="ct">تغيير الحجم/الضغط يغيّر موضع الاتزان، لكن <strong>Keq يبقى ثابتًا</strong>.</div>
+    </div>
+  </div>
+
+  <!-- العامل 3: درجة الحرارة -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#f5eef8">🌡️</div>العامل الثالث: التغير في درجة الحرارة</div>
+
+    <p style="font-size:15px;margin-bottom:14px">درجة الحرارة هي العامل الوحيد الذي يغيّر <strong>موضع الاتزان وقيمة Keq معًا</strong>.</p>
+
+    <div class="two">
+      <div>
+        <h3 class="sub" style="color:var(--danger)">🔥 التفاعل الطارد للحرارة (ΔH سالبة)</h3>
+        <div class="eq amber">CO + 3H₂ ⇌ CH₄ + H₂O + حرارة</div>
+        <ul class="flist" style="margin-top:12px">
+          <li><div class="bul o">↑</div><div><strong>رفع الحرارة</strong> → الاتزان نحو اليسار → يقل CH₄ → تقل Keq</div></li>
+          <li><div class="bul g">↓</div><div><strong>خفض الحرارة</strong> → الاتزان نحو اليمين → يزداد CH₄ → تزداد Keq</div></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub" style="color:var(--primary-mid)">❄️ التفاعل الماص للحرارة (ΔH موجبة)</h3>
+        <div class="eq teal">حرارة + N₂O₄ ⇌ 2NO₂ &nbsp; ΔH°=+55.3 kJ</div>
+        <ul class="flist" style="margin-top:12px">
+          <li><div class="bul b">↑</div><div><strong>رفع الحرارة</strong> → الاتزان نحو اليمين → يزداد NO₂ (بني) → تزداد Keq</div></li>
+          <li><div class="bul o">↓</div><div><strong>خفض الحرارة</strong> → الاتزان نحو اليسار → يزداد N₂O₄ (عديم اللون) → تقل Keq</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="call purple" style="margin-top:18px">
+      <span class="ci">🔑</span>
+      <div class="ct"><strong>تذكر:</strong> في التفاعل الطارد للحرارة، الحرارة هي <em>ناتج</em>. في التفاعل الماص للحرارة، الحرارة هي <em>متفاعل</em>. طبّق مبدأ لوتشاتلييه كأنها مادة عادية.</div>
+    </div>
+  </div>
+
+  <!-- العامل 4: العامل المحفز -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#eaf2ff">⚡</div>العامل الرابع: العامل المحفز (الحفاز)</div>
+    <div class="call good">
+      <span class="ci">✅</span>
+      <div class="ct">العامل المحفز يزيد سرعة التفاعل <strong>بالتساوي في كلا الاتجاهين</strong>، لذا يصل التفاعل إلى حالة الاتزان <strong>بسرعة أكبر</strong>، لكنه <strong>لا يغيّر</strong> موضع الاتزان ولا قيمة Keq ولا كميات النواتج.</div>
+    </div>
+    <div class="call warn" style="margin-top:4px">
+      <span class="ci">⚠️</span>
+      <div class="ct">الحفاز لا يؤثر في Keq أبدًا — هو فقط يُسرّع الوصول إلى الاتزان.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ SUMMARY ══════════════════════════ -->
+<div id="summary" class="sec">
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#d6eaf8">📋</div>ملخص مبدأ لوتشاتلييه</div>
+    <div style="overflow-x:auto">
+      <table class="shift-table">
+        <thead>
+          <tr>
+            <th>الجهد المبذول</th>
+            <th>اتجاه الإزاحة</th>
+            <th>تأثير على Keq</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>إضافة متفاعل</td><td class="right">← نحو اليمين (نواتج أكثر)</td><td class="none">لا يتغير</td></tr>
+          <tr><td>إزالة متفاعل</td><td class="left">→ نحو اليسار (متفاعلات أكثر)</td><td class="none">لا يتغير</td></tr>
+          <tr><td>إضافة ناتج</td><td class="left">→ نحو اليسار</td><td class="none">لا يتغير</td></tr>
+          <tr><td>إزالة ناتج</td><td class="right">← نحو اليمين</td><td class="none">لا يتغير</td></tr>
+          <tr><td>رفع الضغط (تقليل الحجم)</td><td class="right">← نحو المولات الأقل</td><td class="none">لا يتغير</td></tr>
+          <tr><td>خفض الضغط (زيادة الحجم)</td><td class="left">→ نحو المولات الأكثر</td><td class="none">لا يتغير</td></tr>
+          <tr><td>رفع درجة الحرارة (ΔH سالب)</td><td class="left">→ نحو اليسار</td><td class="left">تقل Keq</td></tr>
+          <tr><td>خفض درجة الحرارة (ΔH سالب)</td><td class="right">← نحو اليمين</td><td class="right">تزداد Keq</td></tr>
+          <tr><td>رفع درجة الحرارة (ΔH موجب)</td><td class="right">← نحو اليمين</td><td class="right">تزداد Keq</td></tr>
+          <tr><td>خفض درجة الحرارة (ΔH موجب)</td><td class="left">→ نحو اليسار</td><td class="left">تقل Keq</td></tr>
+          <tr><td>إضافة عامل محفز</td><td class="none">لا إزاحة</td><td class="none">لا يتغير</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="call purple" style="margin-top:18px">
+      <span class="ci">🔑</span>
+      <div class="ct"><strong>القاعدة الكبرى:</strong> فقط تغيير درجة الحرارة يغيّر قيمة Keq. كل العوامل الأخرى (التركيز، الحجم، الضغط) تغير <em>موضع</em> الاتزان فقط، وتبقي Keq ثابتة.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#d5f5e3">🏭</div>تطبيق صناعي: إنتاج الميثان</div>
+    <div class="factors">
+      <div class="factor blue" data-icon="🧪">
+        <h3>زيادة التركيز</h3>
+        <p>زيادة CO أو H₂ → المزيد من CH₄<br>إزالة H₂O بمجفف → المزيد من CH₄</p>
+      </div>
+      <div class="factor teal" data-icon="📦">
+        <h3>زيادة الضغط</h3>
+        <p>ضغط الوعاء → إزاحة نحو اليمين (4 مولات → 2 مولات) → مزيد من CH₄</p>
+      </div>
+      <div class="factor orange" data-icon="🌡️">
+        <h3>خفض الحرارة</h3>
+        <p>التفاعل طارد → خفض الحرارة يزيد CH₄ لكن يُبطئ سرعة التفاعل</p>
+      </div>
+      <div class="factor purple" data-icon="⚡">
+        <h3>إضافة حفاز</h3>
+        <p>يُسرّع الوصول للاتزان دون تغيير كمية CH₄</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ QUIZ ══════════════════════════ -->
+<div id="quiz" class="sec">
+  <div class="quiz-h">
+    <h2>اختبار العوامل المؤثرة في الاتزان</h2>
+    <p>10 أسئلة — جميع المعطيات مدرجة داخل كل سؤال</p>
+  </div>
+
+  <div class="pbar-wrap"><div class="pbar-fill" id="pf" style="width:0%"></div></div>
+  <div class="plabels"><span id="qc">السؤال 0 من 10</span><span id="sc">النقاط: 0</span></div>
+
+  <div id="qs">
+
+    <!-- Q1 -->
+    <div class="qcard"><div class="qnum">1</div>
+    <div class="qtext">ما نص مبدأ لوتشاتلييه؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,1,'A')"><span class="ol">أ</span> إذا ارتفعت درجة الحرارة زادت سرعة التفاعل فقط</button>
+      <button class="opt" onclick="ans(this,1,'B')"><span class="ol">ب</span> إذا بُذل جهد على نظام متزن، يُزاح في الاتجاه الذي يُخفف هذا الجهد</button>
+      <button class="opt" onclick="ans(this,1,'C')"><span class="ol">ج</span> إضافة الحفاز يزيد كمية النواتج دائمًا</button>
+      <button class="opt" onclick="ans(this,1,'D')"><span class="ol">د</span> ثابت الاتزان يتغير بتغير التراكيز</button>
+    </div>
+    <div class="fb" id="fb-1"></div></div>
+
+    <!-- Q2 -->
+    <div class="qcard"><div class="qnum">2</div>
+    <div class="qtext">
+      للتفاعل: <span class="eq-inline">CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g)</span>
+      إذا أُضيف غاز CO إلى الجهاز المتزن، ما اتجاه إزاحة الاتزان؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,2,'A')"><span class="ol">أ</span> نحو اليسار (نحو المتفاعلات)</button>
+      <button class="opt" onclick="ans(this,2,'B')"><span class="ol">ب</span> نحو اليمين (نحو النواتج)</button>
+      <button class="opt" onclick="ans(this,2,'C')"><span class="ol">ج</span> لا تأثير على الاتزان</button>
+      <button class="opt" onclick="ans(this,2,'D')"><span class="ol">د</span> تتغير قيمة Keq فقط</button>
+    </div>
+    <div class="fb" id="fb-2"></div></div>
+
+    <!-- Q3 -->
+    <div class="qcard"><div class="qnum">3</div>
+    <div class="qtext">
+      للتفاعل: <span class="eq-inline">CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) &nbsp; ΔH°= −206.5 kJ</span>
+      ما أثر إزالة بخار الماء H₂O من وعاء التفاعل؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,3,'A')"><span class="ol">أ</span> الاتزان يزاح نحو اليسار وتقل كمية CH₄</button>
+      <button class="opt" onclick="ans(this,3,'B')"><span class="ol">ب</span> لا يتأثر الاتزان</button>
+      <button class="opt" onclick="ans(this,3,'C')"><span class="ol">ج</span> الاتزان يزاح نحو اليمين وتزداد كمية CH₄</button>
+      <button class="opt" onclick="ans(this,3,'D')"><span class="ol">د</span> تتغير قيمة Keq فقط</button>
+    </div>
+    <div class="fb" id="fb-3"></div></div>
+
+    <!-- Q4 -->
+    <div class="qcard"><div class="qnum">4</div>
+    <div class="qtext">
+      للتفاعل: <span class="eq-inline">CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g)</span>
+      المتفاعلات: 4 مولات من الغاز &nbsp;|&nbsp; النواتج: 2 مولات من الغاز
+      ما أثر تقليل حجم وعاء التفاعل (رفع الضغط)؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,4,'A')"><span class="ol">أ</span> إزاحة نحو اليسار لأن عدد مولات المتفاعلات أكثر</button>
+      <button class="opt" onclick="ans(this,4,'B')"><span class="ol">ب</span> إزاحة نحو اليمين لأن عدد مولات النواتج أقل — يخفف الضغط</button>
+      <button class="opt" onclick="ans(this,4,'C')"><span class="ol">ج</span> لا تأثير لأن الغازات متشابهة</button>
+      <button class="opt" onclick="ans(this,4,'D')"><span class="ol">د</span> إزاحة نحو اليمين وتغير Keq</button>
+    </div>
+    <div class="fb" id="fb-4"></div></div>
+
+    <!-- Q5 -->
+    <div class="qcard"><div class="qnum">5</div>
+    <div class="qtext">
+      التفاعل: <span class="eq-inline">H₂(g) + Cl₂(g) ⇌ 2HCl(g)</span>
+      مولات المتفاعلات الغازية = 2 مول &nbsp;|&nbsp; مولات النواتج الغازية = 2 مول
+      ما أثر رفع الضغط على هذا الاتزان؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,5,'A')"><span class="ol">أ</span> إزاحة نحو اليمين</button>
+      <button class="opt" onclick="ans(this,5,'B')"><span class="ol">ب</span> إزاحة نحو اليسار</button>
+      <button class="opt" onclick="ans(this,5,'C')"><span class="ol">ج</span> لا تأثير — المولات متساوية على الطرفين</button>
+      <button class="opt" onclick="ans(this,5,'D')"><span class="ol">د</span> تتغير قيمة Keq</button>
+    </div>
+    <div class="fb" id="fb-5"></div></div>
+
+    <!-- Q6 -->
+    <div class="qcard"><div class="qnum">6</div>
+    <div class="qtext">
+      التفاعل: <span class="eq-inline">CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) &nbsp; ΔH°= −206.5 kJ</span>
+      التفاعل طارد للحرارة. ما أثر رفع درجة الحرارة؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,6,'A')"><span class="ol">أ</span> الاتزان يزاح نحو اليمين وتزداد Keq</button>
+      <button class="opt" onclick="ans(this,6,'B')"><span class="ol">ب</span> الاتزان يزاح نحو اليسار وتقل Keq</button>
+      <button class="opt" onclick="ans(this,6,'C')"><span class="ol">ج</span> لا تأثير على Keq فقط الموضع يتغير</button>
+      <button class="opt" onclick="ans(this,6,'D')"><span class="ol">د</span> الاتزان يزاح نحو اليمين وتقل Keq</button>
+    </div>
+    <div class="fb" id="fb-6"></div></div>
+
+    <!-- Q7 -->
+    <div class="qcard"><div class="qnum">7</div>
+    <div class="qtext">
+      التفاعل: <span class="eq-inline">N₂O₄(g) ⇌ 2NO₂(g) &nbsp; ΔH°= +55.3 kJ</span>
+      N₂O₄ عديم اللون، NO₂ بني اللون. عند تبريد مزيج الاتزان، ما الذي يُلاحَظ؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,7,'A')"><span class="ol">أ</span> يزداد لون بني → يزداد NO₂</button>
+      <button class="opt" onclick="ans(this,7,'B')"><span class="ol">ب</span> يخف اللون البني → يزداد N₂O₄ عديم اللون</button>
+      <button class="opt" onclick="ans(this,7,'C')"><span class="ol">ج</span> لا تغير في اللون</button>
+      <button class="opt" onclick="ans(this,7,'D')"><span class="ol">د</span> يزداد اللون البني وتقل Keq</button>
+    </div>
+    <div class="fb" id="fb-7"></div></div>
+
+    <!-- Q8 -->
+    <div class="qcard"><div class="qnum">8</div>
+    <div class="qtext">ما العامل الوحيد الذي يغيّر قيمة ثابت الاتزان Keq؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,8,'A')"><span class="ol">أ</span> إضافة متفاعل</button>
+      <button class="opt" onclick="ans(this,8,'B')"><span class="ol">ب</span> إزالة ناتج</button>
+      <button class="opt" onclick="ans(this,8,'C')"><span class="ol">ج</span> تغيير درجة الحرارة</button>
+      <button class="opt" onclick="ans(this,8,'D')"><span class="ol">د</span> تغيير حجم الوعاء</button>
+    </div>
+    <div class="fb" id="fb-8"></div></div>
+
+    <!-- Q9 -->
+    <div class="qcard"><div class="qnum">9</div>
+    <div class="qtext">ما أثر إضافة عامل محفز إلى تفاعل في حالة اتزان؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,9,'A')"><span class="ol">أ</span> يزداد تركيز النواتج فقط</button>
+      <button class="opt" onclick="ans(this,9,'B')"><span class="ol">ب</span> يصل التفاعل إلى الاتزان بسرعة أكبر دون تغيير Keq أو كميات النواتج</button>
+      <button class="opt" onclick="ans(this,9,'C')"><span class="ol">ج</span> يزاح الاتزان نحو اليمين</button>
+      <button class="opt" onclick="ans(this,9,'D')"><span class="ol">د</span> تتغير قيمة Keq</button>
+    </div>
+    <div class="fb" id="fb-9"></div></div>
+
+    <!-- Q10 -->
+    <div class="qcard"><div class="qnum">10</div>
+    <div class="qtext">
+      التفاعل: <span class="eq-inline">2SO₂(g) + O₂(g) ⇌ 2SO₃(g)</span>
+      مولات المتفاعلات الغازية = 3 مول &nbsp;|&nbsp; مولات النواتج الغازية = 2 مول
+      لزيادة إنتاج SO₃ باستخدام مبدأ لوتشاتلييه، أيٌّ من الإجراءات التالية يكون صحيحًا؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,10,'A')"><span class="ol">أ</span> تقليل الضغط (زيادة الحجم)</button>
+      <button class="opt" onclick="ans(this,10,'B')"><span class="ol">ب</span> إزالة SO₂ من الوعاء</button>
+      <button class="opt" onclick="ans(this,10,'C')"><span class="ol">ج</span> زيادة الضغط (تقليل الحجم) → الاتزان نحو جهة المولات الأقل (نحو SO₃)</button>
+      <button class="opt" onclick="ans(this,10,'D')"><span class="ol">د</span> إضافة SO₃ إلى الوعاء</button>
+    </div>
+    <div class="fb" id="fb-10"></div></div>
+
+  </div>
+
+  <div class="result" id="rp">
+    <div class="ring" id="rring"><span class="sn" id="fscore">0</span><span class="sl">من 10</span></div>
+    <div class="rmsg" id="rmsg"></div>
+    <div class="rsub" id="rsub"></div>
+    <button class="rbtn" onclick="restart()">🔄 إعادة الاختبار</button>
+  </div>
+</div>
+
+<script>
+const ANS = {
+  1:'B', 2:'B', 3:'C', 4:'B', 5:'C',
+  6:'B', 7:'B', 8:'C', 9:'B', 10:'C'
+};
+const EXP = {
+  1:'مبدأ لوتشاتلييه ينص على أن أي جهد يُبذل على نظام متزن يجعله يُزاح في الاتجاه الذي يُخفف هذا الجهد.',
+  2:'إضافة CO (متفاعل) → تزداد سرعة التفاعل الأمامي → إزاحة نحو اليمين → تزداد كمية CH₄. Keq لا يتغير.',
+  3:'إزالة H₂O (ناتج) → النظام يعوّضه بإنتاج المزيد → الاتزان يزاح نحو اليمين → تزداد كمية CH₄.',
+  4:'تقليل الحجم = رفع الضغط. الجهاز يُخفف بالإزاحة نحو جهة المولات الأقل (النواتج = 2 مول).',
+  5:'عدد مولات الغازات متساوٍ على الطرفين (2=2)، لذا تغيير الضغط لا يؤثر في الاتزان.',
+  6:'التفاعل طارد للحرارة → الحرارة ناتج → رفع الحرارة يزاح نحو اليسار (يستهلك الحرارة الزائدة) وتقل Keq.',
+  7:'التفاعل ماص للحرارة → التبريد يزيل الحرارة → الاتزان يزاح نحو اليسار → يزداد N₂O₄ عديم اللون → يخف اللون البني.',
+  8:'فقط تغيير درجة الحرارة يغيّر Keq. كل العوامل الأخرى تغير موضع الاتزان فقط.',
+  9:'الحفاز يزيد سرعة التفاعل في كلا الاتجاهين بالتساوي → يُسرّع الوصول للاتزان دون تغيير موضعه أو Keq.',
+  10:'مولات المتفاعلات (3) > مولات النواتج (2) → رفع الضغط يُزيح الاتزان نحو اليمين (المولات الأقل) → ينتج المزيد من SO₃.'
+};
+
+let score=0, done=0;
+
+function ans(btn, q, ch) {
+  const all = btn.parentElement.querySelectorAll('.opt');
+  all.forEach(b=>b.disabled=true);
+  const opts=['A','B','C','D'];
+  all.forEach((b,i)=>{
+    if(opts[i]===ANS[q]) b.classList.add('ok');
+    else if(opts[i]===ch && ch!==ANS[q]) b.classList.add('bad');
+  });
+  const fb=document.getElementById('fb-'+q);
+  const ok=ch===ANS[q];
+  if(ok){score++; fb.className='fb show ok-fb'; fb.innerHTML='✅ <span><strong>إجابة صحيحة!</strong> '+EXP[q]+'</span>';}
+  else{fb.className='fb show bad-fb'; fb.innerHTML='❌ <span><strong>إجابة خاطئة.</strong> '+EXP[q]+'</span>';}
+  done++;
+  document.getElementById('pf').style.width=(done/10*100)+'%';
+  document.getElementById('qc').textContent='السؤال '+done+' من 10';
+  document.getElementById('sc').textContent='النقاط: '+score;
+  if(done===10) setTimeout(showRes,700);
+}
+
+function showRes(){
+  document.getElementById('qs').style.display='none';
+  const rp=document.getElementById('rp'); rp.classList.add('show');
+  document.getElementById('fscore').textContent=score;
+  const ring=document.getElementById('rring');
+  let msg,sub,cls;
+  if(score>=9){cls='ex';msg='🏆 ممتاز! أداء استثنائي!';sub='أجبت على '+score+' من 10 — أتقنت مبدأ لوتشاتلييه!';}
+  else if(score>=6){cls='gd';msg='👍 جيد جدًا!';sub='أجبت على '+score+' من 10 — راجع الأسئلة التي أخطأت فيها.';}
+  else{cls='nw';msg='📚 راجع الدرس وأعد المحاولة';sub='أجبت على '+score+' فقط — ارجع إلى قسم الدرس والملخص.';}
+  ring.className='ring '+cls;
+  document.getElementById('rmsg').textContent=msg;
+  document.getElementById('rsub').textContent=sub;
+}
+
+function restart(){
+  score=0;done=0;
+  document.getElementById('rp').classList.remove('show');
+  document.getElementById('qs').style.display='block';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('qc').textContent='السؤال 0 من 10';
+  document.getElementById('sc').textContent='النقاط: 0';
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.classList.remove('ok','bad');});
+  document.querySelectorAll('.fb').forEach(f=>{f.className='fb';f.innerHTML='';});
+}
+
+function tab(id, el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
