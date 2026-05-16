@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس 1-3: الطاقة الكيميائية والكون</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;direction:rtl;background:#f5f5f5;color:#1a1a1a}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:8px;border:1px solid #ccc;background:#f0f0f0;color:#555;cursor:pointer;font-size:15px;font-weight:700;font-family:Arial;transition:all .2s}
+.tab.active{background:#534AB7;color:#fff;border-color:#534AB7}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:23px;font-weight:700;color:#534AB7;margin-bottom:4px}
+.hdr p{font-size:14px;color:#888}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:700;color:#1a1a1a;margin-bottom:.7rem;border-right:4px solid #534AB7;padding-right:10px}
+.cbody{font-size:15px;color:#444;line-height:1.85}
+.hl{background:#EEEDFE;color:#3C3489;padding:2px 7px;border-radius:5px;font-weight:700}
+.pbox{background:#EEEDFE;border:1px solid #AFA9EC;border-right:4px solid #534AB7;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.9}
+.ibox{background:#FAECE7;border:1px solid #F0997B;border-right:4px solid #993C1D;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.85}
+.sbox{background:#EAF3DE;border:1px solid #97C459;border-right:4px solid #3B6D11;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:1px solid #EF9F27;border-right:4px solid #BA7517;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.bbox{background:#E6F1FB;border:1px solid #85B7EB;border-right:4px solid #185FA5;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.85}
+.formula-box{background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:.9rem 1.2rem;text-align:center;margin:.7rem 0;font-size:18px;font-weight:700;color:#1a1a1a}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.col-card{border-radius:8px;padding:.9rem 1rem;font-size:13px;line-height:1.75}
+.diagram{background:#f8f8f8;border-radius:12px;padding:1.2rem;margin:.8rem 0;border:1px solid #e0e0e0}
+.diag-row{display:flex;align-items:center;gap:8px;justify-content:center;margin:.4rem 0;font-size:14px;color:#555}
+.diag-label{background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;color:#1a1a1a}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.v-item{background:#EEEDFE;color:#26215C;border:1px solid #AFA9EC;border-radius:8px;text-align:center;padding:.6rem;font-size:13px;font-weight:700}
+.qcard{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:#888;margin-bottom:6px}
+.qtext{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:8px;border:1px solid #ccc;background:#f5f5f5;color:#1a1a1a;cursor:pointer;font-size:14px;font-family:Arial;text-align:right;transition:all .18s}
+.opt:hover:not(.locked){border-color:#534AB7;background:#EEEDFE;color:#3C3489}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:700}
+.opt.wrong{background:#FCEBEB;border-color:#A32D2D;color:#A32D2D}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:8px;display:none;font-family:Arial}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:#FCEBEB;color:#A32D2D}
+.score-bar{background:#f0effe;border-radius:12px;padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:1px solid #AFA9EC}
+.score-bar.show{display:block}
+.snum{font-size:38px;font-weight:700;color:#534AB7}
+.slbl{font-size:14px;color:#555;margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#534AB7;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;margin-top:1rem;font-family:Arial}
+.sbtn:hover{background:#3C3489}
+.sbtn:disabled{background:#ccc;color:#888;cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:#f0f0f0;color:#1a1a1a;border:1px solid #ccc;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;margin-top:.6rem;font-family:Arial}
+.rbtn:hover{background:#e0e0e0}
+.rbtn.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <h1>الدرس 1-3: الطاقة الكيميائية والكون</h1>
+  <p>Chemical Energy and the Universe — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<!-- ===== LESSON ===== -->
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">أولًا: الطاقة الكيميائية والكون</div>
+    <div class="cbody">
+      كل تفاعل كيميائي يرافقه تغير في الحالة الفيزيائية أو امتصاص أو إطلاق للحرارة. تدرس <span class="hl">الكيمياء الحرارية</span> هذه التغيرات.
+      <div class="ibox" style="margin-top:10px">
+        <b>مثال — الكمادة الساخنة:</b><br>
+        4Fe<sub>(s)</sub> + 3O<sub>2(g)</sub> → 2Fe<sub>2</sub>O<sub>3(s)</sub> + 1625 kJ<br>
+        تفاعل الحديد مع الأكسجين يُطلق 1625 kJ لتدفئة الأيدي في الأيام الباردة.
+      </div>
+      <div class="sbox">
+        <b>مثال — الكمادة الباردة:</b><br>
+        27 kJ + NH<sub>4</sub>NO<sub>3(s)</sub> → NH<sub>4</sub><sup>+</sup><sub>(aq)</sub> + NO<sub>3</sub><sup>−</sup><sub>(aq)</sub><br>
+        إذابة نترات الأمونيوم تمتص 27 kJ من المحيط فتبرد الكمادة.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثانيًا: النظام والمحيط والكون</div>
+    <div class="cbody">
+      <div class="two-col">
+        <div class="col-card" style="background:#EEEDFE;color:#26215C;border:1px solid #AFA9EC">
+          <b>النظام (System)</b><br>الجزء المحدد من الكون الذي يحتوي على التفاعل أو العملية التي ندرسها — مثل مواد التفاعل في الكمادة.
+        </div>
+        <div class="col-card" style="background:#E6F1FB;color:#042C53;border:1px solid #85B7EB">
+          <b>المحيط (Surroundings)</b><br>كل شيء في الكون خارج النظام — مثل يديك، والهواء، والأدوات المحيطة.
+        </div>
+      </div>
+      <div class="formula-box">الكون = النظام + المحيط</div>
+      <div class="wbox">
+        <b>انتقال الحرارة:</b><br>
+        • تفاعل <b>طارد للحرارة</b>: تنتقل الحرارة من النظام ← إلى المحيط<br>
+        • تفاعل <b>ماص للحرارة</b>: تنتقل الحرارة من المحيط ← إلى النظام
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثالثًا: المحتوى الحراري وتغيره (ΔH)</div>
+    <div class="cbody">
+      <span class="hl">المحتوى الحراري (H)</span> هو مقدار الطاقة الحرارية المخزنة في مول واحد من المادة تحت ضغط ثابت. لا يمكن قياسه مباشرة، لكن يمكن قياس <b>تغيره</b>.
+      <div class="pbox" style="margin-top:8px">
+        <b>تغير المحتوى الحراري للتفاعل:</b><br>
+        ΔH<sub>rxn</sub> = H<sub>نهائي</sub> − H<sub>ابتدائي</sub><br>
+        ΔH<sub>rxn</sub> = H<sub>منتجات</sub> − H<sub>مواد متفاعلة</sub><br><br>
+        عند الضغط الثابت: <b>ΔH<sub>rxn</sub> = q</b>
+      </div>
+      <div class="wbox">
+        <b>ملاحظة:</b> لا يمكن معرفة القيمة المطلقة لـ H للمادة، لكن يمكن قياس الفرق ΔH بالمسعر.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: التفاعل الطارد للحرارة (ΔH سالب)</div>
+    <div class="cbody">
+      في التفاعل الطارد تكون المواد المتفاعلة أعلى طاقة من المنتجات:<br>
+      H<sub>مواد متفاعلة</sub> &gt; H<sub>منتجات</sub> &nbsp;←&nbsp; ΔH سالب
+      <div class="ibox" style="margin-top:8px">
+        <b>مثال — الكمادة الساخنة:</b><br>
+        4Fe<sub>(s)</sub> + 3O<sub>2(g)</sub> → 2Fe<sub>2</sub>O<sub>3(s)</sub> &nbsp; <b>ΔH<sub>rxn</sub> = −1625 kJ</b>
+      </div>
+      <div class="diagram">
+        <div class="diag-row"><div class="diag-label">4Fe + 3O₂ (مواد متفاعلة — طاقة عالية)</div></div>
+        <div class="diag-row"><span style="font-size:24px;color:#993C1D">↓</span><span style="font-size:13px;margin-right:8px;color:#993C1D">ΔH = −1625 kJ ← حرارة تنطلق للمحيط</span></div>
+        <div class="diag-row"><div class="diag-label">2Fe₂O₃ (منتجات — طاقة منخفضة)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">خامسًا: التفاعل الماص للحرارة (ΔH موجب)</div>
+    <div class="cbody">
+      في التفاعل الماص تكون المنتجات أعلى طاقة من المواد المتفاعلة:<br>
+      H<sub>منتجات</sub> &gt; H<sub>مواد متفاعلة</sub> &nbsp;←&nbsp; ΔH موجب
+      <div class="sbox" style="margin-top:8px">
+        <b>مثال — الكمادة الباردة:</b><br>
+        NH<sub>4</sub>NO<sub>3(s)</sub> → NH<sub>4</sub><sup>+</sup><sub>(aq)</sub> + NO<sub>3</sub><sup>−</sup><sub>(aq)</sub> &nbsp; <b>ΔH<sub>rxn</sub> = +27 kJ</b>
+      </div>
+      <div class="diagram">
+        <div class="diag-row"><div class="diag-label">NH₄⁺ + NO₃⁻ (منتجات — طاقة عالية)</div></div>
+        <div class="diag-row"><span style="font-size:24px;color:#3B6D11">↑</span><span style="font-size:13px;margin-right:8px;color:#3B6D11">ΔH = +27 kJ ← حرارة تُمتص من المحيط</span></div>
+        <div class="diag-row"><div class="diag-label">NH₄NO₃ (مواد متفاعلة — طاقة منخفضة)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">سادسًا: قاعدة الإشارة — ملخص مقارن</div>
+    <div class="cbody">
+      <div class="two-col">
+        <div class="col-card" style="background:#FAECE7;color:#712B13;border:1px solid #F0997B">
+          <b>ΔH سالب (−)</b><br>
+          تفاعل طارد للحرارة<br>
+          H منتجات &lt; H متفاعلات<br>
+          الحرارة: النظام → المحيط<br>
+          <b>مثال: الكمادة الساخنة</b>
+        </div>
+        <div class="col-card" style="background:#EAF3DE;color:#27500A;border:1px solid #97C459">
+          <b>ΔH موجب (+)</b><br>
+          تفاعل ماص للحرارة<br>
+          H منتجات &gt; H متفاعلات<br>
+          الحرارة: المحيط → النظام<br>
+          <b>مثال: الكمادة الباردة</b>
+        </div>
+      </div>
+      <div class="bbox" style="margin-top:10px">
+        <b>عند الضغط الثابت:</b> ΔH<sub>rxn</sub> = q<sub>p</sub><br>
+        جميع التفاعلات في المختبر (كؤوس مفتوحة) تحدث تحت ضغط ثابت.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div class="vocab-grid">
+        <div class="v-item">الكيمياء الحرارية</div>
+        <div class="v-item">النظام</div>
+        <div class="v-item">المحيط</div>
+        <div class="v-item">الكون</div>
+        <div class="v-item">المحتوى الحراري H</div>
+        <div class="v-item">ΔH_rxn</div>
+        <div class="v-item">طارد للحرارة</div>
+        <div class="v-item">ماص للحرارة</div>
+        <div class="v-item">ضغط ثابت</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="snum" id="snum">0/10</div>
+    <div class="slbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const Qs = [
+  {
+    q: "ما تعريف الكيمياء الحرارية؟",
+    opts: ["فرع الكيمياء الذي يدرس تغيرات الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية", "فرع يدرس الحرارة العالية فقط", "فرع يدرس الضغط والحجم في الغازات", "فرع يدرس الطاقة الكهربائية فقط"],
+    ans: 0,
+    exp: "الكيمياء الحرارية تدرس تغيرات الحرارة التي ترافق التفاعلات الكيميائية والعمليات الفيزيائية."
+  },
+  {
+    q: "ما العلاقة الصحيحة بين النظام والمحيط والكون؟",
+    opts: ["الكون = النظام فقط", "الكون = المحيط فقط", "الكون = النظام + المحيط", "النظام = الكون − الكيمياء"],
+    ans: 2,
+    exp: "الكون = النظام + المحيط. النظام هو الجزء الذي ندرسه، والمحيط هو كل ما عداه."
+  },
+  {
+    q: "في تفاعل طارد للحرارة، ما اتجاه انتقال الحرارة؟",
+    opts: ["من المحيط إلى النظام", "من النظام إلى المحيط", "لا تنتقل الحرارة أصلًا", "تنتقل في الاتجاهين معًا"],
+    ans: 1,
+    exp: "في التفاعل الطارد للحرارة تنتقل الحرارة من النظام (التفاعل) إلى المحيط، مما يجعل المحيط أكثر سخونة."
+  },
+  {
+    q: "في تفاعل ماص للحرارة، ما اتجاه انتقال الحرارة؟",
+    opts: ["من النظام إلى المحيط", "من المحيط إلى النظام", "لا تنتقل الحرارة", "تُدمَّر الحرارة داخل النظام"],
+    ans: 1,
+    exp: "في التفاعل الماص للحرارة تنتقل الحرارة من المحيط إلى النظام، مما يجعل المحيط أكثر برودة."
+  },
+  {
+    q: "ما إشارة ΔH للتفاعل الطارد للحرارة؟",
+    opts: ["موجبة دائمًا", "سالبة دائمًا", "صفر دائمًا", "تعتمد على درجة الحرارة فقط"],
+    ans: 1,
+    exp: "ΔH سالب للتفاعلات الطاردة للحرارة، لأن H المنتجات < H المواد المتفاعلة، فيكون الفرق سالبًا."
+  },
+  {
+    q: "ما إشارة ΔH للتفاعل الماص للحرارة؟",
+    opts: ["سالبة دائمًا", "موجبة دائمًا", "صفر دائمًا", "تعتمد على كتلة المواد فقط"],
+    ans: 1,
+    exp: "ΔH موجب للتفاعلات الماصة للحرارة، لأن H المنتجات > H المواد المتفاعلة، فيكون الفرق موجبًا."
+  },
+  {
+    q: "تفاعل معطى: 4Fe(s) + 3O₂(g) → 2Fe₂O₃(s) ، ΔH = −1625 kJ. ما نوع هذا التفاعل؟",
+    opts: ["ماص للحرارة لأن ΔH سالب", "طارد للحرارة لأن ΔH سالب", "ماص للحرارة لأن ΔH موجب", "لا يمكن تحديد نوعه من المعطيات"],
+    ans: 1,
+    exp: "ΔH = −1625 kJ سالب، وهذا يعني أن التفاعل طارد للحرارة يُطلق 1625 kJ للمحيط."
+  },
+  {
+    q: "تفاعل معطى: NH₄NO₃(s) → NH₄⁺(aq) + NO₃⁻(aq) ، ΔH = +27 kJ. كم الحرارة الممتصة من المحيط؟",
+    opts: ["صفر", "27 kJ", "−27 kJ", "54 kJ"],
+    ans: 1,
+    exp: "ΔH = +27 kJ موجب يعني أن التفاعل يمتص 27 kJ من المحيط. هذا هو مبدأ عمل الكمادة الباردة."
+  },
+  {
+    q: "ما المعادلة الصحيحة لتغير المحتوى الحراري للتفاعل؟",
+    opts: ["ΔH = H(متفاعلات) − H(منتجات)", "ΔH = H(منتجات) − H(متفاعلات)", "ΔH = H(منتجات) + H(متفاعلات)", "ΔH = H(منتجات) × H(متفاعلات)"],
+    ans: 1,
+    exp: "ΔH_rxn = H(منتجات) − H(متفاعلات) = H_final − H_initial. الترتيب مهم: النهائي ناقص الابتدائي."
+  },
+  {
+    q: "عند الضغط الثابت، ما علاقة ΔH بـ q (الحرارة المقاسة)؟",
+    opts: ["ΔH = 2q", "ΔH = q/2", "ΔH = q", "ΔH لا علاقة له بـ q"],
+    ans: 2,
+    exp: "عند الضغط الثابت: ΔH_rxn = q_p. لهذا يمكن قياس ΔH مباشرة بالمسعر في التجارب التي تُجرى بكؤوس مفتوحة."
+  }
+];
+
+let uAns = new Array(10).fill(-1), submitted = false;
+
+function buildQuiz() {
+  const c = document.getElementById('qcont');
+  c.innerHTML = '';
+  const ltrs = ["أ", "ب", "ج", "د"];
+  Qs.forEach((q, i) => {
+    const d = document.createElement('div');
+    d.className = 'qcard';
+    d.innerHTML = `<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j) => `<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi, oi) {
+  if (submitted) return;
+  uAns[qi] = oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o, j) => {
+    o.style.borderColor = j === oi ? '#534AB7' : '';
+    o.style.background = j === oi ? '#EEEDFE' : '';
+    o.style.color = j === oi ? '#3C3489' : '';
+  });
+}
+
+function submitQ() {
+  submitted = true;
+  let score = 0;
+  Qs.forEach((q, i) => {
+    const opts = document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o => { o.classList.add('locked'); o.style.cssText = ''; });
+    if (uAns[i] === q.ans) {
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent = 'إجابة صحيحة — ' + q.exp;
+      document.getElementById('fb-'+i).className = 'fb show ok';
+    } else {
+      if (uAns[i] !== -1) opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent = 'إجابة خاطئة. الصحيحة: ' + q.opts[q.ans] + ' — ' + q.exp;
+      document.getElementById('fb-'+i).className = 'fb show bad';
+    }
+  });
+  const sb = document.getElementById('sbar');
+  sb.classList.add('show');
+  document.getElementById('snum').textContent = score + '/10';
+  const msgs = ['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent = msgs[score];
+  document.getElementById('subbtn').disabled = true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQ() {
+  uAns = new Array(10).fill(-1);
+  submitted = false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled = false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

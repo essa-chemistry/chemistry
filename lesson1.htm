@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس 1-1: الطاقة</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; direction: rtl; background: #f5f5f5; color: #1a1a1a; }
+.container { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem; }
+.tab-bar { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+.tab { padding: 10px 22px; border-radius: 8px; border: 1px solid #ccc; background: #f0f0f0; color: #555; cursor: pointer; font-size: 15px; font-weight: 500; font-family: Arial; transition: all 0.2s; }
+.tab.active { background: #185FA5; color: #fff; border-color: #185FA5; }
+.section { display: none; }
+.section.active { display: block; }
+.card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.2rem; }
+.card-title { font-size: 17px; font-weight: 700; color: #1a1a1a; margin-bottom: 0.6rem; border-right: 4px solid #185FA5; padding-right: 10px; }
+.card-body { font-size: 15px; color: #444; line-height: 1.8; }
+.highlight { background: #E6F1FB; color: #0C447C; padding: 2px 7px; border-radius: 5px; font-weight: 600; }
+.info-box { background: #E6F1FB; border: 1px solid #b0d0ef; border-right: 4px solid #185FA5; border-radius: 8px; padding: 1rem 1.25rem; margin: 0.8rem 0; color: #0C447C; font-size: 14px; line-height: 1.8; }
+.warning-box { background: #FAEEDA; border: 1px solid #e8c080; border-right: 4px solid #BA7517; border-radius: 8px; padding: 1rem 1.25rem; margin: 0.8rem 0; color: #854F0B; font-size: 14px; line-height: 1.8; }
+.success-box { background: #EAF3DE; border: 1px solid #a8d080; border-right: 4px solid #3B6D11; border-radius: 8px; padding: 1rem 1.25rem; margin: 0.8rem 0; color: #0F6E56; font-size: 14px; line-height: 1.8; }
+.units-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 0.8rem; }
+.units-table th { background: #185FA5; color: #fff; padding: 9px 14px; text-align: right; font-weight: 600; }
+.units-table td { padding: 8px 14px; border-bottom: 1px solid #e0e0e0; color: #1a1a1a; }
+.units-table tr:nth-child(even) td { background: #f5f8fc; }
+.q-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.2rem; }
+.q-num { font-size: 12px; color: #888; margin-bottom: 6px; }
+.q-text { font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 1rem; line-height: 1.7; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option { padding: 10px 14px; border-radius: 8px; border: 1px solid #ccc; background: #f5f5f5; color: #1a1a1a; cursor: pointer; font-size: 14px; font-family: Arial; text-align: right; transition: all 0.18s; }
+.option:hover:not(.locked) { border-color: #185FA5; background: #E6F1FB; color: #0C447C; }
+.option.correct { background: #EAF3DE; border-color: #3B6D11; color: #0F6E56; font-weight: 600; }
+.option.wrong { background: #FCEBEB; border-color: #A32D2D; color: #A32D2D; }
+.option.locked { cursor: default; }
+.feedback { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 8px; display: none; font-family: Arial; }
+.feedback.show { display: block; }
+.feedback.ok { background: #EAF3DE; color: #0F6E56; }
+.feedback.bad { background: #FCEBEB; color: #A32D2D; }
+.score-bar { background: #f0f4f8; border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; display: none; border: 1px solid #cce0f5; }
+.score-bar.show { display: block; }
+.score-num { font-size: 36px; font-weight: 700; color: #185FA5; }
+.score-label { font-size: 14px; color: #555; margin-top: 4px; }
+.submit-btn { display: block; width: 100%; padding: 12px; background: #185FA5; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; font-family: Arial; cursor: pointer; margin-top: 1rem; transition: background 0.2s; }
+.submit-btn:hover { background: #0C447C; }
+.submit-btn:disabled { background: #ccc; color: #888; cursor: default; }
+.reset-btn { display: none; width: 100%; padding: 12px; background: #f0f0f0; color: #1a1a1a; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; font-weight: 600; font-family: Arial; cursor: pointer; margin-top: 0.6rem; transition: all 0.2s; }
+.reset-btn:hover { background: #e0e0e0; }
+.reset-btn.show { display: block; }
+.lesson-header { text-align: center; margin-bottom: 2rem; padding: 1.5rem; background: #fff; border-radius: 12px; border: 1px solid #e0e0e0; }
+.lesson-header h1 { font-size: 26px; font-weight: 700; color: #185FA5; margin-bottom: 6px; }
+.lesson-header p { font-size: 14px; color: #888; }
+ul.styled { padding-right: 20px; margin-top: 8px; line-height: 2.2; color: #444; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="lesson-header">
+  <h1>الدرس 1-1: الطاقة</h1>
+  <p>كيمياء — الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="showSection('lesson', this)">📘 الدرس</button>
+  <button class="tab" onclick="showSection('quiz', this)">✏️ الاختبار (10 أسئلة)</button>
+</div>
+
+<!-- =================== LESSON =================== -->
+<div id="lesson" class="section active">
+
+  <div class="card">
+    <div class="card-title">ما هي الطاقة؟</div>
+    <div class="card-body">
+      <span class="highlight">الطاقة</span> هي القدرة على بذل شغل أو إنتاج حرارة. توجد في صورتين أساسيتين:
+      <div class="info-box" style="margin-top:10px">
+        <b>طاقة الوضع (Potential Energy)</b> — الطاقة المخزنة بسبب تركيب الجسم أو موضعه.<br>
+        <b>الطاقة الحركية (Kinetic Energy)</b> — الطاقة الناتجة عن حركة الأجسام، وترتبط مباشرة بحركة جسيمات المادة ودرجة حرارتها.
+      </div>
+      <b>مثال:</b> المتزلج في أعلى المسار لديه أكبر طاقة وضع. ما إن يبدأ بالتحرك تتحول إلى طاقة حركية تدريجيًا حتى خط النهاية.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">قانون حفظ الطاقة</div>
+    <div class="card-body">
+      <div class="success-box">
+        <b>نص القانون:</b> في أي تفاعل كيميائي أو عملية فيزيائية، يمكن أن تتحول الطاقة من شكل إلى آخر، ولكنها لا تُستحدث ولا تفنى.<br>
+        يُعرف أيضًا بـ <b>القانون الأول في الديناميكا الحرارية.</b>
+      </div>
+      مجموع كمية الطاقة يبقى ثابتًا دائمًا، مثل النقود في حسابين مصرفيين — يتغير توزيعها لكن المجموع واحد.
+      <div class="info-box" style="margin-top:10px">
+        <b>أمثلة:</b><br>
+        • عند تدفق الماء عبر التوربينات في محطة الطاقة الكهرومائية، تتحول طاقته الحركية إلى طاقة كهربائية.<br>
+        • عند احتراق غاز البروبان C₃H₈، تتحرر الطاقة المخزنة في روابطه على شكل حرارة.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">طاقة الوضع الكيميائية</div>
+    <div class="card-body">
+      الطاقة المخزنة في <span class="highlight">الروابط الكيميائية للمادة</span>. تعتمد على:
+      <ul class="styled">
+        <li>أنواع الذرات في المادة</li>
+        <li>عدد الروابط الكيميائية ونوعها</li>
+        <li>طريقة ترتيب الذرات</li>
+      </ul>
+      <div class="warning-box" style="margin-top:10px">
+        <b>تطبيق:</b> طاقة الوضع الكيميائية للبروبان تنتج عن ترتيب ذرات الكربون والهيدروجين وقوة الروابط. عند الاحتراق تُحرَّر هذه الطاقة على شكل حرارة.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">الحرارة وقياسها</div>
+    <div class="card-body">
+      <span class="highlight">الحرارة (q)</span> هي طاقة تنتقل من الجسم الساخن إلى الجسم الأبرد.
+      <div class="warning-box" style="margin-top:10px">
+        <b>تمييز مهم:</b><br>
+        الحرارة ≠ درجة الحرارة.<br>
+        درجة الحرارة = مقياس لمتوسط الطاقة الحركية للجسيمات.<br>
+        الحرارة = طاقة منتقلة بسبب فرق درجات الحرارة.
+      </div>
+      <table class="units-table" style="margin-top:12px">
+        <tr>
+          <th>الوحدة</th>
+          <th>التعريف</th>
+          <th>علاقة التحويل</th>
+        </tr>
+        <tr><td>السُّعر (cal)</td><td>الحرارة اللازمة لرفع 1g ماء بمقدار 1°C</td><td>1 cal = 4.184 J</td></tr>
+        <tr><td>السُّعر الغذائي (Cal)</td><td>يُستخدم لقياس طاقة الغذاء</td><td>1 Cal = 1000 cal = 1 kcal</td></tr>
+        <tr><td>الجول (J)</td><td>وحدة الطاقة في النظام الدولي (SI)</td><td>1 J = 0.2390 cal</td></tr>
+        <tr><td>الكيلوجول (kJ)</td><td>ألف جول</td><td>1 kJ = 1000 J</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">مثال محلول — تحويل وحدات الطاقة</div>
+    <div class="card-body">
+      <b>المسألة:</b> وجبة إفطار تحتوي على 230 Cal. حوّل إلى جول (J).
+      <div class="info-box" style="margin-top:10px; background:#EEEDFE; border-color:#7F77DD; border-right-color:#534AB7; color:#3C3489;">
+        <b>الخطوة 1 — حوّل Cal إلى cal:</b><br>
+        &nbsp;&nbsp;&nbsp;230 Cal × (1000 cal / 1 Cal) = 2.3 × 10⁵ cal<br><br>
+        <b>الخطوة 2 — حوّل cal إلى J:</b><br>
+        &nbsp;&nbsp;&nbsp;2.3 × 10⁵ cal × (4.184 J / 1 cal) = <b>9.6 × 10⁵ J</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">المفردات الجديدة</div>
+    <div class="card-body">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:6px">
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">الطاقة</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">قانون حفظ الطاقة</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">طاقة الوضع الكيميائية</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">الحرارة</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">السُّعر (cal)</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">الجول (J)</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">الحرارة النوعية</div>
+        <div class="info-box" style="margin:0; text-align:center; font-weight:600">درجة الحرارة</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- =================== QUIZ =================== -->
+<div id="quiz" class="section">
+  <div id="scoreBar" class="score-bar">
+    <div class="score-num" id="scoreNum">0/10</div>
+    <div class="score-label" id="scoreLabel"></div>
+  </div>
+  <div id="qContainer"></div>
+  <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">تحقق من الإجابات</button>
+  <button class="reset-btn" id="resetBtn" onclick="resetQuiz()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const questions = [
+  { q: "ما تعريف الطاقة في علم الكيمياء؟", opts: ["القدرة على بذل شغل أو إنتاج حرارة","كمية المادة في الجسم","سرعة حركة الجسيمات","درجة حرارة الجسم"], ans: 0, exp: "الطاقة تُعرَّف بأنها القدرة على بذل شغل أو إنتاج حرارة." },
+  { q: "ما نوع الطاقة التي تعتمد على تركيب الجسم أو موضعه؟", opts: ["الطاقة الحركية","طاقة الوضع","الطاقة الحرارية","الطاقة الكهربائية"], ans: 1, exp: "طاقة الوضع هي الطاقة التي تعتمد على تركيب الجسم أو موضعه." },
+  { q: "ماذا ينص قانون حفظ الطاقة؟", opts: ["الطاقة تُستحدث في التفاعلات الكيميائية","الطاقة لا تُستحدث ولا تفنى بل تتحول من شكل إلى آخر","الطاقة تفنى عند انتقالها من جسم إلى آخر","مجموع الطاقة يتغير باستمرار"], ans: 1, exp: "قانون حفظ الطاقة: الطاقة لا تُستحدث ولا تفنى، بل تتحول من شكل إلى آخر مع بقاء المجموع ثابتًا." },
+  { q: "بأي قانون آخر يُعرف قانون حفظ الطاقة؟", opts: ["القانون الثاني في الديناميكا الحرارية","قانون نيوتن الأول","القانون الأول في الديناميكا الحرارية","قانون بويل"], ans: 2, exp: "قانون حفظ الطاقة يُعرف أيضًا بالقانون الأول في الديناميكا الحرارية." },
+  { q: "أين تُخزَّن طاقة الوضع الكيميائية في المادة؟", opts: ["في حركة الذرات","في الروابط الكيميائية","في درجة حرارة المادة","في كتلة المادة"], ans: 1, exp: "طاقة الوضع الكيميائية تُخزَّن في الروابط الكيميائية للمادة." },
+  { q: "كم تساوي 1 سُعر (cal) بالجول (J)؟", opts: ["1 J","0.2390 J","4.184 J","1000 J"], ans: 2, exp: "1 cal = 4.184 J — هذا عامل التحويل الأساسي بين السعر والجول." },
+  { q: "ما السُّعر الغذائي (Cal)؟", opts: ["يساوي 1 cal","يساوي 100 cal","يساوي 1000 cal (1 kcal)","يساوي 4.184 J"], ans: 2, exp: "السُّعر الغذائي (Cal) = 1000 cal = 1 kcal. يُستخدم لقياس طاقة الغذاء." },
+  { q: "ما الرمز الذي يُستخدم للدلالة على الحرارة؟", opts: ["T","E","q","H"], ans: 2, exp: "الرمز q يُستخدم للدلالة على الحرارة في الكيمياء." },
+  { q: "وجبة تحتوي على 142 Cal. ما مقدار هذه الطاقة بالسعرات (cal)؟", opts: ["14200 cal","142000 cal","1420 cal","1.42 cal"], ans: 1, exp: "142 Cal × 1000 = 142000 cal، لأن 1 Cal = 1000 cal." },
+  { q: "ما العلاقة بين درجة الحرارة والطاقة الحركية للجسيمات؟", opts: ["درجة الحرارة لا تؤثر في الطاقة الحركية","كلما ارتفعت درجة الحرارة قلّت الطاقة الحركية","كلما ارتفعت درجة الحرارة ازدادت الطاقة الحركية للجسيمات","درجة الحرارة تساوي الطاقة الحركية"], ans: 2, exp: "درجة الحرارة هي مقياس لمتوسط الطاقة الحركية للجسيمات — كلما ارتفعت ازدادت حركة الجسيمات." }
+];
+
+let userAnswers = new Array(10).fill(-1);
+let submitted = false;
+
+function buildQuiz() {
+  const container = document.getElementById('qContainer');
+  container.innerHTML = '';
+  const letters = ["أ","ب","ج","د"];
+  questions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'q-card';
+    div.innerHTML = `
+      <div class="q-num">السؤال ${i+1} من 10</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts-${i}">
+        ${q.opts.map((o,j) => `<button class="option" onclick="selectOpt(${i},${j})" id="opt-${i}-${j}">${letters[j]}.  ${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectOpt(qi, oi) {
+  if (submitted) return;
+  userAnswers[qi] = oi;
+  const opts = document.querySelectorAll(`#opts-${qi} .option`);
+  opts.forEach((o, j) => {
+    o.style.borderColor = j === oi ? '#185FA5' : '';
+    o.style.background = j === oi ? '#E6F1FB' : '';
+    o.style.color = j === oi ? '#0C447C' : '';
+  });
+}
+
+function submitQuiz() {
+  submitted = true;
+  let score = 0;
+  questions.forEach((q, i) => {
+    const opts = document.querySelectorAll(`#opts-${i} .option`);
+    opts.forEach(o => { o.classList.add('locked'); o.style.cssText = ''; });
+    if (userAnswers[i] === q.ans) {
+      score++;
+      opts[q.ans].classList.add('correct');
+      const fb = document.getElementById(`fb-${i}`);
+      fb.textContent = '✓ إجابة صحيحة! ' + q.exp;
+      fb.className = 'feedback show ok';
+    } else {
+      if (userAnswers[i] !== -1) opts[userAnswers[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      const fb = document.getElementById(`fb-${i}`);
+      fb.textContent = '✗ إجابة خاطئة. الصحيحة: ' + q.opts[q.ans] + ' — ' + q.exp;
+      fb.className = 'feedback show bad';
+    }
+  });
+  const bar = document.getElementById('scoreBar');
+  bar.classList.add('show');
+  document.getElementById('scoreNum').textContent = score + '/10';
+  const msgs = ['تحتاج إلى مراجعة الدرس مجددًا.','تحتاج إلى مراجعة الدرس مجددًا.','تحتاج إلى مراجعة الدرس مجددًا.','تحتاج إلى مراجعة الدرس مجددًا.','تحتاج إلى مراجعة الدرس مجددًا.','جيد، راجع النقاط التي أخطأت فيها.','جيد، راجع النقاط التي أخطأت فيها.','جيد جدًا! استمر في المراجعة.','جيد جدًا! استمر في المراجعة.','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('scoreLabel').textContent = msgs[score];
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('resetBtn').classList.add('show');
+  bar.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  userAnswers = new Array(10).fill(-1);
+  submitted = false;
+  document.getElementById('scoreBar').classList.remove('show');
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('resetBtn').classList.remove('show');
+  buildQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

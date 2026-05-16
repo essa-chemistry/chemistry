@@ -1,0 +1,327 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#993C1D;color:#fff;border-color:#993C1D}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:24px;font-weight:500;color:#993C1D;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #993C1D;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#FAECE7;color:#712B13;padding:2px 7px;border-radius:5px;font-weight:500}
+.ibox{background:#FAECE7;border:0.5px solid #F0997B;border-right:4px solid #993C1D;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #BA7517;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.sbox{background:#EAF3DE;border:0.5px solid #97C459;border-right:4px solid #3B6D11;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.85}
+.bbox{background:#E6F1FB;border:0.5px solid #85B7EB;border-right:4px solid #185FA5;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.85}
+.step-row{display:flex;align-items:flex-start;gap:12px;margin:.6rem 0}
+.step-num{min-width:28px;height:28px;border-radius:50%;background:#993C1D;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;margin-top:2px}
+.step-txt{font-size:14px;color:var(--color-text-secondary);line-height:1.7}
+.formula-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.8rem 1.2rem;text-align:center;margin:.6rem 0;font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.cg-card{border-radius:var(--border-radius-md);padding:.8rem 1rem;font-size:13px;line-height:1.7}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#993C1D;background:#FAECE7;color:#712B13}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.snum{font-size:38px;font-weight:500;color:#993C1D}
+.slbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#993C1D;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#712B13}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">درس المسعر والكيمياء الحرارية التفاعلي مع اختبار</h2>
+
+<div class="hdr">
+  <h1>الدرس 1-2: الحرارة — المسعر والكيمياء الحرارية</h1>
+  <p>Calorimetry & Heat — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<!-- ===== LESSON ===== -->
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">أولًا: المسعر — ما هو وكيف يعمل؟</div>
+    <div class="cbody">
+      <span class="hl">المسعر</span> هو جهاز معزول حراريًا يُستخدم لقياس كمية الحرارة الممتصة أو المنطلقة أثناء عملية كيميائية أو فيزيائية.
+      <div class="ibox" style="margin-top:10px">
+        <b>مبدأ عمل المسعر:</b><br>
+        توضع كمية معلومة من الماء في حجرة معزولة، فتمتص الطاقة المنطلقة من التفاعل أو تزود الطاقة اللازمة للتفاعل، ثم نقيس التغير في درجة حرارة الماء.
+      </div>
+      <b>نوعان رئيسيان:</b>
+      <div class="compare-grid" style="margin-top:8px">
+        <div class="cg-card" style="background:#FAECE7;color:#712B13">
+          <b>مسعر القنبلة (التفجير)</b><br>
+          يعمل تحت ضغط عالٍ ومغلق. يستخدمه كيميائيو التغذية لتحديد القيمة الحرارية للأطعمة. دقيق جدًا.
+        </div>
+        <div class="cg-card" style="background:#E6F1FB;color:#042C53">
+          <b>مسعر الكأس (البوليسترين)</b><br>
+          مفتوح على الجو (ضغط ثابت). أبسط وأقل دقة. يُستخدم في المختبرات المدرسية.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثانيًا: مبدأ تساوي الحرارة في المسعر</div>
+    <div class="cbody">
+      عند وضع فلز ساخن داخل ماء بارد في مسعر معزول:
+      <div class="sbox" style="margin-top:8px">
+        <b>الحرارة التي يفقدها الفلز = الحرارة التي يكتسبها الماء</b><br>
+        بشرط: عدم فقدان حرارة إلى المحيط الخارجي.
+      </div>
+      <div class="formula-box">q<sub>فلز</sub> = − q<sub>ماء</sub></div>
+      السبب في الإشارة السالبة: الفلز يفقد الحرارة (سالب) بينما الماء يكتسبها (موجب).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثالثًا: خطوات حساب الحرارة النوعية بالمسعر</div>
+    <div class="cbody">
+      <div class="step-row"><div class="step-num">1</div><div class="step-txt">سجّل درجة الحرارة الأولية للماء في المسعر (T<sub>i,ماء</sub>)</div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-txt">سخّن الفلز إلى درجة حرارة معلومة (T<sub>i,فلز</sub>)</div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-txt">ضع الفلز في الماء داخل المسعر وانتظر حتى تتساوى درجتا الحرارة (T<sub>f</sub>)</div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-txt">احسب q<sub>ماء</sub> = c<sub>ماء</sub> × m<sub>ماء</sub> × ΔT<sub>ماء</sub></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-txt">q<sub>فلز</sub> = − q<sub>ماء</sub> ، ثم استخرج c<sub>فلز</sub> = q<sub>فلز</sub> ÷ (m<sub>فلز</sub> × ΔT<sub>فلز</sub>)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">مثال 1 — تحديد الحرارة النوعية لفلز مجهول</div>
+    <div class="cbody">
+      <b>المعطيات:</b> ماء كتلته 125g، درجة حرارته الأولية 25.60°C. فلز مجهول كتلته 50.0g سُخّن إلى 115.0°C ووضع في الماء. درجة الحرارة النهائية للجهازين: 29.30°C
+      <div class="pbox" style="margin-top:10px">
+        <b>الخطوة 1 — حساب q<sub>ماء</sub>:</b><br>
+        ΔT<sub>ماء</sub> = 29.30 − 25.60 = 3.70°C<br>
+        q<sub>ماء</sub> = 4.184 × 125 × 3.70 = <b>1935.1 J</b><br><br>
+        <b>الخطوة 2 — q<sub>فلز</sub> = − 1935.1 J</b><br><br>
+        <b>الخطوة 3 — حساب c<sub>فلز</sub>:</b><br>
+        ΔT<sub>فلز</sub> = 29.30 − 115.0 = −85.7°C<br>
+        c<sub>فلز</sub> = −1935.1 ÷ (50.0 × −85.7) = <b>0.453 J/g·°C</b> ← الحديد
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">مثال 2 — تطبيق على مسألة عملية</div>
+    <div class="cbody">
+      <b>المسألة:</b> قطعة فلز كتلتها 4.68g امتصت 256J ارتفعت درجة حرارتها 182°C. ما الحرارة النوعية؟
+      <div class="pbox" style="margin-top:10px">
+        c = q ÷ (m × ΔT)<br>
+        c = 256 ÷ (4.68 × 182)<br>
+        <b>c = 0.301 J/g·°C</b> ← الإسترانشيوم
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: المحتوى الحراري والكيمياء الحرارية</div>
+    <div class="cbody">
+      <div class="bbox">
+        <b>الكيمياء الحرارية:</b> فرع الكيمياء الذي يدرس الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية.
+      </div>
+      <b>مفاهيم أساسية:</b>
+      <div class="compare-grid" style="margin-top:8px">
+        <div class="cg-card" style="background:#E6F1FB;color:#042C53"><b>النظام (System)</b><br>الجزء من الكون الذي ندرسه — مثل التفاعل الكيميائي نفسه.</div>
+        <div class="cg-card" style="background:#EEEDFE;color:#26215C"><b>المحيط (Surroundings)</b><br>كل ما يحيط بالنظام — مثل الماء في المسعر والهواء.</div>
+        <div class="cg-card" style="background:#EAF3DE;color:#27500A"><b>الكون (Universe)</b><br>النظام + المحيط معًا.</div>
+        <div class="cg-card" style="background:#FAECE7;color:#712B13"><b>المحتوى الحراري (H)</b><br>الطاقة الكلية المخزنة في المادة تحت ضغط ثابت.</div>
+      </div>
+      <div class="wbox" style="margin-top:10px">
+        <b>تغير المحتوى الحراري (ΔH):</b><br>
+        ΔH = H<sub>منتجات</sub> − H<sub>مواد متفاعلة</sub><br>
+        • ΔH سالب ← تفاعل <b>طارد للحرارة</b> (يُطلق الحرارة)<br>
+        • ΔH موجب ← تفاعل <b>ماص للحرارة</b> (يمتص الحرارة)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px">
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">المسعر</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">الكيمياء الحرارية</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">النظام</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">المحيط</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">الكون</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">المحتوى الحراري (H)</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">ΔH (تغير H)</div>
+        <div class="ibox" style="margin:0;text-align:center;font-size:13px;padding:.6rem">الضغط الثابت</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="snum" id="snum">0/10</div>
+    <div class="slbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const Qs=[
+  {
+    q:"ما تعريف المسعر؟",
+    opts:["جهاز لقياس كتلة المواد الكيميائية","جهاز معزول حراريًا يقيس الحرارة الممتصة أو المنطلقة في التفاعلات","جهاز لقياس الضغط داخل الأوعية","ميزان دقيق لقياس التغيرات الكيميائية"],
+    ans:1,
+    exp:"المسعر جهاز معزول حراريًا يُستخدم لقياس كمية الحرارة الممتصة أو المنطلقة أثناء عملية كيميائية أو فيزيائية."
+  },
+  {
+    q:"في تجربة مسعر الكأس، وضع فلز ساخن في ماء بارد. ما العلاقة الصحيحة بين الحرارة المكتسبة والمفقودة؟",
+    opts:["q_فلز = q_ماء","q_فلز = − q_ماء","q_فلز > q_ماء دائمًا","لا علاقة بينهما"],
+    ans:1,
+    exp:"الحرارة التي يفقدها الفلز تساوي الحرارة التي يكتسبها الماء بإشارة معاكسة: q_فلز = − q_ماء."
+  },
+  {
+    q:"ما الشرط الأساسي لصحة معادلة q_فلز = − q_ماء في المسعر؟",
+    opts:["أن تكون كتلة الفلز أكبر من كتلة الماء","أن يكون المسعر معزولًا تمامًا ولا تُفقد حرارة للمحيط","أن تكون درجة حرارة الفلز أعلى من 100°C","أن يكون الماء مقطرًا"],
+    ans:1,
+    exp:"يشترط ألا تُفقد أي حرارة للمحيط الخارجي حتى تكون الحرارة المفقودة من الفلز مساوية للحرارة المكتسبة للماء."
+  },
+  {
+    q:"وضع فلز ساخن في مسعر يحتوي على 200g من الماء (c=4.184 J/g·°C). ارتفعت درجة حرارة الماء من 20°C إلى 25°C. كم الحرارة التي اكتسبها الماء؟",
+    opts:["2092 J","4184 J","836 J","1000 J"],
+    ans:0,
+    exp:"q = 4.184 × 200 × (25−20) = 4.184 × 200 × 5 = 4184 J ÷ 2 = 4184 J. الحساب: 4.184×200×5 = 4184 J."
+  },
+  {
+    q:"ما الفرق الرئيسي بين مسعر القنبلة ومسعر الكأس؟",
+    opts:["مسعر القنبلة يعمل تحت ضغط مرتفع ومغلق، بينما مسعر الكأس مفتوح على الجو تحت ضغط ثابت","مسعر الكأس أكثر دقة من مسعر القنبلة","مسعر القنبلة يقيس الحرارة النوعية فقط","لا فرق بينهما في الاستخدام"],
+    ans:0,
+    exp:"مسعر القنبلة يعمل تحت ضغط عالٍ مغلق ويُستخدم لقياس طاقة الغذاء، أما مسعر الكأس فمفتوح تحت ضغط ثابت ويُستخدم في المختبرات."
+  },
+  {
+    q:"ما المقصود بالكيمياء الحرارية؟",
+    opts:["دراسة الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية","دراسة درجات الحرارة العالية فقط","قياس كتلة المواد عند درجات حرارة مختلفة","دراسة التفاعلات الكيميائية تحت الضغط"],
+    ans:0,
+    exp:"الكيمياء الحرارية هي فرع الكيمياء الذي يدرس الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية."
+  },
+  {
+    q:"ماذا يعني أن تغير المحتوى الحراري ΔH لتفاعل ما سالب القيمة؟",
+    opts:["التفاعل ماص للحرارة","التفاعل طارد للحرارة ويُطلق حرارة للمحيط","درجة حرارة النظام تنخفض دائمًا","لا يمكن حدوث التفاعل"],
+    ans:1,
+    exp:"ΔH سالب يعني أن المنتجات أقل طاقة من المواد المتفاعلة، أي أن التفاعل طارد للحرارة ويُطلق طاقة للمحيط."
+  },
+  {
+    q:"فلز كتلته 50g سُخّن إلى 100°C ووضع في ماء درجة حرارته 25°C. عندما تتساوى الدرجتان عند 30°C، ما ΔT للفلز؟",
+    opts:["70°C","−70°C","30°C","−30°C"],
+    ans:1,
+    exp:"ΔT للفلز = T_f − T_i = 30 − 100 = −70°C. الإشارة سالبة لأن الفلز فقد حرارة (انخفضت درجته)."
+  },
+  {
+    q:"ما العلاقة الصحيحة بين النظام والمحيط والكون؟",
+    opts:["الكون = النظام فقط","الكون = المحيط فقط","الكون = النظام + المحيط","النظام = المحيط + الكون"],
+    ans:2,
+    exp:"الكون في الكيمياء الحرارية = النظام (التفاعل) + المحيط (كل ما يحيط بالنظام)."
+  },
+  {
+    q:"عينة فلز كتلتها 90g امتصت 25.6J من الحرارة وازدادت درجة حرارتها 1.18°C. ما الحرارة النوعية للفلز؟",
+    opts:["0.241 J/g·°C","0.449 J/g·°C","0.129 J/g·°C","0.301 J/g·°C"],
+    ans:0,
+    exp:"c = q ÷ (m × ΔT) = 25.6 ÷ (90 × 1.18) = 25.6 ÷ 106.2 ≈ 0.241 J/g·°C. جميع المعطيات اللازمة موجودة في السؤال."
+  }
+];
+
+let uAns=new Array(10).fill(-1),submitted=false;
+
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#993C1D':'';
+    o.style.background=j===oi?'#FAECE7':'';
+    o.style.color=j===oi?'#712B13':'';
+  });
+}
+
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show ok';
+    } else {
+      if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show bad';
+    }
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+}
+
+buildQuiz();
+</script>

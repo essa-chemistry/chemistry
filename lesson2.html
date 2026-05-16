@@ -1,0 +1,327 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem}
+.tab{padding:10px 22px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#0F6E56;color:#fff;border-color:#0F6E56}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:24px;font-weight:500;color:#0F6E56;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #0F6E56;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#E1F5EE;color:#085041;padding:2px 7px;border-radius:5px;font-weight:500}
+.ibox{background:#E1F5EE;border:0.5px solid #5DCAA5;border-right:4px solid #0F6E56;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#085041;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #BA7517;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.sbox{background:#EAF3DE;border:0.5px solid #97C459;border-right:4px solid #3B6D11;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.85}
+.htable{width:100%;border-collapse:collapse;font-size:14px;margin-top:.8rem}
+.htable th{background:#0F6E56;color:#fff;padding:9px 14px;text-align:right;font-weight:500}
+.htable td{padding:8px 14px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
+.htable tr:nth-child(even) td{background:var(--color-background-secondary)}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:.8rem 0}
+.calc-field{display:flex;flex-direction:column;gap:4px}
+.calc-field label{font-size:13px;color:var(--color-text-secondary)}
+.calc-field input{padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:14px;font-family:var(--font-sans);text-align:center}
+.calc-result{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center;margin-top:.8rem}
+.calc-result .val{font-size:28px;font-weight:500;color:#0F6E56}
+.calc-result .lbl{font-size:13px;color:var(--color-text-secondary);margin-top:4px}
+.calc-btn{width:100%;padding:10px;background:#0F6E56;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.calc-btn:hover{background:#085041}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#0F6E56;background:#E1F5EE;color:#085041}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.snum{font-size:38px;font-weight:500;color:#0F6E56}
+.slbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#0F6E56;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#085041}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">درس الحرارة النوعية التفاعلي مع اختبار</h2>
+
+<div class="hdr">
+  <h1>الدرس 1-2: الحرارة النوعية</h1>
+  <p>Specific Heat — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('calc',this)">حاسبة q = mcΔT</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">ما هي الحرارة النوعية؟</div>
+    <div class="cbody">
+      <span class="hl">الحرارة النوعية (c)</span> هي كمية الحرارة اللازمة لرفع درجة حرارة <b>جرام واحد</b> من المادة بمقدار <b>درجة سيليزية واحدة (1°C)</b>.
+      <div class="ibox" style="margin-top:10px">
+        <b>الوحدة:</b> J/g·°C<br>
+        لكل مادة حرارة نوعية مميزة تعتمد على تركيبها الكيميائي المختلف عن المواد الأخرى.
+      </div>
+      <b>مثال مقارن:</b> الحرارة النوعية للماء هي 4.184 J/g·°C، بينما للأسمنت 0.84 J/g·°C فقط — أي أن الماء يحتاج طاقة أكثر بخمس مرات ليرتفع نفس المقدار من درجة الحرارة.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">معادلة حساب الحرارة</div>
+    <div class="cbody">
+      <div class="pbox">
+        <b style="font-size:20px;display:block;text-align:center;margin-bottom:8px">q = c × m × ΔT</b>
+        <b>q</b> = الطاقة الحرارية الممتصة أو المنطلقة (J)<br>
+        <b>c</b> = الحرارة النوعية للمادة (J/g·°C)<br>
+        <b>m</b> = كتلة المادة بالجرام (g)<br>
+        <b>ΔT</b> = التغير في درجة الحرارة = T<sub>f</sub> − T<sub>i</sub> (°C)
+      </div>
+      <div class="wbox">
+        <b>ملاحظة مهمة:</b> تُستعمل المعادلة نفسها سواء امتصت المادة الحرارة (تسخين) أو أطلقتها (تبريد). عند التبريد تكون T<sub>f</sub> أصغر من T<sub>i</sub> فيكون ΔT سالبًا وبالتالي q سالب.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">مثال 1 — حساب الحرارة الممتصة</div>
+    <div class="cbody">
+      <b>المسألة:</b> قطعة أسمنت كتلتها 5.00×10³ g ازدادت درجة حرارتها 6.0°C. احسب الحرارة الممتصة. (c للأسمنت = 0.84 J/g·°C)
+      <div class="ibox" style="margin-top:10px;background:#EEEDFE;border-right-color:#534AB7;border-color:#AFA9EC;color:#26215C">
+        <b>الحل:</b><br>
+        q = c × m × ΔT<br>
+        q = 0.84 × 5000 × 6.0<br>
+        <b>q = 25,200 J = 25.2 kJ</b>
+      </div>
+      <b>للمقارنة:</b> نفس الكتلة من الماء تحت نفس الظروف:<br>
+      q<sub>ماء</sub> = 4.184 × 5000 × 6.0 = <b>130 kJ</b> ← أكثر بـ 5 مرات!
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">مثال 2 — حساب الحرارة النوعية (إيجاد c)</div>
+    <div class="cbody">
+      <b>المسألة:</b> عينة حديد كتلتها 10.0 g تغيرت درجة حرارتها من 25°C إلى 50.4°C وانطلق منها 114 J. احسب الحرارة النوعية.
+      <div class="ibox" style="margin-top:10px;background:#EEEDFE;border-right-color:#534AB7;border-color:#AFA9EC;color:#26215C">
+        <b>الحل:</b><br>
+        ΔT = 50.4 − 25.0 = 25.4°C<br>
+        c = q ÷ (m × ΔT)<br>
+        c = 114 ÷ (10.0 × 25.4)<br>
+        <b>c = 0.449 J/g·°C</b> ← يطابق قيمة الحديد في الجدول
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">جدول الحرارة النوعية لبعض المواد (عند 25°C)</div>
+    <div class="cbody">
+      <table class="htable">
+        <tr><th>المادة</th><th>الحرارة النوعية J/g·°C</th></tr>
+        <tr><td>الماء (سائل)</td><td>4.184</td></tr>
+        <tr><td>الإيثانول (سائل)</td><td>2.44</td></tr>
+        <tr><td>الماء (صلب — جليد)</td><td>2.03</td></tr>
+        <tr><td>البريليوم (صلب)</td><td>1.825</td></tr>
+        <tr><td>الماغنسيوم (صلب)</td><td>1.023</td></tr>
+        <tr><td>الألومنيوم (صلب)</td><td>0.897</td></tr>
+        <tr><td>الأسمنت (صلب)</td><td>0.84</td></tr>
+        <tr><td>الجرانيت (صلب)</td><td>0.803</td></tr>
+        <tr><td>الحديد (صلب)</td><td>0.449</td></tr>
+        <tr><td>الفضة (صلب)</td><td>0.235</td></tr>
+        <tr><td>الذهب (صلب)</td><td>0.129</td></tr>
+        <tr><td>الرصاص (صلب)</td><td>0.128</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">الحرارة النوعية والطاقة الشمسية</div>
+    <div class="cbody">
+      بسبب حرارته النوعية العالية (4.184 J/g·°C)، يُستخدم الماء لتخزين الطاقة الشمسية وتوزيعها لتدفئة المنازل.
+      <div class="sbox" style="margin-top:10px">
+        <b>تطبيق رؤية 2030:</b> تُطوّر المملكة العربية السعودية تقنيات الطاقة الشمسية عبر مدينة الملك عبدالعزيز للعلوم والتقنية (KACST) بهدف تحقيق خطة الطاقة الشمسية 2030 — أكبر في العالم.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="calc" class="sec">
+  <div class="card">
+    <div class="ctitle">حاسبة تفاعلية: q = c × m × ΔT</div>
+    <div class="cbody">اختر المجهول واملأ المعلومات الثلاثة الأخرى للحصول على الإجابة فورًا.</div>
+    <div style="margin-top:1rem">
+      <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap">
+        <button class="calc-btn" style="width:auto;padding:8px 16px;font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary)" id="btn-q" onclick="setMode('q')">أجد: q (الحرارة)</button>
+        <button class="calc-btn" style="width:auto;padding:8px 16px;font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary)" id="btn-c" onclick="setMode('c')">أجد: c (الحرارة النوعية)</button>
+        <button class="calc-btn" style="width:auto;padding:8px 16px;font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary)" id="btn-m" onclick="setMode('m')">أجد: m (الكتلة)</button>
+        <button class="calc-btn" style="width:auto;padding:8px 16px;font-size:14px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary)" id="btn-dt" onclick="setMode('dt')">أجد: ΔT (تغير الحرارة)</button>
+      </div>
+      <div class="calc-grid" id="calc-inputs"></div>
+      <button class="calc-btn" onclick="calcIt()">احسب</button>
+      <div class="calc-result" id="calc-out" style="display:none">
+        <div class="val" id="calc-val">—</div>
+        <div class="lbl" id="calc-lbl"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="snum" id="snum">0/10</div>
+    <div class="slbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+let mode='q';
+const modeLabels={q:'الحرارة q (J)',c:'الحرارة النوعية c (J/g·°C)',m:'الكتلة m (g)',dt:'تغير الحرارة ΔT (°C)'};
+const modeUnits={q:'J',c:'J/g·°C',m:'g',dt:'°C'};
+const allVars=['q','c','m','dt'];
+
+function setMode(m){
+  mode=m;
+  allVars.forEach(v=>{
+    const b=document.getElementById('btn-'+v);
+    b.style.background= v===m ? '#0F6E56' : 'var(--color-background-secondary)';
+    b.style.color= v===m ? '#fff' : 'var(--color-text-primary)';
+    b.style.borderColor= v===m ? '#0F6E56' : 'var(--color-border-secondary)';
+  });
+  buildInputs();
+  document.getElementById('calc-out').style.display='none';
+}
+
+function buildInputs(){
+  const div=document.getElementById('calc-inputs');
+  const labels={q:'الحرارة q (J)',c:'الحرارة النوعية c (J/g·°C)',m:'الكتلة m (g)',dt:'تغير الحرارة ΔT (°C)'};
+  div.innerHTML='';
+  allVars.filter(v=>v!==mode).forEach(v=>{
+    const f=document.createElement('div');
+    f.className='calc-field';
+    f.innerHTML=`<label>${labels[v]}</label><input id="inp-${v}" type="number" placeholder="أدخل القيمة" step="any">`;
+    div.appendChild(f);
+  });
+}
+
+function calcIt(){
+  const get=id=>{const el=document.getElementById('inp-'+id);return el?parseFloat(el.value):NaN;};
+  let res,lbl;
+  if(mode==='q'){
+    const c=get('c'),m=get('m'),dt=get('dt');
+    if([c,m,dt].some(isNaN)){alert('يرجى إدخال جميع القيم');return;}
+    res=c*m*dt; lbl='الحرارة q';
+  } else if(mode==='c'){
+    const q=get('q'),m=get('m'),dt=get('dt');
+    if([q,m,dt].some(isNaN)){alert('يرجى إدخال جميع القيم');return;}
+    res=q/(m*dt); lbl='الحرارة النوعية c';
+  } else if(mode==='m'){
+    const q=get('q'),c=get('c'),dt=get('dt');
+    if([q,c,dt].some(isNaN)){alert('يرجى إدخال جميع القيم');return;}
+    res=q/(c*dt); lbl='الكتلة m';
+  } else {
+    const q=get('q'),c=get('c'),m=get('m');
+    if([q,c,m].some(isNaN)){alert('يرجى إدخال جميع القيم');return;}
+    res=q/(c*m); lbl='تغير الحرارة ΔT';
+  }
+  const out=document.getElementById('calc-out');
+  out.style.display='block';
+  document.getElementById('calc-val').textContent=parseFloat(res.toFixed(4))+' '+modeUnits[mode];
+  document.getElementById('calc-lbl').textContent=lbl;
+}
+
+setMode('q');
+
+const Qs=[
+  {q:"ما تعريف الحرارة النوعية لمادة ما؟",opts:["كمية الحرارة اللازمة لرفع درجة حرارة 1g منها 1°C","كمية الحرارة الكلية في المادة","درجة حرارة المادة عند الغليان","الطاقة المخزنة في روابطها الكيميائية"],ans:0,exp:"الحرارة النوعية هي كمية الحرارة اللازمة لرفع درجة حرارة جرام واحد من المادة درجة سيليزية واحدة."},
+  {q:"ما وحدة قياس الحرارة النوعية؟",opts:["J","J/g","J/g·°C","cal/mol"],ans:2,exp:"وحدة الحرارة النوعية هي J/g·°C أي جول لكل جرام لكل درجة سيليزية."},
+  {q:"ما المعادلة الصحيحة لحساب الحرارة q؟",opts:["q = c + m + ΔT","q = c × m × ΔT","q = c ÷ (m × ΔT)","q = m ÷ (c × ΔT)"],ans:1,exp:"المعادلة الصحيحة هي q = c × m × ΔT حيث c الحرارة النوعية وm الكتلة وΔT تغير درجة الحرارة."},
+  {q:"ما الحرارة النوعية للماء السائل؟",opts:["2.03 J/g·°C","4.184 J/g·°C","2.44 J/g·°C","1.825 J/g·°C"],ans:1,exp:"الحرارة النوعية للماء السائل هي 4.184 J/g·°C وهي من أعلى القيم بين المواد الشائعة."},
+  {q:"أي المواد التالية لها أعلى حرارة نوعية؟",opts:["الحديد","الذهب","الماء","الفضة"],ans:2,exp:"الماء له أعلى حرارة نوعية بين المواد المذكورة (4.184 J/g·°C) لهذا يتأخر في السخونة والبرودة."},
+  {q:"قطعة أسمنت كتلتها 5000g ارتفعت حرارتها 6°C. كم حرارة امتصتها؟ (c = 0.84)",opts:["25,200 J","4184 J","10,000 J","50,400 J"],ans:0,exp:"q = 0.84 × 5000 × 6 = 25,200 J. الحرارة النوعية للأسمنت أقل بكثير من الماء."},
+  {q:"ما معنى ΔT في معادلة الحرارة؟",opts:["درجة الحرارة الابتدائية","درجة الحرارة النهائية","الفرق بين درجة الحرارة النهائية والابتدائية","مجموع درجتي الحرارة"],ans:2,exp:"ΔT = Tf − Ti أي الفرق بين درجة الحرارة النهائية والابتدائية."},
+  {q:"حديد كتلته 10g تغيرت حرارته من 25°C إلى 50.4°C وانطلق منه 114J. ما حرارته النوعية؟",opts:["0.235 J/g·°C","0.449 J/g·°C","0.897 J/g·°C","0.128 J/g·°C"],ans:1,exp:"c = q/(m×ΔT) = 114/(10×25.4) = 0.449 J/g·°C وهي الحرارة النوعية للحديد في الجدول."},
+  {q:"أي المواد التالية تسخن بأسرع وقت إذا أُعطيت كتلًا متساوية منها نفس كمية الطاقة؟",opts:["الماء","الألومنيوم","الذهب","الأسمنت"],ans:2,exp:"الذهب (0.129 J/g·°C) له أدنى حرارة نوعية مما يعني أنه يسخن بأسرع وقت لنفس الكتلة وكمية الطاقة."},
+  {q:"لماذا يُستخدم الماء لتخزين الطاقة الشمسية؟",opts:["لأنه رخيص الثمن","لأنه شفاف","لأن حرارته النوعية عالية فيخزن طاقة كبيرة","لأنه يغلي بسرعة"],ans:2,exp:"الحرارة النوعية العالية للماء (4.184 J/g·°C) تجعله يخزن كميات كبيرة من الطاقة مقارنة بمواد أخرى."}
+];
+
+let uAns=new Array(10).fill(-1),submitted=false;
+
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})" id="o-${i}-${j}">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#0F6E56':'';
+    o.style.background=j===oi?'#E1F5EE':'';
+    o.style.color=j===oi?'#085041':'';
+  });
+}
+
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){score++;opts[q.ans].classList.add('correct');document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;document.getElementById('fb-'+i).className='fb show ok';}
+    else{if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');opts[q.ans].classList.add('correct');document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;document.getElementById('fb-'+i).className='fb show bad';}
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
