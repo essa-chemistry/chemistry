@@ -1,308 +1,331 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>درس الألكانات - Alkanes</title>
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { direction: rtl; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f5f5f3; color: #1a1a1a; padding: 24px 16px; }
-  .wrap { max-width: 760px; margin: 0 auto; }
-  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
-  .subtitle { font-size: 14px; color: #5f5e5a; margin-bottom: 1.5rem; }
-  .tab-bar { display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 0.5px solid #d3d1c7; padding-bottom: 12px; }
-  .tab { padding: 8px 20px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; border: 0.5px solid #b4b2a9; background: transparent; color: #5f5e5a; }
-  .tab.active { background: #185FA5; color: #E6F1FB; border-color: #185FA5; }
-  .section { display: none; }
-  .section.show { display: block; }
-  .card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
-  .card-title { font-size: 16px; font-weight: 500; color: #1a1a1a; margin: 0 0 10px; }
-  .badge { display: inline-block; font-size: 12px; padding: 3px 10px; border-radius: 8px; font-weight: 500; margin-bottom: 8px; }
-  .badge-blue { background: #E6F1FB; color: #0C447C; }
-  .badge-teal { background: #E1F5EE; color: #085041; }
-  .badge-amber { background: #FAEEDA; color: #633806; }
-  .badge-purple { background: #EEEDFE; color: #3C3489; }
-  .info-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; }
-  .info-label { font-size: 13px; color: #5f5e5a; min-width: 110px; }
-  .info-val { font-size: 13px; color: #1a1a1a; font-family: 'Courier New', monospace; }
-  .formula-box { background: #f1efe8; border-radius: 8px; padding: 10px 16px; font-family: 'Courier New', monospace; font-size: 22px; text-align: center; color: #185FA5; margin: 10px 0; font-weight: 500; }
-  .alkane-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .alkane-table th { background: #f1efe8; padding: 8px 12px; text-align: right; font-weight: 500; color: #5f5e5a; font-size: 12px; border-bottom: 0.5px solid #d3d1c7; }
-  .alkane-table td { padding: 7px 12px; border-bottom: 0.5px solid #d3d1c7; color: #1a1a1a; font-family: 'Courier New', monospace; font-size: 13px; }
-  .alkane-table tr:last-child td { border-bottom: none; }
-  .alkane-table td:first-child { font-family: inherit; }
-  .steps-list { list-style: none; padding: 0; margin: 0; counter-reset: step; }
-  .steps-list li { counter-increment: step; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 14px; color: #1a1a1a; line-height: 1.6; }
-  .steps-list li::before { content: counter(step); min-width: 24px; height: 24px; background: #185FA5; color: #E6F1FB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
-  .note-box { background: #FAEEDA; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #633806; margin: 10px 0; }
-  .q-box { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
-  .q-num { font-size: 12px; color: #5f5e5a; margin-bottom: 6px; }
-  .q-text { font-size: 15px; color: #1a1a1a; font-weight: 500; margin-bottom: 14px; line-height: 1.6; }
-  .q-options { display: flex; flex-direction: column; gap: 8px; }
-  .opt { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 0.5px solid #b4b2a9; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1a1a1a; transition: background 0.1s; }
-  .opt:hover { background: #f1efe8; }
-  .opt.correct { background: #EAF3DE; border-color: #3B6D11; color: #27500A; }
-  .opt.wrong { background: #FCEBEB; border-color: #A32D2D; color: #791F1F; }
-  .opt.disabled { pointer-events: none; }
-  .opt-circle { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #b4b2a9; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; }
-  .opt.correct .opt-circle { background: #3B6D11; border-color: #3B6D11; color: white; }
-  .opt.wrong .opt-circle { background: #A32D2D; border-color: #A32D2D; color: white; }
-  .q-result { margin-top: 10px; font-size: 13px; padding: 8px 12px; border-radius: 8px; display: none; line-height: 1.6; }
-  .q-result.show { display: block; }
-  .q-result.ok { background: #EAF3DE; color: #27500A; }
-  .q-result.no { background: #FCEBEB; color: #791F1F; }
-  .score-box { background: #f1efe8; border-radius: 12px; padding: 2rem; text-align: center; margin-top: 1rem; }
-  .score-big { font-size: 52px; font-weight: 500; color: #185FA5; }
-  .score-label { font-size: 14px; color: #5f5e5a; margin-top: 4px; }
-  .btn-primary { background: #185FA5; color: #E6F1FB; border: none; padding: 10px 28px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 16px; }
-  .btn-primary:hover { background: #0C447C; }
-  .progress-bar { height: 6px; background: #d3d1c7; border-radius: 3px; margin-bottom: 1.5rem; }
-  .progress-fill { height: 100%; background: #185FA5; border-radius: 3px; transition: width 0.3s; }
-  p { font-size: 14px; line-height: 1.7; color: #1a1a1a; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#0F6E56;color:#fff;border-color:#0F6E56}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:22px;font-weight:500;color:#0F6E56;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #0F6E56;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#E1F5EE;color:#085041;padding:2px 7px;border-radius:5px;font-weight:500}
+.gbox{background:#E1F5EE;border:0.5px solid #5DCAA5;border-right:4px solid #0F6E56;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#085041;font-size:14px;line-height:1.9}
+.ibox{background:#FAECE7;border:0.5px solid #F0997B;border-right:4px solid #993C1D;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #BA7517;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.9}
+.bbox{background:#E6F1FB;border:0.5px solid #85B7EB;border-right:4px solid #185FA5;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.85}
+.eq{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem 1rem;margin:.35rem 0;font-size:14px;color:var(--color-text-primary);text-align:center}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.col-card{border-radius:var(--border-radius-md);padding:.9rem 1rem;font-size:13px;line-height:1.75}
+.states-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.state-card{border-radius:var(--border-radius-md);padding:.9rem 1rem;font-size:13px;line-height:1.8;border:0.5px solid}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.v-item{background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5;border-radius:var(--border-radius-md);text-align:center;padding:.55rem;font-size:13px;font-weight:500}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#0F6E56;background:#E1F5EE;color:#085041}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.sc-num{font-size:38px;font-weight:500;color:#0F6E56}
+.sc-lbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#0F6E56;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#085041}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
 </style>
-</head>
-<body>
+
 <div class="wrap">
+<h2 class="sr-only">درس المعادلات الكيميائية الحرارية وتغيرات الحالة</h2>
 
-  <h1>الألكانات — Alkanes</h1>
-  <p class="subtitle">درس تفاعلي متكامل مع اختبار 10 أسئلة | الكيمياء العضوية</p>
+<div class="hdr">
+  <h1>الدرس 1-3: المعادلات الكيميائية الحرارية وتغيرات الحالة</h1>
+  <p>Thermochemical Equations & Changes of State — كيمياء، الصف الثاني الثانوي</p>
+</div>
 
-  <div class="tab-bar">
-    <button class="tab active" onclick="showTab('lesson', this)">الدرس</button>
-    <button class="tab" onclick="showTab('quiz', this)">الاختبار</button>
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">أولًا: المعادلة الكيميائية الحرارية</div>
+    <div class="cbody">
+      <span class="hl">المعادلة الكيميائية الحرارية</span> هي معادلة كيميائية موزونة تشتمل على:
+      <div class="gbox" style="margin-top:8px">
+        ① الحالات الفيزيائية لجميع المواد (s, l, g, aq)<br>
+        ② التغير في المحتوى الحراري ΔH
+      </div>
+      <b>أمثلة:</b>
+      <div class="eq">4Fe(s) + 3O₂(g) → 2Fe₂O₃(s) &nbsp; ΔH = −1625 kJ &nbsp; (طارد)</div>
+      <div class="eq">NH₄NO₃(s) → NH₄⁺(aq) + NO₃⁻(aq) &nbsp; ΔH = +27 kJ &nbsp; (ماص)</div>
+      <div class="wbox" style="margin-top:8px">
+        الرمز <b>ΔH°</b> يدل على الظروف القياسية: ضغط 1 atm ودرجة حرارة 25°C.<br>
+        <b>لا تخلطها مع STP</b> (0°C و1 atm).
+      </div>
+    </div>
   </div>
 
-  <div id="lesson" class="section show">
-
-    <div class="card">
-      <div class="badge badge-blue">تعريف</div>
-      <div class="card-title">ما هي الألكانات؟</div>
-      <p>الألكانات هي هيدروكربونات تحتوي على روابط أحادية فقط بين ذرات الكربون والهيدروجين. تُعدّ من أبسط المركبات العضوية، وأصغرها الميثان CH₄. تُستخدم في الحياة اليومية كالغاز الطبيعي (ميثان) والبروبان وقود الطبخ.</p>
+  <div class="card">
+    <div class="ctitle">ثانيًا: حرارة الاحتراق (ΔH°<sub>comb</sub>)</div>
+    <div class="cbody">
+      <span class="hl">حرارة الاحتراق</span> = المحتوى الحراري الناتج عن حرق <b>مول واحد</b> من المادة احتراقًا كاملًا بالأكسجين.
+      <div class="ibox" style="margin-top:8px">
+        <b>أمثلة على قيم ΔH°comb:</b><br>
+        • الجلوكوز C₆H₁₂O₆: −2808 kJ/mol<br>
+        &nbsp;&nbsp;C₆H₁₂O₆(s) + 6O₂(g) → 6CO₂(g) + 6H₂O(l)<br><br>
+        • الميثان CH₄: −891 kJ/mol<br>
+        &nbsp;&nbsp;CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)<br><br>
+        • الأوكتان C₈H₁₈: −5471 kJ/mol<br>
+        • البروبان C₃H₈: −2219 kJ/mol<br>
+        • السكروز C₁₂H₂₂O₁₁: −5644 kJ/mol
+      </div>
+      <div class="pbox">
+        <b>طريقة حساب الحرارة لكمية معينة:</b><br>
+        q = عدد المولات × ΔH°comb<br><br>
+        <b>مثال:</b> 54g جلوكوز (م.م = 180 g/mol)، ΔH°comb = −2808 kJ/mol<br>
+        مولات = 54 ÷ 180 = 0.300 mol<br>
+        q = 0.300 × 2808 = <b>842 kJ</b>
+      </div>
     </div>
-
-    <div class="card">
-      <div class="badge badge-teal">الصيغة العامة</div>
-      <div class="card-title">القاعدة الرياضية</div>
-      <div class="formula-box">CₙH₂ₙ₊₂</div>
-      <p>حيث n = عدد ذرات الكربون. مثال: الهبتان (n=7) صيغته C₇H₁₆ لأن 2×7+2=16.</p>
-    </div>
-
-    <div class="card">
-      <div class="badge badge-purple">الألكانات العشرة الأولى</div>
-      <div class="card-title">جدول المركبات ذات السلاسل المستقيمة</div>
-      <table class="alkane-table">
-        <tr><th>الاسم</th><th>الصيغة الجزيئية</th><th>الصيغة المكثفة</th></tr>
-        <tr><td>ميثان</td><td>CH₄</td><td>CH₄</td></tr>
-        <tr><td>إيثان</td><td>C₂H₆</td><td>CH₃CH₃</td></tr>
-        <tr><td>بروبان</td><td>C₃H₈</td><td>CH₃CH₂CH₃</td></tr>
-        <tr><td>بيوتان</td><td>C₄H₁₀</td><td>CH₃CH₂CH₂CH₃</td></tr>
-        <tr><td>بنتان</td><td>C₅H₁₂</td><td>CH₃(CH₂)₃CH₃</td></tr>
-        <tr><td>هكسان</td><td>C₆H₁₄</td><td>CH₃(CH₂)₄CH₃</td></tr>
-        <tr><td>هبتان</td><td>C₇H₁₆</td><td>CH₃(CH₂)₅CH₃</td></tr>
-        <tr><td>أوكتان</td><td>C₈H₁₈</td><td>CH₃(CH₂)₆CH₃</td></tr>
-        <tr><td>نونان</td><td>C₉H₂₀</td><td>CH₃(CH₂)₇CH₃</td></tr>
-        <tr><td>ديكان</td><td>C₁₀H₂₂</td><td>CH₃(CH₂)₈CH₃</td></tr>
-      </table>
-    </div>
-
-    <div class="card">
-      <div class="badge badge-amber">السلسلة المتماثلة</div>
-      <div class="card-title">مفهوم مهم</div>
-      <p>سلسلة المركبات التي يختلف بعضها عن بعض بوحدة −CH₂− واحدة تُسمى <strong>السلسلة المتماثلة</strong>. لكل الألكانات صيغة رقمية ثابتة بين أعداد الذرات.</p>
-      <div class="note-box">مثال: البنتان يزيد عن البيوتان بوحدة −CH₂− واحدة فقط.</div>
-    </div>
-
-    <div class="card">
-      <div class="badge badge-blue">الألكانات ذات السلاسل المتفرعة</div>
-      <div class="card-title">الأيزومرات والمجموعات البديلة</div>
-      <p style="margin-bottom:10px">مركبان بنفس الصيغة الجزيئية لكن بترتيب مختلف للذرات يُسميان <strong>أيزومرين</strong>. مثال: البيوتان والأيزوبيوتان كلاهما C₄H₁₀ لكنهما مختلفان تماماً في الخصائص.</p>
-      <div class="info-row"><span class="info-label">السلسلة الرئيسة:</span><span class="info-val">أطول سلسلة كربونية متصلة</span></div>
-      <div class="info-row"><span class="info-label">المجموعة البديلة:</span><span class="info-val">تفرع جانبي يحل محل H</span></div>
-      <div class="info-row"><span class="info-label">مجموعة الألكيل:</span><span class="info-val">ألكان − H (مثل: ميثيل CH₃−)</span></div>
-    </div>
-
-    <div class="card">
-      <div class="badge badge-teal">قواعد التسمية IUPAC</div>
-      <div class="card-title">خطوات تسمية الألكانات المتفرعة</div>
-      <ol class="steps-list">
-        <li>حدد أطول سلسلة كربونية متصلة — اسمها هو اسم السلسلة الرئيسة</li>
-        <li>رقّم ذرات الكربون من الطرف الأقرب للمجموعة البديلة (لتحصل على أصغر أرقام)</li>
-        <li>سمّ كل مجموعة ألكيل بديلة وضع اسمها قبل اسم السلسلة الرئيسة</li>
-        <li>إذا تكررت نفس المجموعة استخدم: ثنائي، ثلاثي، رباعي...</li>
-        <li>إذا اختلفت المجموعات رتّبها هجائياً بالإنجليزية (تجاهل البادئات)</li>
-        <li>اكتب الاسم كاملاً مع شرطات لفصل الأرقام عن الكلمات وفواصل بين الأرقام</li>
-      </ol>
-      <div class="note-box">مثال: 4-إيثيل-3،5-ثنائي ميثيل أوكتان — السلسلة الرئيسة 8 كربون، مجموعة إيثيل على C4، مجموعتا ميثيل على C3 وC5.</div>
-    </div>
-
-    <div class="card">
-      <div class="badge badge-purple">مجموعات الألكيل الشائعة</div>
-      <div class="card-title">جدول مجموعات الألكيل</div>
-      <table class="alkane-table">
-        <tr><th>الاسم</th><th>الصيغة</th><th>مشتقة من</th></tr>
-        <tr><td>ميثيل</td><td>CH₃−</td><td>ميثان</td></tr>
-        <tr><td>إيثيل</td><td>CH₃CH₂−</td><td>إيثان</td></tr>
-        <tr><td>بروبيل</td><td>CH₃CH₂CH₂−</td><td>بروبان</td></tr>
-        <tr><td>بيوتيل</td><td>CH₃CH₂CH₂CH₂−</td><td>بيوتان</td></tr>
-        <tr><td>أيزوبروبيل</td><td>CH₃CHCH₃−</td><td>بروبان (متفرع)</td></tr>
-      </table>
-    </div>
-
   </div>
 
-  <div id="quiz" class="section">
-    <div class="progress-bar"><div class="progress-fill" id="pbar" style="width:0%"></div></div>
-    <p style="font-size:13px;color:#5f5e5a;margin-bottom:1rem">اختر الإجابة الصحيحة — الإجابة الصحيحة ستظهر باللون الأخضر بعد اختيارك</p>
-    <div id="questions"></div>
-    <div id="score-section" style="display:none">
-      <div class="score-box">
-        <div class="score-big" id="score-num">0/10</div>
-        <div class="score-label">نتيجتك النهائية</div>
-        <div id="score-msg" style="margin-top:12px;font-size:15px;color:#1a1a1a"></div>
-        <button class="btn-primary" onclick="resetQuiz()">إعادة الاختبار</button>
+  <div class="card">
+    <div class="ctitle">ثالثًا: تغيرات الحالة الفيزيائية</div>
+    <div class="cbody">
+      تغيرات الحالة عمليات غير كيميائية تمتص أو تطلق الحرارة:
+      <div class="two-col" style="margin-top:8px">
+        <div class="col-card" style="background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5">
+          <b>حرارة التبخر المولارية (ΔH<sub>vap</sub>)</b><br>
+          الحرارة اللازمة لتبخر مول واحد من السائل.<br>
+          <b>ماصة ← ΔH موجب</b><br><br>
+          مثال: H₂O(l) → H₂O(g)<br>
+          ΔHvap = +40.7 kJ
+        </div>
+        <div class="col-card" style="background:#E6F1FB;color:#042C53;border:0.5px solid #85B7EB">
+          <b>حرارة الانصهار المولارية (ΔH<sub>fus</sub>)</b><br>
+          الحرارة اللازمة لصهر مول واحد من الصلب.<br>
+          <b>ماصة ← ΔH موجب</b><br><br>
+          مثال: H₂O(s) → H₂O(l)<br>
+          ΔHfus = +6.01 kJ
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: العمليات العكسية — قاعدة الإشارة</div>
+    <div class="cbody">
+      <div class="wbox">
+        <b>القاعدة الذهبية:</b> العملية العكسية = نفس المقدار الرقمي + إشارة معاكسة<br>
+        ΔH<sub>vap</sub> = −ΔH<sub>cond</sub> &nbsp;|&nbsp; ΔH<sub>fus</sub> = −ΔH<sub>solid</sub>
+      </div>
+      <div class="states-grid">
+        <div class="state-card" style="background:#E1F5EE;color:#085041;border-color:#5DCAA5">
+          <b>ماصة للحرارة (ΔH موجب):</b><br>
+          • التبخر (سائل → غاز)<br>
+          • الانصهار (صلب → سائل)
+        </div>
+        <div class="state-card" style="background:#FAECE7;color:#712B13;border-color:#F0997B">
+          <b>طاردة للحرارة (ΔH سالب):</b><br>
+          • التكثف (غاز → سائل) ΔHcond = −40.7 kJ<br>
+          • التجمد (سائل → صلب) ΔHsolid = −6.01 kJ
+        </div>
+      </div>
+      <div class="bbox" style="margin-top:8px">
+        <b>تطبيق عملي:</b> يغمر المزارعون بساتينهم بالماء ليلة التجمد — لأن تجمد الماء عملية طاردة (ΔHsolid سالب) تُطلق حرارة تحمي المحاصيل من التلف.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">خامسًا: الاحتراق في الأنظمة الحيوية</div>
+    <div class="cbody">
+      <div class="gbox">
+        الجلوكوز هو وقود الجسم — يحترق في خلاياك بنفس معادلة احتراقه في المسعر:<br>
+        C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O &nbsp; (2808 kJ/mol)<br>
+        الفرق: طاقة التنفس الخلوي تُخزَّن في روابط <b>ATP</b> لاستخدامها لاحقًا.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div class="vocab-grid">
+        <div class="v-item">المعادلة الكيميائية الحرارية</div>
+        <div class="v-item">تفاعل الاحتراق</div>
+        <div class="v-item">حرارة الاحتراق ΔH°comb</div>
+        <div class="v-item">حرارة التبخر ΔHvap</div>
+        <div class="v-item">حرارة الانصهار ΔHfus</div>
+        <div class="v-item">حرارة التكثف ΔHcond</div>
+        <div class="v-item">حرارة التجمد ΔHsolid</div>
+        <div class="v-item">ΔH° الظروف القياسية</div>
+        <div class="v-item">ATP طاقة الجسم</div>
       </div>
     </div>
   </div>
 
 </div>
 
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="sc-num" id="snum">0/10</div>
+    <div class="sc-lbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+</div>
+
 <script>
-function showTab(t, btn) {
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
-  document.getElementById(t).classList.add('show');
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
 
-const questions = [
+const Qs=[
   {
-    q: "ما الصيغة العامة للألكانات؟",
-    opts: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂", "CₙHₙ"],
-    ans: 1,
-    exp: "الصيغة العامة للألكانات هي CₙH₂ₙ₊₂ حيث n عدد ذرات الكربون."
+    q:"ما الذي يجب أن تتضمنه المعادلة الكيميائية الحرارية؟",
+    opts:["المعادلة الموزونة فقط","المعادلة الموزونة + الحالات الفيزيائية لجميع المواد + قيمة ΔH","أسماء المواد وكتلها فقط","درجة الحرارة والضغط فقط"],
+    ans:1,
+    exp:"المعادلة الكيميائية الحرارية = معادلة موزونة + حالات فيزيائية (s,l,g,aq) لجميع المواد + قيمة ΔH."
   },
   {
-    q: "الألكان الذي يحتوي على 5 ذرات كربون يُسمى:",
-    opts: ["هكسان", "بنتان", "بيوتان", "هبتان"],
-    ans: 1,
-    exp: "البنتان يحتوي على 5 ذرات كربون وصيغته C₅H₁₂."
+    q:"ما تعريف حرارة الاحتراق ΔH°comb؟",
+    opts:["الحرارة الناتجة عن تبخر مول من المادة","المحتوى الحراري الناتج عن حرق مول واحد من المادة احتراقًا كاملًا بالأكسجين","الحرارة اللازمة لإذابة مول من المادة","درجة حرارة التفاعل عند الظروف القياسية"],
+    ans:1,
+    exp:"حرارة الاحتراق هي المحتوى الحراري الناتج عن حرق مول واحد كاملًا بالأكسجين — دائمًا سالبة لأن الاحتراق طارد للحرارة."
   },
   {
-    q: "كم عدد ذرات الهيدروجين في الأوكتان (C₈H_x)؟ (استخدم الصيغة العامة CₙH₂ₙ₊₂)",
-    opts: ["16", "18", "20", "14"],
-    ans: 1,
-    exp: "n=8 إذاً 2×8+2 = 18 ذرة هيدروجين، والصيغة C₈H₁₈."
+    q:"تفاعل: CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)، ΔH°comb = −891 kJ/mol. كم الحرارة الناتجة عن احتراق 3 mol من الميثان؟",
+    opts:["297 kJ","891 kJ","2673 kJ","1782 kJ"],
+    ans:2,
+    exp:"q = 3 mol × 891 kJ/mol = 2673 kJ. الحرارة تتناسب طرديًا مع عدد المولات المحترقة."
   },
   {
-    q: "مجموعة الألكيل المشتقة من الميثان تُسمى:",
-    opts: ["إيثيل", "بروبيل", "ميثيل", "بيوتيل"],
-    ans: 2,
-    exp: "مجموعة الميثيل (CH₃−) مشتقة من الميثان بحذف ذرة هيدروجين."
+    q:"ما الظروف القياسية المستخدمة في تحديد ΔH° للمعادلات الكيميائية الحرارية؟",
+    opts:["0°C و1 atm (مثل STP)","25°C و1 atm","100°C وضغط 2 atm","25°C وضغط 2 atm"],
+    ans:1,
+    exp:"الظروف القياسية لـ ΔH° هي 25°C و1 atm — وهذا يختلف عن STP (0°C و1 atm)."
   },
   {
-    q: "البيوتان والأيزوبيوتان لهما نفس الصيغة الجزيئية C₄H₁₀. ماذا يُسميان؟",
-    opts: ["متماثلان", "أيزومران", "متشابهان", "مختلفان كلياً"],
-    ans: 1,
-    exp: "يُسميان أيزومرين لأن لهما نفس الصيغة الجزيئية لكن ترتيب ذراتهما مختلف."
+    q:"ما تعريف حرارة التبخر المولارية ΔH_vap؟",
+    opts:["الحرارة المنطلقة عند تبخر مول من السائل","الحرارة اللازمة لتبخر مول واحد من السائل — عملية ماصة","الحرارة اللازمة لصهر مول من الصلب","الحرارة الناتجة عند تكثف مول من الغاز"],
+    ans:1,
+    exp:"ΔHvap هي الحرارة اللازمة لتبخر مول واحد من السائل، وهي عملية ماصة للحرارة (ΔH موجب)."
   },
   {
-    q: "عند تسمية الألكانات المتفرعة، أين يبدأ الترقيم؟",
-    opts: ["من اليسار دائماً", "من الطرف الأقرب للمجموعة البديلة", "من المنتصف", "من اليمين دائماً"],
-    ans: 1,
-    exp: "نبدأ الترقيم من الطرف الأقرب للمجموعة البديلة لنحصل على أصغر أرقام ممكنة."
+    q:"إذا كانت حرارة تبخر الماء ΔHvap = +40.7 kJ/mol، فما حرارة تكثفه ΔHcond؟",
+    opts:["+40.7 kJ/mol","−40.7 kJ/mol","0 kJ/mol","+81.4 kJ/mol"],
+    ans:1,
+    exp:"ΔHcond = −ΔHvap = −40.7 kJ/mol. العملية العكسية لها نفس المقدار وإشارة معاكسة — التكثف طارد للحرارة."
   },
   {
-    q: "إذا تكررت مجموعة الإيثيل مرتين في السلسلة الرئيسة، ما البادئة المستخدمة؟",
-    opts: ["ثلاثي إيثيل", "ثنائي إيثيل", "رباعي إيثيل", "إيثيل إيثيل"],
-    ans: 1,
-    exp: "البادئة 'ثنائي' تعني التكرار مرتين، فيصبح الاسم ثنائي إيثيل."
+    q:"أي من العمليات التالية ماصة للحرارة (ΔH موجب)؟",
+    opts:["تجمد الماء (سائل → صلب)","تكثف بخار الماء (غاز → سائل)","انصهار الجليد (صلب → سائل)","احتراق الميثان بالأكسجين"],
+    ans:2,
+    exp:"الانصهار (صلب → سائل) ماص للحرارة — ΔHfus موجب. التجمد والتكثف والاحتراق كلها طاردة (ΔH سالب)."
   },
   {
-    q: "ما اسم الوحدة المتكررة في سلسلة الألكانات المتماثلة؟",
-    opts: ["−CH₃", "−CH₂−", "−CH−", "−C−"],
-    ans: 1,
-    exp: "الوحدة المتكررة في السلسلة المتماثلة هي −CH₂−، كل مركب يزيد عن السابق بهذه الوحدة."
+    q:"تفاعل: C₆H₁₂O₆(s) + 6O₂(g) → 6CO₂(g) + 6H₂O(l)، ΔHcomb = −2808 kJ/mol. الكتلة المولية للجلوكوز 180 g/mol. كم الحرارة الناتجة عن احتراق 90g جلوكوز؟",
+    opts:["2808 kJ","702 kJ","1404 kJ","5616 kJ"],
+    ans:2,
+    exp:"مولات = 90 ÷ 180 = 0.5 mol. q = 0.5 × 2808 = 1404 kJ. جميع المعطيات مذكورة في السؤال."
   },
   {
-    q: "عند وجود مجموعتي ألكيل مختلفتين (إيثيل وميثيل) على السلسلة الرئيسة، كيف يُرتَّبان في الاسم؟",
-    opts: ["الميثيل أولاً", "الإيثيل أولاً لأن E قبل M هجائياً بالإنجليزية", "الأطول أولاً", "الأقصر أولاً"],
-    ans: 1,
-    exp: "يُرتَّب هجائياً بالإنجليزية: Ethyl (E) يسبق Methyl (M) لذا يُذكر الإيثيل أولاً."
+    q:"إذا كانت حرارة انصهار الماء ΔHfus = +6.01 kJ/mol، فما حرارة تجمد الماء ΔHsolid؟",
+    opts:["+6.01 kJ/mol","−6.01 kJ/mol","0 kJ/mol","+12.02 kJ/mol"],
+    ans:1,
+    exp:"ΔHsolid = −ΔHfus = −6.01 kJ/mol. التجمد عكس الانصهار — يطلق نفس كمية الحرارة بإشارة سالبة."
   },
   {
-    q: "ما الصيغة الجزيئية لألكان يحتوي على 13 ذرة كربون؟ (الصيغة العامة: CₙH₂ₙ₊₂)",
-    opts: ["C₁₃H₂₄", "C₁₃H₂₈", "C₁₃H₂₆", "C₁₃H₃₀"],
-    ans: 1,
-    exp: "n=13 إذاً 2×13+2 = 28، والصيغة هي C₁₃H₂₈."
+    q:"لماذا يغمر المزارعون بساتينهم بالماء ليلة التجمد لحماية المحاصيل؟",
+    opts:["لأن الماء عازل حراري جيد","لأن تجمد الماء عملية طاردة للحرارة تُطلق حرارة تدفئ الهواء المحيط","لأن الماء يمنع وصول الهواء البارد","لأن الماء يمتص أشعة الشمس"],
+    ans:1,
+    exp:"تجمد الماء: ΔHsolid = −6.01 kJ/mol — عملية طاردة تُطلق حرارة كافية لتدفئة الهواء المحيط ومنع تلف المحاصيل."
   }
 ];
 
-let answered = 0, score = 0;
+let uAns=new Array(10).fill(-1),submitted=false;
 
-function buildQuiz() {
-  const c = document.getElementById('questions');
-  c.innerHTML = '';
-  answered = 0; score = 0;
-  document.getElementById('score-section').style.display = 'none';
-  document.getElementById('pbar').style.width = '0%';
-  const letters = ['أ','ب','ج','د'];
-  questions.forEach((q, i) => {
-    const box = document.createElement('div');
-    box.className = 'q-box';
-    box.innerHTML = `
-      <div class="q-num">سؤال ${i+1} من ${questions.length}</div>
-      <div class="q-text">${q.q}</div>
-      <div class="q-options" id="opts-${i}">
-        ${q.opts.map((o, j) => `
-          <div class="opt" onclick="answer(${i},${j})" id="opt-${i}-${j}">
-            <div class="opt-circle">${letters[j]}</div>
-            <span>${o}</span>
-          </div>
-        `).join('')}
-      </div>
-      <div class="q-result" id="res-${i}"></div>
-    `;
-    c.appendChild(box);
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
   });
 }
 
-function answer(qi, chosen) {
-  const q = questions[qi];
-  const opts = document.querySelectorAll(`#opts-${qi} .opt`);
-  opts.forEach(o => o.classList.add('disabled'));
-  opts[q.ans].classList.add('correct');
-  opts[q.ans].querySelector('.opt-circle').textContent = '✓';
-  if (chosen !== q.ans) {
-    opts[chosen].classList.add('wrong');
-    opts[chosen].querySelector('.opt-circle').textContent = '✗';
-  } else { score++; }
-  const res = document.getElementById(`res-${qi}`);
-  res.className = `q-result show ${chosen === q.ans ? 'ok' : 'no'}`;
-  res.textContent = (chosen === q.ans ? 'إجابة صحيحة! ' : 'إجابة خاطئة. ') + q.exp;
-  answered++;
-  document.getElementById('pbar').style.width = Math.round((answered / questions.length) * 100) + '%';
-  if (answered === questions.length) {
-    setTimeout(() => {
-      const ss = document.getElementById('score-section');
-      ss.style.display = 'block';
-      document.getElementById('score-num').textContent = score + '/' + questions.length;
-      const pct = Math.round((score / questions.length) * 100);
-      document.getElementById('score-msg').textContent =
-        pct === 100 ? 'ممتاز! أتقنت الدرس بالكامل.' :
-        pct >= 80  ? 'جيد جداً! أداء رائع.' :
-        pct >= 60  ? 'جيد، راجع النقاط التي أخطأت فيها.' :
-                     'تحتاج لمراجعة الدرس مرة أخرى.';
-      ss.scrollIntoView({behavior:'smooth'});
-    }, 600);
-  }
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#0F6E56':'';
+    o.style.background=j===oi?'#E1F5EE':'';
+    o.style.color=j===oi?'#085041':'';
+  });
 }
 
-function resetQuiz() {
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show ok';
+    } else {
+      if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show bad';
+    }
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
   buildQuiz();
-  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
 }
 
 buildQuiz();
 </script>
-</body>
-</html>
