@@ -1,0 +1,342 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);direction:rtl}
+.wrap{max-width:860px;margin:0 auto;padding:1.5rem 1rem}
+.tab-bar{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:15px;font-weight:500;transition:all .2s}
+.tab.active{background:#185FA5;color:#fff;border-color:#185FA5}
+.sec{display:none}.sec.active{display:block}
+.hdr{text-align:center;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.hdr h1{font-size:22px;font-weight:500;color:#185FA5;margin-bottom:4px}
+.hdr p{font-size:14px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.2rem}
+.ctitle{font-size:17px;font-weight:500;color:var(--color-text-primary);margin-bottom:.7rem;border-right:4px solid #185FA5;padding-right:10px}
+.cbody{font-size:15px;color:var(--color-text-secondary);line-height:1.85}
+.hl{background:#E6F1FB;color:#0C447C;padding:2px 7px;border-radius:5px;font-weight:500}
+.bbox{background:#E6F1FB;border:0.5px solid #85B7EB;border-right:4px solid #185FA5;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#042C53;font-size:14px;line-height:1.9}
+.gbox{background:#EAF3DE;border:0.5px solid #97C459;border-right:4px solid #3B6D11;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#27500A;font-size:14px;line-height:1.85}
+.ibox{background:#FAECE7;border:0.5px solid #F0997B;border-right:4px solid #993C1D;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#712B13;font-size:14px;line-height:1.85}
+.wbox{background:#FAEEDA;border:0.5px solid #EF9F27;border-right:4px solid #BA7517;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#633806;font-size:14px;line-height:1.85}
+.pbox{background:#EEEDFE;border:0.5px solid #AFA9EC;border-right:4px solid #534AB7;border-radius:0;padding:1rem 1.25rem;margin:.8rem 0;color:#26215C;font-size:14px;line-height:1.9}
+.formula{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.8rem 1.2rem;text-align:center;margin:.6rem 0;font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.8rem 0}
+.col-card{border-radius:var(--border-radius-md);padding:.9rem 1rem;font-size:13px;line-height:1.75}
+.step-row{display:flex;align-items:flex-start;gap:12px;margin:.5rem 0}
+.snum{min-width:26px;height:26px;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:2px}
+.stxt{font-size:14px;color:var(--color-text-secondary);line-height:1.7}
+.energy-diag{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;margin:.8rem 0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.diag-label{font-size:13px;color:var(--color-text-secondary);text-align:center}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.v-item{background:#E6F1FB;color:#0C447C;border:0.5px solid #85B7EB;border-radius:var(--border-radius-md);text-align:center;padding:.55rem;font-size:13px;font-weight:500}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.2rem}
+.qnum{font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px}
+.qtext{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:1rem;line-height:1.7}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{padding:10px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-size:14px;text-align:right;transition:all .18s;font-family:var(--font-sans)}
+.opt:hover:not(.locked){border-color:#185FA5;background:#E6F1FB;color:#0C447C}
+.opt.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A;font-weight:500}
+.opt.wrong{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.opt.locked{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:8px 12px;border-radius:var(--border-radius-md);display:none}
+.fb.show{display:block}
+.fb.ok{background:#EAF3DE;color:#27500A}
+.fb.bad{background:var(--color-background-danger);color:var(--color-text-danger)}
+.score-bar{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.5rem;text-align:center;margin-bottom:1.5rem;display:none;border:0.5px solid var(--color-border-tertiary)}
+.score-bar.show{display:block}
+.sc-num{font-size:38px;font-weight:500;color:#185FA5}
+.sc-lbl{font-size:14px;color:var(--color-text-secondary);margin-top:4px}
+.sbtn{display:block;width:100%;padding:12px;background:#185FA5;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:1rem;font-family:var(--font-sans)}
+.sbtn:hover{background:#0C447C}
+.sbtn:disabled{background:var(--color-background-secondary);color:var(--color-text-tertiary);cursor:default}
+.rbtn{display:none;width:100%;padding:12px;background:var(--color-background-secondary);color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:16px;font-weight:500;cursor:pointer;margin-top:.6rem;font-family:var(--font-sans)}
+.rbtn:hover{background:var(--color-background-primary)}
+.rbtn.show{display:block}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">درس نظرية التصادم وسرعة التفاعل الكيميائي التفاعلي مع اختبار</h2>
+
+<div class="hdr">
+  <h1>الدرس 2-1: نظرية التصادم وسرعة التفاعل الكيميائي</h1>
+  <p>Collision Theory and Reaction Rate — كيمياء، الصف الثاني الثانوي</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="show('lesson',this)">الدرس</button>
+  <button class="tab" onclick="show('quiz',this)">الاختبار (10 أسئلة)</button>
+</div>
+
+<div id="lesson" class="sec active">
+
+  <div class="card">
+    <div class="ctitle">أولًا: سرعة التفاعل الكيميائي — التعريف والوحدة</div>
+    <div class="cbody">
+      <span class="hl">سرعة التفاعل الكيميائي</span> هي التغير في تركيز المواد المتفاعلة أو الناتجة في وحدة الزمن.
+      <div class="bbox" style="margin-top:8px">
+        <b>الوحدة:</b> mol/L·s (مول لكل لتر في الثانية)<br>
+        الأقواس [ ] تشير إلى التركيز المولاري — مثال: [NO₂] = التركيز المولاري لـ NO₂
+      </div>
+      <b>المعادلة العامة:</b>
+      <div class="formula">متوسط السرعة = Δكمية المادة ÷ Δt</div>
+      <div class="two-col" style="margin-top:4px">
+        <div class="col-card" style="background:#EAF3DE;color:#27500A;border:0.5px solid #97C459">
+          <b>للمواد الناتجة (تزداد):</b><br>
+          Rate = Δ[ناتج] ÷ Δt<br>
+          <b>القيمة موجبة دائمًا</b>
+        </div>
+        <div class="col-card" style="background:#FAECE7;color:#712B13;border:0.5px solid #F0997B">
+          <b>للمواد المتفاعلة (تنقص):</b><br>
+          Rate = −Δ[متفاعل] ÷ Δt<br>
+          <b>نضع (−) لأن التركيز يقل</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثانيًا: حساب متوسط سرعة التفاعل — مثال محلول</div>
+    <div class="cbody">
+      <b>المسألة:</b> تركيز كلوريد البيوتيل C₄H₉Cl كان 0.220 mol/L عند t=0.00s ثم أصبح 0.100 mol/L بعد 4.00s. احسب متوسط سرعة التفاعل.
+      <div class="pbox" style="margin-top:10px">
+        <b>الحل:</b><br>
+        Rate = −(Δ[C₄H₉Cl] ÷ Δt)<br>
+        = −(0.100 − 0.220) ÷ (4.00 − 0.00)<br>
+        = −(−0.120) ÷ 4.00<br>
+        <b>= 0.0300 mol/L·s</b>
+      </div>
+      <div class="wbox">
+        <b>ملاحظة:</b> سرعة التفاعل دائمًا موجبة. إذا حسبناها من استهلاك مادة متفاعلة، نضع إشارة (−) أمام المعادلة لنضمن النتيجة الموجبة.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ثالثًا: نظرية التصادم</div>
+    <div class="cbody">
+      <span class="hl">نظرية التصادم</span> تنص على أنه يجب أن تتصادم الذرات والأيونات والجزيئات بعضها ببعض لكي يتم التفاعل الكيميائي.
+      <div class="ibox" style="margin-top:8px">
+        <b>لكن ليس كل تصادم ينتج تفاعلًا!</b><br>
+        رغم أن عدد الاصطدامات في الثانية الواحدة هائل جدًا، إلا أن عدد التصادمات التي تنتج نواتج قليل جدًا.
+      </div>
+      <b>شرطان لحدوث تصادم فعّال (مثمر):</b>
+      <div class="step-row" style="margin-top:8px"><div class="snum">1</div><div class="stxt"><b>الاتجاه الصحيح:</b> يجب أن تتصادم الجزيئات بالاتجاه المناسب — بحيث ترتبط الذرات الصحيحة معًا في لحظة التصادم.</div></div>
+      <div class="step-row"><div class="snum">2</div><div class="stxt"><b>الطاقة الكافية:</b> يجب أن يمتلك الجزيئان طاقة كافية لتكوين المعقد المنشط وإحداث التفاعل.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">رابعًا: المعقد المنشَّط وطاقة التنشيط</div>
+    <div class="cbody">
+      عندما يكون الاتجاه والطاقة كافيين، يتكون <span class="hl">المعقد المنشَّط (Activated Complex)</span> — وهو حالة انتقالية غير مستقرة من تجمع الذرات، يحدث خلالها تكسير الروابط القديمة وتكوين روابط جديدة.
+      <div class="gbox" style="margin-top:8px">
+        <b>المعقد المنشط قد يؤدي إلى:</b><br>
+        • تكوين المواد الناتجة (التفاعل يكتمل)<br>
+        • أو التكسر لإعادة تكوين المواد المتفاعلة
+      </div>
+      <span class="hl">طاقة التنشيط (Eₐ)</span> هي الحد الأدنى من الطاقة اللازمة لتكوين المعقد المنشط وإحداث التفاعل.
+      <div class="two-col" style="margin-top:8px">
+        <div class="col-card" style="background:#FAECE7;color:#712B13;border:0.5px solid #F0997B">
+          <b>Eₐ عالية</b><br>
+          تصادمات ناجحة قليلة<br>
+          التفاعل بطيء
+        </div>
+        <div class="col-card" style="background:#EAF3DE;color:#27500A;border:0.5px solid #97C459">
+          <b>Eₐ منخفضة</b><br>
+          تصادمات ناجحة كثيرة<br>
+          التفاعل سريع
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">خامسًا: مخطط الطاقة للتفاعل</div>
+    <div class="cbody">
+      مخطط طاقة التفاعل بين CO و NO₂:
+      <div class="energy-diag">
+        <div style="display:flex;align-items:center;gap:6px;width:100%;justify-content:center">
+          <div style="text-align:center;font-size:13px;color:var(--color-text-secondary)">
+            <div style="background:#E6F1FB;border:0.5px solid #85B7EB;padding:4px 12px;border-radius:6px;font-weight:500;color:#0C447C">المعقد المنشط</div>
+            <div style="font-size:11px;margin-top:2px">← طاقة التنشيط Eₐ</div>
+          </div>
+        </div>
+        <div style="display:flex;width:90%;justify-content:space-between;align-items:flex-end;border-bottom:0.5px solid var(--color-border-secondary);padding-bottom:8px;margin-top:8px">
+          <div style="text-align:center">
+            <div style="background:#FAEEDA;border:0.5px solid #EF9F27;padding:4px 10px;border-radius:6px;font-size:12px;color:#633806;font-weight:500">CO + NO₂<br>(متفاعلات)</div>
+            <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px">طاقة أعلى</div>
+          </div>
+          <div style="font-size:20px;color:#185FA5">→</div>
+          <div style="text-align:center">
+            <div style="background:#EAF3DE;border:0.5px solid #97C459;padding:4px 10px;border-radius:6px;font-size:12px;color:#27500A;font-weight:500">CO₂ + NO<br>(منتجات)</div>
+            <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px">طاقة أقل</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px">ΔH سالب ← تفاعل طارد للحرارة</div>
+      </div>
+      <div class="bbox">
+        التفاعل العكسي (CO₂ + NO → CO + NO₂) ماص للحرارة، ويحتاج طاقة تنشيط أكبر من التفاعل الأمامي.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">ملخص المفردات الجديدة</div>
+    <div class="cbody">
+      <div class="vocab-grid">
+        <div class="v-item">سرعة التفاعل الكيميائي</div>
+        <div class="v-item">نظرية التصادم</div>
+        <div class="v-item">المعقد المنشَّط</div>
+        <div class="v-item">طاقة التنشيط (Eₐ)</div>
+        <div class="v-item">التركيز المولاري [M]</div>
+        <div class="v-item">الحالة الانتقالية</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="quiz" class="sec">
+  <div id="sbar" class="score-bar">
+    <div class="sc-num" id="snum">0/10</div>
+    <div class="sc-lbl" id="slbl"></div>
+  </div>
+  <div id="qcont"></div>
+  <button class="sbtn" id="subbtn" onclick="submitQ()">تحقق من الإجابات</button>
+  <button class="rbtn" id="rstbtn" onclick="resetQ()">أعد المحاولة</button>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+const Qs=[
+  {
+    q:"ما تعريف سرعة التفاعل الكيميائي؟",
+    opts:["كمية المواد الناتجة في نهاية التفاعل","التغير في تركيز المواد المتفاعلة أو الناتجة في وحدة الزمن","درجة حرارة التفاعل عند بدايته","كتلة المواد المتفاعلة قبل التفاعل"],
+    ans:1,
+    exp:"سرعة التفاعل الكيميائي: التغير في تركيز المواد المتفاعلة أو الناتجة في وحدة الزمن، وتُقاس بوحدة mol/L·s."
+  },
+  {
+    q:"ما وحدة قياس سرعة التفاعل الكيميائي؟",
+    opts:["mol فقط","mol/L","mol/L·s","kJ/mol"],
+    ans:2,
+    exp:"سرعة التفاعل تُقاس بـ mol/L·s أي مول لكل لتر في الثانية، لأنها تعبر عن التغير في التركيز مع الزمن."
+  },
+  {
+    q:"تفاعل كيميائي: تركيز ناتج NO كان 0.000 M عند t=0.00s وأصبح 0.010 M عند t=2.00s. ما متوسط سرعة التفاعل؟",
+    opts:["0.020 mol/L·s","0.0050 mol/L·s","0.010 mol/L·s","0.0025 mol/L·s"],
+    ans:1,
+    exp:"Rate = Δ[NO]/Δt = (0.010 − 0.000)/(2.00 − 0.00) = 0.010/2.00 = 0.0050 mol/L·s."
+  },
+  {
+    q:"تركيز مادة متفاعلة A كان 1.00 M وأصبح 0.50 M بعد 2.00s. ما متوسط سرعة استهلاكها؟",
+    opts:["−0.25 mol/L·s","0.25 mol/L·s","0.50 mol/L·s","1.00 mol/L·s"],
+    ans:1,
+    exp:"Rate = −Δ[A]/Δt = −(0.50 − 1.00)/2.00 = −(−0.50)/2.00 = 0.25 mol/L·s. السرعة دائمًا موجبة."
+  },
+  {
+    q:"ماذا تنص نظرية التصادم؟",
+    opts:["يحدث التفاعل تلقائيًا دون تصادم","يجب أن تتصادم الذرات والأيونات والجزيئات بعضها ببعض لكي يتم التفاعل","كل تصادم بين الجزيئات يؤدي إلى تفاعل","التفاعل يحدث فقط عند درجات حرارة عالية"],
+    ans:1,
+    exp:"نظرية التصادم: يجب أن تتصادم الذرات والأيونات والجزيئات بعضها ببعض لكي يتم التفاعل الكيميائي."
+  },
+  {
+    q:"ما الشرطان اللازمان لحدوث تصادم فعّال (مثمر) بين الجزيئات؟",
+    opts:["درجة الحرارة المناسبة والضغط العالي","الاتجاه الصحيح للجزيئات وامتلاكها طاقة كافية","الكتلة الكبيرة والسرعة العالية","التركيز العالي والحجم الكبير"],
+    ans:1,
+    exp:"التصادم الفعال يحتاج: (1) الاتجاه الصحيح — بحيث ترتبط الذرات المناسبة، (2) طاقة كافية — لتكوين المعقد المنشط."
+  },
+  {
+    q:"ما المعقد المنشَّط (Activated Complex)؟",
+    opts:["المادة الناتجة عن التفاعل","حالة انتقالية غير مستقرة تتكون خلالها روابط جديدة وتتكسر روابط قديمة","المادة المتفاعلة قبل التصادم","الحفاز المستخدم في التفاعل"],
+    ans:1,
+    exp:"المعقد المنشَّط: جسيمات قصيرة العمر تتكون عند التصادم الفعال، وهي حالة انتقالية يحدث فيها تكسير وتكوين روابط — قد تؤدي إلى نواتج أو تعود لمتفاعلات."
+  },
+  {
+    q:"ما طاقة التنشيط (Eₐ)؟",
+    opts:["الطاقة الكلية للمواد الناتجة","الحد الأدنى من الطاقة اللازمة لتكوين المعقد المنشط وإحداث التفاعل","الطاقة المنطلقة من التفاعل","فرق الطاقة بين المتفاعلات والنواتج"],
+    ans:1,
+    exp:"طاقة التنشيط Eₐ: الحد الأدنى من الطاقة الذي يجب أن تمتلكه الجزيئات المتصادمة لتكوين المعقد المنشط وإحداث التفاعل."
+  },
+  {
+    q:"تفاعل له طاقة تنشيط Eₐ عالية جدًا. ماذا يعني ذلك على سرعة التفاعل؟",
+    opts:["التفاعل سيكون سريعًا جدًا","التفاعل سيكون بطيئًا لأن عدد التصادمات ذات الطاقة الكافية قليل","لا تأثير لـ Eₐ على سرعة التفاعل","التفاعل لن يحدث أبدًا"],
+    ans:1,
+    exp:"Eₐ عالية ← عدد قليل من الاصطدامات له طاقة كافية لتكوين المعقد المنشط ← التفاعل بطيء. والعكس صحيح: Eₐ منخفضة ← تفاعل أسرع."
+  },
+  {
+    q:"في مخطط طاقة التفاعل الطارد للحرارة: أي المستويات أعلى طاقة؟",
+    opts:["المنتجات أعلى طاقة من المتفاعلات","المتفاعلات أعلى طاقة من المنتجات","المتفاعلات والمنتجات لهما نفس الطاقة","المعقد المنشط أقل طاقة من المتفاعلات"],
+    ans:1,
+    exp:"في التفاعل الطارد للحرارة: طاقة المتفاعلات > طاقة المنتجات، لذا ΔH سالب. يقع المعقد المنشط في القمة (أعلى من كليهما)."
+  }
+];
+
+let uAns=new Array(10).fill(-1),submitted=false;
+
+function buildQuiz(){
+  const c=document.getElementById('qcont');
+  c.innerHTML='';
+  const ltrs=["أ","ب","ج","د"];
+  Qs.forEach((q,i)=>{
+    const d=document.createElement('div');
+    d.className='qcard';
+    d.innerHTML=`<div class="qnum">السؤال ${i+1} من 10</div><div class="qtext">${q.q}</div><div class="opts" id="o-${i}">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})">${ltrs[j]}.  ${o}</button>`).join('')}</div><div class="fb" id="fb-${i}"></div>`;
+    c.appendChild(d);
+  });
+}
+
+function pick(qi,oi){
+  if(submitted)return;
+  uAns[qi]=oi;
+  document.querySelectorAll(`#o-${qi} .opt`).forEach((o,j)=>{
+    o.style.borderColor=j===oi?'#185FA5':'';
+    o.style.background=j===oi?'#E6F1FB':'';
+    o.style.color=j===oi?'#0C447C':'';
+  });
+}
+
+function submitQ(){
+  submitted=true;
+  let score=0;
+  Qs.forEach((q,i)=>{
+    const opts=document.querySelectorAll(`#o-${i} .opt`);
+    opts.forEach(o=>{o.classList.add('locked');o.style.cssText='';});
+    if(uAns[i]===q.ans){
+      score++;
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة صحيحة — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show ok';
+    } else {
+      if(uAns[i]!==-1)opts[uAns[i]].classList.add('wrong');
+      opts[q.ans].classList.add('correct');
+      document.getElementById('fb-'+i).textContent='إجابة خاطئة. الصحيحة: '+q.opts[q.ans]+' — '+q.exp;
+      document.getElementById('fb-'+i).className='fb show bad';
+    }
+  });
+  const sb=document.getElementById('sbar');sb.classList.add('show');
+  document.getElementById('snum').textContent=score+'/10';
+  const msgs=['يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','يلزم مراجعة الدرس جيدًا.','جيد، راجع نقاط الخطأ.','جيد، راجع نقاط الخطأ.','جيد جدًا!','جيد جدًا!','ممتاز! أداء رائع!','ممتاز! أداء رائع!'];
+  document.getElementById('slbl').textContent=msgs[score];
+  document.getElementById('subbtn').disabled=true;
+  document.getElementById('rstbtn').classList.add('show');
+  sb.scrollIntoView({behavior:'smooth'});
+}
+
+function resetQ(){
+  uAns=new Array(10).fill(-1);submitted=false;
+  document.getElementById('sbar').classList.remove('show');
+  document.getElementById('subbtn').disabled=false;
+  document.getElementById('rstbtn').classList.remove('show');
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
