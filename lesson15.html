@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأحماض النووية — DNA و RNA</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --p1:#1e3a5f; --p2:#2563a8; --p3:#3b82f6;
+    --dna:#0f766e; --dna-bg:#f0fdfa;
+    --rna:#7c2d12; --rna-bg:#fff7ed;
+    --accent:#d97706; --accent-bg:#fffbeb;
+    --purple:#6d28d9; --purple-bg:#f5f3ff;
+    --green:#166534; --green-bg:#f0fdf4;
+    --red:#b91c1c; --red-bg:#fef2f2;
+    --bg:#f0f4f8; --card:#fff;
+    --text:#0f1e2e; --muted:#4a6080;
+    --border:#d0dcea;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);line-height:1.85;direction:rtl;}
+
+  /* HERO */
+  .hero{background:linear-gradient(150deg,#071428 0%,#0f2a4e 50%,#1a3d6e 100%);color:#fff;padding:56px 40px 48px;text-align:center;position:relative;overflow:hidden;}
+  .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 25%,rgba(59,130,246,.22) 0%,transparent 55%),radial-gradient(ellipse at 15% 80%,rgba(15,118,110,.2) 0%,transparent 50%);pointer-events:none;}
+  .hero-tag{display:inline-block;background:rgba(59,130,246,.2);border:1px solid rgba(59,130,246,.4);color:#93c5fd;padding:5px 18px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:18px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(24px,5vw,44px);font-weight:900;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1 span.dna{color:#5eead4;} .hero h1 span.rna{color:#fbbf24;}
+  .hero p{font-size:16px;opacity:.87;max-width:620px;margin:0 auto;position:relative;z-index:1;}
+
+  /* NAV */
+  .nav{display:flex;background:#fff;border-bottom:2px solid var(--border);padding:0 28px;gap:2px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow-x:auto;}
+  .nav button{padding:15px 22px;font-size:15px;font-weight:700;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;font-family:'Tajawal',sans-serif;transition:all .2s;}
+  .nav button:hover{color:var(--p2);}
+  .nav button.active{color:var(--p1);border-bottom-color:var(--accent);background:rgba(217,119,6,.05);}
+
+  /* SECTIONS */
+  .sec{display:none;padding:38px 28px;max-width:980px;margin:0 auto;}
+  .sec.on{display:block;}
+
+  /* CARD */
+  .card{background:var(--card);border-radius:18px;border:1px solid var(--border);padding:28px 30px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .card-h{font-size:18px;font-weight:800;color:var(--p1);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+
+  /* DEF */
+  .def{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-right:6px solid var(--p2);border-radius:14px;padding:20px 24px;margin:14px 0;}
+  .def .dlabel{font-size:12px;font-weight:800;color:var(--p1);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;}
+  .def p{font-size:16px;line-height:1.8;}
+
+  /* CALLOUT */
+  .call{display:flex;gap:14px;padding:14px 18px;border-radius:12px;margin:12px 0;align-items:flex-start;font-size:15px;}
+  .call.info{background:#eff6ff;border:1px solid #bfdbfe;}
+  .call.warn{background:var(--accent-bg);border:1px solid #fde68a;}
+  .call.good{background:var(--green-bg);border:1px solid #86efac;}
+  .call.purple{background:var(--purple-bg);border:1px solid #ddd6fe;}
+  .call.red{background:var(--red-bg);border:1px solid #fca5a5;}
+  .call.dna{background:var(--dna-bg);border:1px solid #5eead4;}
+  .call.rna{background:var(--rna-bg);border:1px solid #fed7aa;}
+  .call .ci{font-size:22px;flex-shrink:0;margin-top:1px;}
+  .call .ct{line-height:1.75;}
+  .call .ct strong{font-weight:800;}
+
+  /* NUCLEOTIDE VISUAL */
+  .nt-parts{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+  .nt-part{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:12px;border:1.5px solid;}
+  .nt-part.ph{background:#eff6ff;border-color:#93c5fd;}
+  .nt-part.sg{background:var(--green-bg);border-color:#86efac;}
+  .nt-part.bs{background:var(--purple-bg);border-color:#c4b5fd;}
+  .nt-part .np{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .nt-part.ph .np{background:#dbeafe;} .nt-part.sg .np{background:#dcfce7;} .nt-part.bs .np{background:#ede9fe;}
+  .nt-part .nc{flex:1;}
+  .nt-part .nt{font-size:15px;font-weight:800;margin-bottom:3px;}
+  .nt-part.ph .nt{color:var(--p2);} .nt-part.sg .nt{color:var(--green);} .nt-part.bs .nt{color:var(--purple);}
+  .nt-part .nd{font-size:14px;color:var(--muted);}
+
+  /* BASES GRID */
+  .bases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0;}
+  .base-card{border-radius:14px;padding:16px;border:1.5px solid;text-align:center;}
+  .base-card.ad{background:#fef9c3;border-color:#fde047;} .base-card.ad .bl{color:#854d0e;}
+  .base-card.th{background:#dcfce7;border-color:#86efac;} .base-card.th .bl{color:var(--green);}
+  .base-card.cy{background:#dbeafe;border-color:#93c5fd;} .base-card.cy .bl{color:var(--p1);}
+  .base-card.gu{background:var(--purple-bg);border-color:#c4b5fd;} .base-card.gu .bl{color:var(--purple);}
+  .base-card.ur{background:var(--rna-bg);border-color:#fed7aa;} .base-card.ur .bl{color:var(--rna);}
+  .base-card .sym{font-size:38px;font-weight:900;margin-bottom:6px;}
+  .base-card .bl{font-size:14px;font-weight:800;margin-bottom:4px;}
+  .base-card .bd{font-size:12px;color:var(--muted);}
+
+  /* PAIR VISUAL */
+  .pairs{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0;justify-content:center;}
+  .pair-box{display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;border:1.5px solid;}
+  .pair-box.at{background:#fffbeb;border-color:#fde68a;}
+  .pair-box.gc{background:var(--dna-bg);border-color:#5eead4;}
+  .pair-box .pb{font-size:22px;font-weight:900;}
+  .pair-box.at .pb{color:#b45309;}
+  .pair-box.gc .pb{color:var(--dna);}
+  .pair-bond{font-size:13px;color:var(--muted);}
+
+  /* COMPARE TABLE */
+  .cmp{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;}
+  .cmp th{background:var(--p1);color:#fff;padding:11px 14px;font-weight:800;text-align:center;}
+  .cmp th:first-child{border-radius:10px 0 0 0;} .cmp th:last-child{border-radius:0 10px 0 0;}
+  .cmp td{padding:11px 14px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+  .cmp td:first-child{font-weight:700;text-align:right;}
+  .cmp tr:nth-child(even) td{background:#f8fafc;}
+  .cmp tr:hover td{background:#eff6ff;}
+  .dna-c{color:var(--dna);font-weight:700;} .rna-c{color:var(--rna);font-weight:700;}
+
+  /* DNA STRUCTURE */
+  .helix-info{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0;}
+  .helix-part{flex:1;min-width:180px;border-radius:12px;padding:16px;border:1.5px solid;}
+  .helix-part.out{background:#eff6ff;border-color:#93c5fd;}
+  .helix-part.inn{background:var(--purple-bg);border-color:#c4b5fd;}
+  .helix-part h4{font-size:15px;font-weight:800;margin-bottom:8px;}
+  .helix-part.out h4{color:var(--p2);} .helix-part.inn h4{color:var(--purple);}
+  .helix-part p{font-size:14px;line-height:1.7;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+  h3.sub{font-size:16px;font-weight:800;color:var(--p1);margin:18px 0 10px;}
+  .divider{height:1px;background:var(--border);margin:22px 0;}
+
+  /* FORMULA */
+  .formula{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px 20px;text-align:center;font-size:16px;font-weight:700;color:var(--p1);margin:12px 0;font-family:'Courier New',monospace;}
+  .formula.dna-f{background:var(--dna-bg);border-color:#5eead4;color:var(--dna);}
+  .formula.rna-f{background:var(--rna-bg);border-color:#fed7aa;color:var(--rna);}
+
+  /* ═══ QUIZ ═══ */
+  .quiz-h{text-align:center;margin-bottom:28px;}
+  .quiz-h h2{font-size:26px;font-weight:900;color:var(--p1);margin-bottom:6px;}
+  .quiz-h p{color:var(--muted);font-size:15px;}
+  .pbar-wrap{background:var(--border);border-radius:10px;height:8px;margin:18px 0;overflow:hidden;}
+  .pbar-fill{height:100%;background:linear-gradient(90deg,var(--p2),var(--dna));border-radius:10px;transition:width .4s ease;}
+  .plabels{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:5px;}
+
+  .qcard{background:#fff;border-radius:18px;border:1.5px solid var(--border);padding:28px 28px 22px;margin-bottom:20px;box-shadow:0 3px 14px rgba(0,0,0,.06);}
+  .qnum{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--p1);color:#fff;border-radius:50%;font-size:14px;font-weight:800;margin-bottom:12px;}
+  .qtext{font-size:16px;font-weight:700;color:var(--text);margin-bottom:18px;line-height:1.65;}
+  .qtext .ei{display:block;background:#f0f4f8;border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;font-weight:600;color:var(--p1);margin:8px 0;line-height:1.7;font-family:'Courier New',monospace;}
+
+  .opts{display:flex;flex-direction:column;gap:9px;}
+  .opt{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;font-size:15px;font-weight:500;color:var(--text);background:#fafbfc;text-align:right;transition:all .18s;font-family:'Tajawal',sans-serif;direction:rtl;width:100%;}
+  .opt:hover:not(:disabled){background:#eff6ff;border-color:#93c5fd;color:var(--p1);}
+  .opt .ol{width:30px;height:30px;border-radius:50%;background:#fff;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;transition:all .18s;}
+  .opt:hover:not(:disabled) .ol{background:var(--p2);border-color:var(--p2);color:#fff;}
+  .opt.ok{background:var(--green-bg);border-color:#86efac;color:var(--green);}
+  .opt.ok .ol{background:var(--green);border-color:var(--green);color:#fff;}
+  .opt.bad{background:var(--red-bg);border-color:#fca5a5;color:var(--red);}
+  .opt.bad .ol{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt:disabled{cursor:default;}
+
+  .fb{display:none;margin-top:12px;padding:13px 17px;border-radius:12px;font-size:15px;font-weight:500;line-height:1.7;}
+  .fb.show{display:flex;gap:10px;align-items:flex-start;}
+  .fb.ok-fb{background:var(--green-bg);color:#14532d;border:1px solid #86efac;}
+  .fb.bad-fb{background:var(--red-bg);color:#7f1d1d;border:1px solid #fca5a5;}
+
+  .result{display:none;text-align:center;padding:40px 24px;}
+  .result.show{display:block;}
+  .ring{width:148px;height:148px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 22px;border:8px solid var(--border);}
+  .ring.ex{border-color:#4ade80;background:#f0fdf4;}
+  .ring.gd{border-color:#fbbf24;background:#fffbeb;}
+  .ring.nw{border-color:#f87171;background:#fef2f2;}
+  .ring .sn{font-size:38px;font-weight:900;}
+  .ring.ex .sn{color:var(--green);} .ring.gd .sn{color:var(--accent);} .ring.nw .sn{color:var(--red);}
+  .ring .sl{font-size:14px;color:var(--muted);}
+  .rmsg{font-size:22px;font-weight:800;margin-bottom:8px;}
+  .rsub{color:var(--muted);font-size:16px;margin-bottom:28px;}
+  .rbtn{background:var(--p1);color:#fff;border:none;border-radius:12px;padding:14px 38px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s;}
+  .rbtn:hover{background:var(--p2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(30,58,95,.28);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🧬 كيمياء — القسم 6-4</div>
+  <h1>الأحماض النووية<br><span class="dna">DNA</span> و <span class="rna">RNA</span></h1>
+  <p>Nucleic Acids — تخزين المعلومات الوراثية ونقلها</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="tab('lesson',this)">📖 الدرس</button>
+  <button onclick="tab('dna',this)">🧬 DNA</button>
+  <button onclick="tab('rna',this)">🔴 RNA</button>
+  <button onclick="tab('compare',this)">📊 المقارنة</button>
+  <button onclick="tab('quiz',this)">✏️ الاختبار</button>
+</div>
+
+<!-- ══════════ LESSON ══════════ -->
+<div id="lesson" class="sec on">
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#dbeafe">🧬</div>ما الأحماض النووية؟</div>
+    <div class="def">
+      <div class="dlabel">التعريف</div>
+      <p>الأحماض النووية <strong>بوليمرات حيوية</strong> تحتوي على النيتروجين، وتقوم بـ<strong>تخزين المعلومات الوراثية ونقلها</strong>. أخذت اسمها من الموقع الخلوي الرئيسي الذي توجد فيه: <strong>النواة</strong>.</p>
+    </div>
+    <div class="call info">
+      <span class="ci">💡</span>
+      <div class="ct">الأحماض النووية تُشكّل النوع الرابع من الجزيئات الحيوية (إلى جانب البروتينات والكربوهيدرات والدهون). هي "جزيئات تخزين المعلومات" في الخلية.</div>
+    </div>
+    <div class="call warn">
+      <span class="ci">🔬</span>
+      <div class="ct"><strong>في الطب والجنائيات:</strong> فحص DNA أصبح شيئًا عاديًّا — يمكن الحصول على عينة DNA من شعرة جافة أو لعاب على طابع بريدي!</div>
+    </div>
+  </div>
+
+  <!-- النيوكليوتيد -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#ede9fe">⚛️</div>النيوكليوتيد — وحدة البناء الأساسية</div>
+    <div class="def">
+      <div class="dlabel">النيوكليوتيد</div>
+      <p>وحدة البناء الأساسية للحمض النووي. يتكون من <strong>ثلاثة أجزاء</strong>:</p>
+    </div>
+    <div class="nt-parts">
+      <div class="nt-part ph">
+        <div class="np">⬡</div>
+        <div class="nc">
+          <div class="nt">1 — مجموعة الفوسفات (غير عضوية)</div>
+          <div class="nd">نفسها في جميع النيوكليوتيدات — تُكوّن العمود الفقري مع السكر</div>
+        </div>
+      </div>
+      <div class="nt-part sg">
+        <div class="np">⬠</div>
+        <div class="nc">
+          <div class="nt">2 — سكر خماسي (بنتوز - 5 ذرات كربون)</div>
+          <div class="nd">ديوكسي رايبوز في DNA (منقوص الأكسجين) | رايبوز في RNA</div>
+        </div>
+      </div>
+      <div class="nt-part bs">
+        <div class="np">🔷</div>
+        <div class="nc">
+          <div class="nt">3 — قاعدة نيتروجينية</div>
+          <div class="nd">تختلف من نيوكليوتيد لآخر — تحمل المعلومات الوراثية</div>
+        </div>
+      </div>
+    </div>
+    <div class="call purple" style="margin-top:8px">
+      <span class="ci">📐</span>
+      <div class="ct">تتشكل الأحماض النووية كـ<strong>سلاسل طولية</strong>: سكر مخامسي وفوسفات متناوبة تُشكّل العمود الفقري، وكل سكر مرتبط بقاعدة نيتروجينية تبرز من السلسلة كدرجات السلم.</div>
+    </div>
+  </div>
+
+  <!-- القواعد النيتروجينية -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#fef9c3">🔤</div>القواعد النيتروجينية الخمس</div>
+    <div class="bases-grid">
+      <div class="base-card ad">
+        <div class="sym">A</div>
+        <div class="bl">الأدينين (Adenine)</div>
+        <div class="bd">حلقة مزدوجة<br>في DNA و RNA</div>
+      </div>
+      <div class="base-card th">
+        <div class="sym">T</div>
+        <div class="bl">الثايمين (Thymine)</div>
+        <div class="bd">حلقة أحادية<br>في DNA فقط ✅</div>
+      </div>
+      <div class="base-card cy">
+        <div class="sym">C</div>
+        <div class="bl">السايتوسين (Cytosine)</div>
+        <div class="bd">حلقة أحادية<br>في DNA و RNA</div>
+      </div>
+      <div class="base-card gu">
+        <div class="sym">G</div>
+        <div class="bl">الجوانين (Guanine)</div>
+        <div class="bd">حلقة مزدوجة<br>في DNA و RNA</div>
+      </div>
+      <div class="base-card ur">
+        <div class="sym">U</div>
+        <div class="bl">اليوراسيل (Uracil)</div>
+        <div class="bd">حلقة أحادية<br>في RNA فقط 🔴</div>
+      </div>
+    </div>
+    <div class="call warn">
+      <span class="ci">🔑</span>
+      <div class="ct"><strong>قاعدة مهمة:</strong> الثايمين (T) يوجد في DNA فقط — اليوراسيل (U) يوجد في RNA فقط. الثلاث الأخرى (A, C, G) توجد في كليهما.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ DNA ══════════ -->
+<div id="dna" class="sec">
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#ccfbf1">🧬</div>تركيب DNA — اللولب المزدوج</div>
+    <div class="def">
+      <div class="dlabel">DNA</div>
+      <p>حمض ديوكسي رايبونيوكلييك. يتكون من <strong>سلسلتين طويلتين</strong> من النيوكليوتيدات ملتفتين معًا بشكل <strong>لولب مزدوج (حلزوني)</strong>، يشبه السحاب المنزلق.</p>
+    </div>
+    <div class="helix-info">
+      <div class="helix-part out">
+        <h4>🏗️ الجزء الخارجي — العمود الفقري</h4>
+        <p>جزيئات <strong>ديوكسي رايبوز</strong> ومجموعات <strong>فوسفات</strong> المتعاقبة. تُشكّل الجانبين الخارجيين للتركيب اللولبي.</p>
+      </div>
+      <div class="helix-part inn">
+        <h4>🔷 الجزء الداخلي — القواعد</h4>
+        <p><strong>القواعد النيتروجينية</strong> توجد داخل التركيب مرتبطة بروابط هيدروجينية — تشبه درجات السلم.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">أزواج القواعد المتطابقة</h3>
+    <div class="pairs">
+      <div class="pair-box at">
+        <div class="pb">A</div>
+        <div class="pair-bond">— روابط هيدروجينية (2) —</div>
+        <div class="pb">T</div>
+      </div>
+      <div class="pair-box gc">
+        <div class="pb">G</div>
+        <div class="pair-bond">— روابط هيدروجينية (3) —</div>
+        <div class="pb">C</div>
+      </div>
+    </div>
+
+    <div class="call dna">
+      <span class="ci">⚖️</span>
+      <div class="ct">
+        <strong>قانون التزاوج:</strong><br>
+        الأدينين (A) يرتبط دائمًا بالثايمين (T) — رابطتان هيدروجينيتان<br>
+        الجوانين (G) يرتبط دائمًا بالسايتوسين (C) — ثلاث روابط هيدروجينية<br>
+        → كمية A في DNA = كمية T دائمًا | كمية G = كمية C دائمًا
+      </div>
+    </div>
+
+    <div class="call warn">
+      <span class="ci">📅</span>
+      <div class="ct">في عام <strong>1953م</strong> استخدم جيمس واطسون وفرانسيس كريك هذه الملاحظات ليُحدّدا تركيب DNA ذا اللولب المزدوج — أحد أعظم الاكتشافات العلمية في القرن العشرين.</div>
+    </div>
+
+    <h3 class="sub">وظيفة DNA</h3>
+    <div class="call good">
+      <span class="ci">📋</span>
+      <div class="ct"><strong>تخزين المعلومات الوراثية:</strong> يحتوي DNA على الخطط الرئيسة لبناء جميع بروتينات جسم المخلوق الحي. فقواعد DNA الأربع تُشكّل "لغة أبجدية" بأربعة حروف فقط تُخزّن فيها التعليمات الشاملة للمخلوق الحي.</div>
+    </div>
+    <div class="call info">
+      <span class="ci">🔢</span>
+      <div class="ct">الخلية البشرية تحتوي DNA على نحو <strong>ثلاثة مليارات زوج</strong> من القواعد المتطابقة، مرتبة في تسلسل خاص بالبشر.</div>
+    </div>
+
+    <h3 class="sub">تضاعف DNA</h3>
+    <div class="call purple">
+      <span class="ci">🔄</span>
+      <div class="ct">قبل انقسام الخلية يتضاعف DNA: يبدأ شريطا النيوكليوتيد بالانفكاك (بفك إنزيم الروابط الهيدروجينية) → يُكمّل كل شريط نفسه بمزاوجة القواعد الحرة → يتكون شريطان جديدان كل منهما من جزء من DNA الأصلي وشريط جديد.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RNA ══════════ -->
+<div id="rna" class="sec">
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#ffedd5">🔴</div>تركيب RNA ووظيفته</div>
+    <div class="def">
+      <div class="dlabel">RNA</div>
+      <p>حمض الرايبونيوكلييك. يختلف عن DNA في <strong>ثلاث طرائق</strong> رئيسة.</p>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <h3 class="sub" style="color:var(--dna)">🧬 DNA</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+          <li style="background:var(--dna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔵 القواعد: A, T, C, G</li>
+          <li style="background:var(--dna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔵 السكر: <strong>ديوكسي رايبوز</strong> (منقوص H بدل OH)</li>
+          <li style="background:var(--dna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔵 الشكل: <strong>لولب مزدوج</strong> (شريطان)</li>
+          <li style="background:var(--dna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔵 الوظيفة: <strong>تخزين</strong> المعلومات</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub" style="color:var(--rna)">🔴 RNA</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:8px">
+          <li style="background:var(--rna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔴 القواعد: A, <strong>U</strong>, C, G (يوراسيل بدل ثايمين)</li>
+          <li style="background:var(--rna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔴 السكر: <strong>رايبوز</strong> (يحتوي على OH)</li>
+          <li style="background:var(--rna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔴 الشكل: <strong>شريط واحد</strong></li>
+          <li style="background:var(--rna-bg);border-radius:10px;padding:11px 14px;font-size:14px">🔴 الوظيفة: <strong>نقل واستخدام</strong> المعلومات</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="call rna" style="margin-top:18px">
+      <span class="ci">🔄</span>
+      <div class="ct"><strong>كيف يعمل RNA؟</strong><br>
+      1. الخلايا تستعمل تسلسل قواعد DNA لتكوين RNA بتسلسل متطابق (منسوخ)<br>
+      2. ثم يستعمل RNA لصنع <strong>بروتينات</strong> بتسلسل من الأحماض الأمينية يتقرر بترتيب القواعد في RNA<br>
+      3. تسمى هذه التسلسلات: <strong>الشفرة الوراثية</strong></div>
+    </div>
+    <div class="call good">
+      <span class="ci">🏭</span>
+      <div class="ct"><strong>النتيجة الكبرى:</strong> البروتينات هي الأدوات الجزيئية التي تقوم بمعظم النشاطات في الخلية — لذا اللولب المزدوج لـ DNA هو المسؤول في النهاية عن التحكم في آلاف التفاعلات الكيميائية التي تحدث في الخلايا.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ COMPARE ══════════ -->
+<div id="compare" class="sec">
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#e0e7ff">📊</div>مقارنة شاملة DNA مقابل RNA</div>
+    <div style="overflow-x:auto">
+      <table class="cmp">
+        <thead><tr><th>الخاصية</th><th>🧬 DNA</th><th>🔴 RNA</th></tr></thead>
+        <tbody>
+          <tr><td>الاسم الكامل</td><td class="dna-c">ديوكسي رايبونيوكلييك</td><td class="rna-c">رايبونيوكلييك</td></tr>
+          <tr><td>السكر الخماسي</td><td class="dna-c">ديوكسي رايبوز (H بدل OH)</td><td class="rna-c">رايبوز (يحتوي OH)</td></tr>
+          <tr><td>القواعد النيتروجينية</td><td class="dna-c">A, T, C, G</td><td class="rna-c">A, U, C, G (يوراسيل بدل T)</td></tr>
+          <tr><td>عدد السلاسل</td><td class="dna-c">شريطان (لولب مزدوج)</td><td class="rna-c">شريط واحد</td></tr>
+          <tr><td>الروابط بين القواعد</td><td class="dna-c">روابط هيدروجينية بين الشريطين</td><td class="rna-c">لا توجد روابط هيدروجينية بين القواعد</td></tr>
+          <tr><td>الموقع في الخلية</td><td class="dna-c">النواة أساسًا</td><td class="rna-c">النواة والسيتوبلازم</td></tr>
+          <tr><td>الوظيفة الرئيسة</td><td class="dna-c">تخزين المعلومات الوراثية</td><td class="rna-c">نقل المعلومات وصنع البروتينات</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="call purple" style="margin-top:18px">
+      <span class="ci">🔑</span>
+      <div class="ct"><strong>الفرق الأهم:</strong> DNA → تخزين دائم (كالقرص الصلب) | RNA → نقل مؤقت (كالرسالة) → صنع البروتينات</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#dcfce7">🔗</div>أزواج القواعد في DNA و RNA</div>
+    <div class="grid2">
+      <div>
+        <h3 class="sub" style="color:var(--dna)">في DNA</h3>
+        <div class="pairs" style="flex-direction:column;align-items:flex-start">
+          <div class="pair-box at"><div class="pb">A</div><div class="pair-bond">⇌ 2 روابط H ⇌</div><div class="pb">T</div></div>
+          <div class="pair-box gc"><div class="pb">G</div><div class="pair-bond">⇌ 3 روابط H ⇌</div><div class="pb">C</div></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub" style="color:var(--rna)">في RNA (شريط واحد — لا تزاوج)</h3>
+        <div class="call rna" style="margin-top:8px">
+          <span class="ci">ℹ️</span>
+          <div class="ct">RNA شريط واحد — القواعد لا ترتبط بقواعد مقابلة. اليوراسيل (U) يحل محل الثايمين (T).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="quiz" class="sec">
+  <div class="quiz-h">
+    <h2>اختبار الأحماض النووية</h2>
+    <p>10 أسئلة — جميع المعطيات مدرجة داخل كل سؤال</p>
+  </div>
+  <div class="pbar-wrap"><div class="pbar-fill" id="pf" style="width:0%"></div></div>
+  <div class="plabels"><span id="qc">السؤال 0 من 10</span><span id="sc">النقاط: 0</span></div>
+
+  <div id="qs">
+
+    <!-- Q1 -->
+    <div class="qcard"><div class="qnum">1</div>
+    <div class="qtext">ما الوحدة الأساسية البنائية للأحماض النووية؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,1,'A')"><span class="ol">أ</span> الحمض الأميني</button>
+      <button class="opt" onclick="ans(this,1,'B')"><span class="ol">ب</span> النيوكليوتيد</button>
+      <button class="opt" onclick="ans(this,1,'C')"><span class="ol">ج</span> الجلوكوز</button>
+      <button class="opt" onclick="ans(this,1,'D')"><span class="ol">د</span> الرابطة الببتيدية</button>
+    </div>
+    <div class="fb" id="fb-1"></div></div>
+
+    <!-- Q2 -->
+    <div class="qcard"><div class="qnum">2</div>
+    <div class="qtext">يتكون كل نيوكليوتيد من ثلاثة أجزاء. أيٌّ مما يلي ليس من هذه الأجزاء الثلاثة؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,2,'A')"><span class="ol">أ</span> مجموعة فوسفات غير عضوية</button>
+      <button class="opt" onclick="ans(this,2,'B')"><span class="ol">ب</span> سكر خماسي (بنتوز) ذو 5 ذرات كربون</button>
+      <button class="opt" onclick="ans(this,2,'C')"><span class="ol">ج</span> قاعدة نيتروجينية</button>
+      <button class="opt" onclick="ans(this,2,'D')"><span class="ol">د</span> مجموعة كربوكسيل (-COOH)</button>
+    </div>
+    <div class="fb" id="fb-2"></div></div>
+
+    <!-- Q3 -->
+    <div class="qcard"><div class="qnum">3</div>
+    <div class="qtext">
+      يحتوي DNA على أربع قواعد نيتروجينية. أيٌّ من القواعد التالية يوجد في DNA فقط ولا يوجد في RNA؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,3,'A')"><span class="ol">أ</span> الأدينين (A)</button>
+      <button class="opt" onclick="ans(this,3,'B')"><span class="ol">ب</span> الثايمين (T)</button>
+      <button class="opt" onclick="ans(this,3,'C')"><span class="ol">ج</span> السايتوسين (C)</button>
+      <button class="opt" onclick="ans(this,3,'D')"><span class="ol">د</span> الجوانين (G)</button>
+    </div>
+    <div class="fb" id="fb-3"></div></div>
+
+    <!-- Q4 -->
+    <div class="qcard"><div class="qnum">4</div>
+    <div class="qtext">
+      في جزيء DNA، إذا كانت نسبة الأدينين (A) في سلسلة ما = 30%، ما نسبة الثايمين (T) في الجزيء كله؟
+      <span class="ei">القاعدة: A يقترن دائمًا بـ T | G يقترن دائمًا بـ C</span>
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,4,'A')"><span class="ol">أ</span> 70%</button>
+      <button class="opt" onclick="ans(this,4,'B')"><span class="ol">ب</span> 20%</button>
+      <button class="opt" onclick="ans(this,4,'C')"><span class="ol">ج</span> 30%</button>
+      <button class="opt" onclick="ans(this,4,'D')"><span class="ol">د</span> 60%</button>
+    </div>
+    <div class="fb" id="fb-4"></div></div>
+
+    <!-- Q5 -->
+    <div class="qcard"><div class="qnum">5</div>
+    <div class="qtext">ما الفرق بين سكر DNA وسكر RNA؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,5,'A')"><span class="ol">أ</span> سكر DNA هو رايبوز وسكر RNA هو ديوكسي رايبوز</button>
+      <button class="opt" onclick="ans(this,5,'B')"><span class="ol">ب</span> سكر DNA هو ديوكسي رايبوز (منقوص الأكسجين) وسكر RNA هو رايبوز</button>
+      <button class="opt" onclick="ans(this,5,'C')"><span class="ol">ج</span> كلاهما نفس السكر (رايبوز) لكن بترتيب مختلف</button>
+      <button class="opt" onclick="ans(this,5,'D')"><span class="ol">د</span> سكر DNA سداسي الكربون وسكر RNA خماسي الكربون</button>
+    </div>
+    <div class="fb" id="fb-5"></div></div>
+
+    <!-- Q6 -->
+    <div class="qcard"><div class="qnum">6</div>
+    <div class="qtext">
+      في اللولب المزدوج لـ DNA، ما الجزء الذي يُشكّل "العمود الفقري" الخارجي؟
+      <span class="ei">اللولب المزدوج: يشبه السحاب المنزلق — جانبان خارجيان وقواعد داخلية</span>
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,6,'A')"><span class="ol">أ</span> القواعد النيتروجينية المرتبطة بروابط هيدروجينية</button>
+      <button class="opt" onclick="ans(this,6,'B')"><span class="ol">ب</span> جزيئات ديوكسي رايبوز ومجموعات فوسفات المتعاقبة</button>
+      <button class="opt" onclick="ans(this,6,'C')"><span class="ol">ج</span> الأحماض الأمينية المرتبطة ببعضها</button>
+      <button class="opt" onclick="ans(this,6,'D')"><span class="ol">د</span> الروابط الهيدروجينية فقط</button>
+    </div>
+    <div class="fb" id="fb-6"></div></div>
+
+    <!-- Q7 -->
+    <div class="qcard"><div class="qnum">7</div>
+    <div class="qtext">ما القاعدة النيتروجينية التي توجد في RNA بدلاً من الثايمين (T)؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,7,'A')"><span class="ol">أ</span> الأدينين (A)</button>
+      <button class="opt" onclick="ans(this,7,'B')"><span class="ol">ب</span> الجوانين (G)</button>
+      <button class="opt" onclick="ans(this,7,'C')"><span class="ol">ج</span> اليوراسيل (U)</button>
+      <button class="opt" onclick="ans(this,7,'D')"><span class="ol">د</span> السايتوسين (C)</button>
+    </div>
+    <div class="fb" id="fb-7"></div></div>
+
+    <!-- Q8 -->
+    <div class="qcard"><div class="qnum">8</div>
+    <div class="qtext">ما الفرق الرئيسي في الشكل بين DNA وRNA؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,8,'A')"><span class="ol">أ</span> DNA شريط واحد وRNA لولب مزدوج</button>
+      <button class="opt" onclick="ans(this,8,'B')"><span class="ol">ب</span> DNA لولب مزدوج (شريطان) وRNA شريط واحد</button>
+      <button class="opt" onclick="ans(this,8,'C')"><span class="ol">ج</span> كلاهما لولب مزدوج لكن بأحجام مختلفة</button>
+      <button class="opt" onclick="ans(this,8,'D')"><span class="ol">د</span> كلاهما شريط واحد ولكن بقواعد مختلفة</button>
+    </div>
+    <div class="fb" id="fb-8"></div></div>
+
+    <!-- Q9 -->
+    <div class="qcard"><div class="qnum">9</div>
+    <div class="qtext">
+      ما التسلسل الصحيح لكيفية تحكم DNA في صنع البروتينات؟
+      <span class="ei">الخطوات المتاحة: (1) يُصنع RNA | (2) يُصنع بروتين | (3) يخزن DNA المعلومات في تسلسل قواعده</span>
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,9,'A')"><span class="ol">أ</span> بروتين ← RNA ← DNA</button>
+      <button class="opt" onclick="ans(this,9,'B')"><span class="ol">ب</span> DNA → RNA → بروتين</button>
+      <button class="opt" onclick="ans(this,9,'C')"><span class="ol">ج</span> RNA → DNA → بروتين</button>
+      <button class="opt" onclick="ans(this,9,'D')"><span class="ol">د</span> DNA → بروتين → RNA</button>
+    </div>
+    <div class="fb" id="fb-9"></div></div>
+
+    <!-- Q10 -->
+    <div class="qcard"><div class="qnum">10</div>
+    <div class="qtext">
+      في جزيء DNA، كم عدد الروابط الهيدروجينية بين زوج الجوانين والسايتوسين (G-C)؟
+      <span class="ei">A-T: رابطتان هيدروجينيتان | G-C: ثلاث روابط هيدروجينية</span>
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,10,'A')"><span class="ol">أ</span> رابطة هيدروجينية واحدة</button>
+      <button class="opt" onclick="ans(this,10,'B')"><span class="ol">ب</span> رابطتان هيدروجينيتان</button>
+      <button class="opt" onclick="ans(this,10,'C')"><span class="ol">ج</span> ثلاث روابط هيدروجينية</button>
+      <button class="opt" onclick="ans(this,10,'D')"><span class="ol">د</span> أربع روابط هيدروجينية</button>
+    </div>
+    <div class="fb" id="fb-10"></div></div>
+
+  </div>
+
+  <div class="result" id="rp">
+    <div class="ring" id="rring"><span class="sn" id="fscore">0</span><span class="sl">من 10</span></div>
+    <div class="rmsg" id="rmsg"></div>
+    <div class="rsub" id="rsub"></div>
+    <button class="rbtn" onclick="restart()">🔄 إعادة الاختبار</button>
+  </div>
+</div>
+
+<script>
+const ANS={1:'B',2:'D',3:'B',4:'C',5:'B',6:'B',7:'C',8:'B',9:'B',10:'C'};
+const EXP={
+  1:'النيوكليوتيد هو وحدة البناء الأساسية للأحماض النووية. يتكون من ثلاثة أجزاء: مجموعة فوسفات + سكر خماسي + قاعدة نيتروجينية.',
+  2:'مجموعة الكربوكسيل (-COOH) تنتمي للأحماض الأمينية وليس للنيوكليوتيدات. الأجزاء الثلاثة للنيوكليوتيد هي: مجموعة فوسفات، سكر خماسي، وقاعدة نيتروجينية.',
+  3:'الثايمين (T) يوجد في DNA فقط. أما اليوراسيل (U) فيوجد في RNA فقط بدلاً من الثايمين. القواعد A وC وG توجد في كلا الحمضين.',
+  4:'بحسب قانون التزاوج: A يقترن دائمًا بـ T → كمية A = كمية T دائمًا. إذا كانت A = 30% فإن T = 30% أيضًا.',
+  5:'سكر DNA هو ديوكسي رايبوز — منقوص الأكسجين (يحتوي على ذرة H بدل مجموعة OH في أحد المواقع). سكر RNA هو رايبوز — يحتوي على OH في ذلك الموقع.',
+  6:'العمود الفقري الخارجي للولب المزدوج يتكون من جزيئات ديوكسي رايبوز ومجموعات فوسفات المتعاقبة. أما القواعد النيتروجينية فتوجد داخل التركيب مرتبطة بروابط هيدروجينية.',
+  7:'اليوراسيل (U) يوجد في RNA بدلاً من الثايمين (T). هذا أحد الفروق الثلاثة الرئيسية بين DNA وRNA.',
+  8:'DNA يتكون من سلسلتين ملتفتين بشكل لولب مزدوج (شريطان مرتبطان بروابط هيدروجينية بين قواعدها). RNA يتكون من شريط واحد فقط بدون روابط هيدروجينية بين القواعد.',
+  9:'التسلسل الصحيح: DNA يخزن المعلومات في تسلسل قواعده ← الخلايا تستعمل ذلك التسلسل لتكوين RNA ← ثم يستعمل RNA لصنع بروتينات بتسلسل من الأحماض الأمينية.',
+  10:'زوج G-C يرتبط بثلاث روابط هيدروجينية (أقوى من زوج A-T الذي يرتبط برابطتين فقط). هذا الاختلاف يجعل مناطق G-C أكثر استقرارًا في DNA.'
+};
+
+let score=0,done=0;
+
+function ans(btn,q,ch){
+  const all=btn.parentElement.querySelectorAll('.opt');
+  all.forEach(b=>b.disabled=true);
+  const opts=['A','B','C','D'];
+  all.forEach((b,i)=>{
+    if(opts[i]===ANS[q]) b.classList.add('ok');
+    else if(opts[i]===ch&&ch!==ANS[q]) b.classList.add('bad');
+  });
+  const fb=document.getElementById('fb-'+q);
+  const ok=ch===ANS[q];
+  if(ok){score++;fb.className='fb show ok-fb';fb.innerHTML='✅ <span><strong>إجابة صحيحة!</strong> '+EXP[q]+'</span>';}
+  else{fb.className='fb show bad-fb';fb.innerHTML='❌ <span><strong>إجابة خاطئة.</strong> '+EXP[q]+'</span>';}
+  done++;
+  document.getElementById('pf').style.width=(done/10*100)+'%';
+  document.getElementById('qc').textContent='السؤال '+done+' من 10';
+  document.getElementById('sc').textContent='النقاط: '+score;
+  if(done===10) setTimeout(showRes,700);
+}
+
+function showRes(){
+  document.getElementById('qs').style.display='none';
+  const rp=document.getElementById('rp');rp.classList.add('show');
+  document.getElementById('fscore').textContent=score;
+  const ring=document.getElementById('rring');
+  let msg,sub,cls;
+  if(score>=9){cls='ex';msg='🏆 ممتاز! أتقنت الأحماض النووية!';sub='أجبت على '+score+' من 10 — أداء استثنائي!';}
+  else if(score>=6){cls='gd';msg='👍 جيد جدًا!';sub='أجبت على '+score+' من 10 — راجع الأسئلة التي أخطأت فيها.';}
+  else{cls='nw';msg='📚 راجع الدرس وأعد المحاولة';sub='أجبت على '+score+' فقط — ارجع لأقسام الدرس.';}
+  ring.className='ring '+cls;
+  document.getElementById('rmsg').textContent=msg;
+  document.getElementById('rsub').textContent=sub;
+}
+
+function restart(){
+  score=0;done=0;
+  document.getElementById('rp').classList.remove('show');
+  document.getElementById('qs').style.display='block';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('qc').textContent='السؤال 0 من 10';
+  document.getElementById('sc').textContent='النقاط: 0';
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.classList.remove('ok','bad');});
+  document.querySelectorAll('.fb').forEach(f=>{f.className='fb';f.innerHTML='';});
+}
+
+function tab(id,el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

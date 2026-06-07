@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>البروتينات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --p1: #1a3a2a;
+    --p2: #2e7d52;
+    --p3: #4caf80;
+    --accent: #e07b20;
+    --accent-bg: #fef6ed;
+    --teal: #0f766e;
+    --teal-bg: #f0fdfa;
+    --purple: #5b21b6;
+    --purple-bg: #f5f3ff;
+    --blue: #1d4ed8;
+    --blue-bg: #eff6ff;
+    --red: #b91c1c;
+    --red-bg: #fef2f2;
+    --gold: #b45309;
+    --gold-bg: #fffbeb;
+    --bg: #f1f5f0;
+    --card: #ffffff;
+    --text: #1a2520;
+    --muted: #5a7060;
+    --border: #d4e0d8;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--text); line-height:1.85; direction:rtl; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(150deg, #0a2015 0%, #1a3a2a 45%, #2a5a3a 100%);
+    color:#fff; padding:56px 40px 48px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::after {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 75% 25%, rgba(224,123,32,.2) 0%, transparent 55%),
+                radial-gradient(ellipse at 15% 75%, rgba(76,175,128,.18) 0%, transparent 50%);
+    pointer-events:none;
+  }
+  .hero-tag {
+    display:inline-block; background:rgba(76,175,128,.2); border:1px solid rgba(76,175,128,.4);
+    color:#a7f3d0; padding:5px 18px; border-radius:20px; font-size:13px; font-weight:700;
+    margin-bottom:18px; position:relative; z-index:1;
+  }
+  .hero h1 { font-size:clamp(26px,5vw,46px); font-weight:900; margin-bottom:12px; position:relative; z-index:1; }
+  .hero h1 span { color:#fcd34d; }
+  .hero p { font-size:16px; opacity:.87; max-width:600px; margin:0 auto; position:relative; z-index:1; }
+
+  /* NAV */
+  .nav {
+    display:flex; background:#fff; border-bottom:2px solid var(--border);
+    padding:0 28px; gap:2px; position:sticky; top:0; z-index:100;
+    box-shadow:0 2px 10px rgba(0,0,0,.07); overflow-x:auto;
+  }
+  .nav button {
+    padding:15px 22px; font-size:15px; font-weight:700; color:var(--muted);
+    background:none; border:none; border-bottom:3px solid transparent;
+    cursor:pointer; white-space:nowrap; font-family:'Tajawal',sans-serif; transition:all .2s;
+  }
+  .nav button:hover { color:var(--p2); }
+  .nav button.active { color:var(--p1); border-bottom-color:var(--accent); background:rgba(224,123,32,.05); }
+
+  /* SECTIONS */
+  .sec { display:none; padding:38px 28px; max-width:980px; margin:0 auto; }
+  .sec.on { display:block; }
+
+  /* CARD */
+  .card { background:var(--card); border-radius:18px; border:1px solid var(--border); padding:28px 30px; margin-bottom:24px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+  .card-h { font-size:18px; font-weight:800; color:var(--p1); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .ico { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+
+  /* DEF BOX */
+  .def { background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border-right:6px solid var(--p2); border-radius:14px; padding:20px 24px; margin:14px 0; }
+  .def .dlabel { font-size:12px; font-weight:800; color:var(--p1); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:6px; }
+  .def p { font-size:16px; line-height:1.8; }
+
+  /* CALLOUT */
+  .call { display:flex; gap:14px; padding:14px 18px; border-radius:12px; margin:12px 0; align-items:flex-start; font-size:15px; }
+  .call.info   { background:var(--blue-bg); border:1px solid #bfdbfe; }
+  .call.warn   { background:var(--gold-bg); border:1px solid #fde68a; }
+  .call.good   { background:#f0fdf4; border:1px solid #86efac; }
+  .call.purple { background:var(--purple-bg); border:1px solid #ddd6fe; }
+  .call.red    { background:var(--red-bg); border:1px solid #fca5a5; }
+  .call.teal   { background:var(--teal-bg); border:1px solid #99f6e4; }
+  .call .ci { font-size:22px; flex-shrink:0; margin-top:1px; }
+  .call .ct { line-height:1.75; }
+  .call .ct strong { font-weight:800; }
+
+  /* AMINO ACID STRUCTURE */
+  .aa-struct {
+    background:#f8faf8; border:1px solid var(--border); border-radius:14px;
+    padding:22px; margin:14px 0; text-align:center; font-family:'Courier New',monospace;
+    font-size:16px; font-weight:700; color:var(--p1); line-height:2.2;
+  }
+  .aa-struct .group { display:inline-block; padding:3px 10px; border-radius:6px; font-size:14px; margin:0 2px; }
+  .aa-struct .amine  { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
+  .aa-struct .acid   { background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; }
+  .aa-struct .side   { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; }
+  .aa-struct .carbon { background:#ede9fe; color:#4c1d95; border:1px solid #c4b5fd; }
+  .aa-struct .H      { background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; }
+
+  /* GRID */
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .grid3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:16px 0; }
+  @media(max-width:560px){ .grid2{ grid-template-columns:1fr; } }
+
+  /* FUNCTION CARDS */
+  .fn-card { border-radius:14px; padding:20px; border:1.5px solid; }
+  .fn-card.g { background:#f0fdf4; border-color:#86efac; }
+  .fn-card.b { background:var(--blue-bg); border-color:#93c5fd; }
+  .fn-card.p { background:var(--purple-bg); border-color:#c4b5fd; }
+  .fn-card.o { background:var(--accent-bg); border-color:#fcd34d; }
+  .fn-card.t { background:var(--teal-bg); border-color:#5eead4; }
+  .fn-card.r { background:var(--red-bg); border-color:#fca5a5; }
+  .fn-card h3 { font-size:15px; font-weight:800; margin-bottom:8px; }
+  .fn-card.g h3 { color:#166534; }
+  .fn-card.b h3 { color:var(--blue); }
+  .fn-card.p h3 { color:var(--purple); }
+  .fn-card.o h3 { color:var(--gold); }
+  .fn-card.t h3 { color:var(--teal); }
+  .fn-card.r h3 { color:var(--red); }
+  .fn-card p { font-size:14px; line-height:1.75; }
+
+  /* STEPS */
+  .steps { display:flex; flex-direction:column; gap:0; }
+  .step { display:flex; gap:16px; align-items:flex-start; }
+  .step-line { display:flex; flex-direction:column; align-items:center; }
+  .step-dot { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0; }
+  .step-bar { width:2px; flex:1; min-height:24px; margin:4px 0; }
+  .step-content { padding-bottom:24px; flex:1; }
+  .step-content h4 { font-size:16px; font-weight:800; margin-bottom:6px; }
+  .step-content p { font-size:15px; line-height:1.75; }
+
+  /* ENZYME VISUAL */
+  .enzyme-flow {
+    display:flex; align-items:center; justify-content:center;
+    gap:12px; flex-wrap:wrap; padding:22px;
+    background:#f8faf8; border-radius:14px;
+    border:1px dashed var(--border); margin:14px 0;
+  }
+  .ef-box { border-radius:12px; padding:12px 18px; text-align:center; border:1.5px solid; min-width:110px; }
+  .ef-box.sub  { background:#eff6ff; border-color:#93c5fd; color:var(--blue); }
+  .ef-box.enz  { background:#f0fdf4; border-color:#86efac; color:#166534; }
+  .ef-box.cpx  { background:var(--purple-bg); border-color:#c4b5fd; color:var(--purple); }
+  .ef-box.prd  { background:var(--teal-bg); border-color:#5eead4; color:var(--teal); }
+  .ef-box .ef-title { font-size:12px; font-weight:700; margin-bottom:4px; opacity:.75; }
+  .ef-box .ef-main { font-size:14px; font-weight:800; }
+  .ef-arr { font-size:24px; color:var(--muted); }
+
+  /* LEVELS TABLE */
+  .lvl-table { width:100%; border-collapse:collapse; font-size:14px; margin-top:12px; }
+  .lvl-table th { background:var(--p1); color:#fff; padding:11px 14px; font-weight:800; text-align:center; }
+  .lvl-table th:first-child { border-radius:10px 0 0 0; }
+  .lvl-table th:last-child  { border-radius:0 10px 0 0; }
+  .lvl-table td { padding:11px 14px; border-bottom:1px solid var(--border); text-align:center; vertical-align:middle; }
+  .lvl-table tr:nth-child(even) td { background:#f8faf8; }
+  .lvl-table tr:hover td { background:#e8f5e9; }
+
+  h3.sub { font-size:16px; font-weight:800; color:var(--p1); margin:18px 0 10px; }
+  .divider { height:1px; background:var(--border); margin:22px 0; }
+
+  /* ═══ QUIZ ═══ */
+  .quiz-h { text-align:center; margin-bottom:28px; }
+  .quiz-h h2 { font-size:26px; font-weight:900; color:var(--p1); margin-bottom:6px; }
+  .quiz-h p { color:var(--muted); font-size:15px; }
+  .pbar-wrap { background:var(--border); border-radius:10px; height:8px; margin:18px 0; overflow:hidden; }
+  .pbar-fill { height:100%; background:linear-gradient(90deg,var(--p2),var(--accent)); border-radius:10px; transition:width .4s ease; }
+  .plabels { display:flex; justify-content:space-between; font-size:13px; color:var(--muted); margin-top:5px; }
+
+  .qcard { background:#fff; border-radius:18px; border:1.5px solid var(--border); padding:28px 28px 22px; margin-bottom:20px; box-shadow:0 3px 14px rgba(0,0,0,.06); }
+  .qnum { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--p1); color:#fff; border-radius:50%; font-size:14px; font-weight:800; margin-bottom:12px; }
+  .qtext { font-size:16px; font-weight:700; color:var(--text); margin-bottom:18px; line-height:1.65; }
+  .qtext .eq-inline { display:block; background:#f1f5f0; border:1px solid var(--border); border-radius:8px; padding:8px 14px; font-size:14px; font-weight:600; color:var(--p1); margin:8px 0; line-height:1.6; }
+
+  .opts { display:flex; flex-direction:column; gap:9px; }
+  .opt { display:flex; align-items:center; gap:12px; padding:13px 16px; border:1.5px solid var(--border); border-radius:12px; cursor:pointer; font-size:15px; font-weight:500; color:var(--text); background:#fafbfa; text-align:right; transition:all .18s; font-family:'Tajawal',sans-serif; direction:rtl; width:100%; }
+  .opt:hover:not(:disabled) { background:#e8f5e9; border-color:#86efac; color:var(--p1); }
+  .opt .ol { width:30px; height:30px; border-radius:50%; background:#fff; border:1.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex-shrink:0; transition:all .18s; }
+  .opt:hover:not(:disabled) .ol { background:var(--p2); border-color:var(--p2); color:#fff; }
+  .opt.ok  { background:#f0fdf4; border-color:#86efac; color:#166534; }
+  .opt.ok .ol  { background:var(--p2); border-color:var(--p2); color:#fff; }
+  .opt.bad { background:var(--red-bg); border-color:#fca5a5; color:var(--red); }
+  .opt.bad .ol { background:var(--red); border-color:var(--red); color:#fff; }
+  .opt:disabled { cursor:default; }
+
+  .fb { display:none; margin-top:12px; padding:13px 17px; border-radius:12px; font-size:15px; font-weight:500; line-height:1.7; }
+  .fb.show { display:flex; gap:10px; align-items:flex-start; }
+  .fb.ok-fb  { background:#f0fdf4; color:#14532d; border:1px solid #86efac; }
+  .fb.bad-fb { background:var(--red-bg); color:#7f1d1d; border:1px solid #fca5a5; }
+
+  .result { display:none; text-align:center; padding:40px 24px; }
+  .result.show { display:block; }
+  .ring { width:148px; height:148px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0 auto 22px; border:8px solid var(--border); }
+  .ring.ex { border-color:#4ade80; background:#f0fdf4; }
+  .ring.gd { border-color:#fbbf24; background:#fffbeb; }
+  .ring.nw { border-color:#f87171; background:#fef2f2; }
+  .ring .sn { font-size:38px; font-weight:900; }
+  .ring.ex .sn { color:#166534; }
+  .ring.gd .sn { color:var(--gold); }
+  .ring.nw .sn { color:var(--red); }
+  .ring .sl { font-size:14px; color:var(--muted); }
+  .rmsg { font-size:22px; font-weight:800; margin-bottom:8px; }
+  .rsub { color:var(--muted); font-size:16px; margin-bottom:28px; }
+  .rbtn { background:var(--p1); color:#fff; border:none; border-radius:12px; padding:14px 38px; font-size:16px; font-weight:800; cursor:pointer; font-family:'Tajawal',sans-serif; transition:all .2s; }
+  .rbtn:hover { background:var(--p2); transform:translateY(-2px); box-shadow:0 6px 20px rgba(26,58,42,.28); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🧬 كيمياء — القسم 6-1</div>
+  <h1>البروتينات <span>Proteins</span></h1>
+  <p>تركيب الأحماض الأمينية والبروتينات • وظائفها في الخلايا • الإنزيمات</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="tab('lesson',this)">📖 الدرس</button>
+  <button onclick="tab('enzymes',this)">⚗️ الإنزيمات</button>
+  <button onclick="tab('functions',this)">🔬 الوظائف</button>
+  <button onclick="tab('quiz',this)">✏️ الاختبار</button>
+</div>
+
+<!-- ══════════ LESSON ══════════ -->
+<div id="lesson" class="sec on">
+
+  <!-- تعريف البروتينات -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#c8e6c9">🧬</div>تعريف البروتينات</div>
+    <div class="def">
+      <div class="dlabel">التعريف</div>
+      <p>البروتينات <strong>بوليمرات عضوية حيوية</strong> تتكون من أحماض أمينية مرتبطة معًا بروابط ببتيدية بترتيب معين. يجب أن يكون البروتين مطويًّا في تركيب ثلاثي الأبعاد حتى يعمل بشكل صحيح.</p>
+    </div>
+    <div class="call info">
+      <span class="ci">💡</span>
+      <div class="ct"><strong>مثال:</strong> الإنزيمات نوع من البروتينات — محاليل تنظيف العدسات اللاصقة تحتوي على إنزيمات تعمل على تنظيفها.</div>
+    </div>
+    <div class="call warn">
+      <span class="ci">📊</span>
+      <div class="ct">خلايا الإنسان تصنع ما بين <strong>80,000 و 100,000 بروتين مختلف</strong> — وهذا جزء صغير فقط من إجمالي البروتينات المحتملة نظريًّا.</div>
+    </div>
+  </div>
+
+  <!-- الأحماض الأمينية -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#ddd6fe">🔬</div>الأحماض الأمينية — الوحدات الأساسية</div>
+    <p style="font-size:15px;margin-bottom:14px">الأحماض الأمينية جزيئات عضوية توجد فيها <strong>مجموعة الأمين</strong> و<strong>مجموعة الكربوكسيل</strong> الحمضية. لكل حمض أميني ذرة كربون مركزية محاطة بـ 4 مجموعات:</p>
+
+    <div class="aa-struct">
+      <span class="group side">R (سلسلة جانبية)</span><br>
+      <span class="group amine">H₂N —</span>
+      <span class="group carbon">C</span>
+      <span style="font-size:18px"> — </span>
+      <span class="group acid">COOH</span><br>
+      <span class="group H">| H</span>
+    </div>
+
+    <div class="grid2" style="margin-top:16px">
+      <div class="fn-card g">
+        <h3>🟢 مجموعة الأمين (NH₂-)</h3>
+        <p>الجزء القاعدي من الحمض الأميني — تُوفر موضع الربط مع الحمض الأميني التالي</p>
+      </div>
+      <div class="fn-card r">
+        <h3>🔴 مجموعة الكربوكسيل (COOH-)</h3>
+        <p>الجزء الحمضي — تُوفر موضع الربط الآخر عند تكوين الرابطة الببتيدية</p>
+      </div>
+      <div class="fn-card o">
+        <h3>🟡 السلسلة الجانبية (R)</h3>
+        <p>تتراوح من ذرة هيدروجين واحدة حتى تركيب معقد ذي حلقتين — تحدد خواص الحمض الأميني</p>
+      </div>
+      <div class="fn-card b">
+        <h3>🔵 ذرة الهيدروجين (H)</h3>
+        <p>مرتبطة بذرة الكربون المركزية</p>
+      </div>
+    </div>
+
+    <div class="call purple" style="margin-top:16px">
+      <span class="ci">🔢</span>
+      <div class="ct">يوجد <strong>20 حمضًا أمينيًّا</strong> فقط يمكن تكوين البروتينات منها — لكن تنوع السلاسل الجانبية يمنحها خواص كيميائية وفيزيائية متعددة جدًا.</div>
+    </div>
+  </div>
+
+  <!-- الرابطة الببتيدية -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#fef3c7">🔗</div>الرابطة الببتيدية والببتيدات</div>
+
+    <div class="def">
+      <div class="dlabel">الرابطة الببتيدية</div>
+      <p>رابطة الأميد التي تجمع حمضين أمينيين عند اتحاد <strong>مجموعة الكربوكسيل</strong> لأحدهما مع <strong>مجموعة الأمين</strong> للآخر، مع انطلاق جزيئة ماء (تفاعل تكثف).</p>
+    </div>
+
+    <div style="background:#f8faf8;border-radius:12px;padding:18px;margin:14px 0;font-family:'Courier New',monospace;font-size:14px;text-align:center;color:var(--p1);line-height:2">
+      حمض أميني 1 + حمض أميني 2 → <strong>ببتيد ثنائي</strong> + H₂O<br>
+      <span style="font-size:20px;font-weight:900">—C(=O)—NH—</span><br>
+      <span style="font-size:13px;color:var(--muted)">مجموعة الأميد = الرابطة الببتيدية</span>
+    </div>
+
+    <div class="call info">
+      <span class="ci">📌</span>
+      <div class="ct">ترتيب الأحماض الأمينية <strong>مهم جدًا</strong>: Gly-Phe ≠ Phe-Gly — كلاهما ببتيد ثنائي من نفس الأحماض الأمينية لكنهما جزيئان مختلفان تمامًا!</div>
+    </div>
+
+    <h3 class="sub">مستويات تسلسل الببتيدات والبروتينات</h3>
+    <div style="overflow-x:auto">
+      <table class="lvl-table">
+        <thead><tr><th>الاسم</th><th>عدد الأحماض الأمينية</th><th>الرابط</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ثنائي الببتيد</strong></td><td>2</td><td>رابطة ببتيدية واحدة</td></tr>
+          <tr><td><strong>ببتيد</strong></td><td>أكثر من 2</td><td>روابط ببتيدية متعددة</td></tr>
+          <tr><td><strong>عديد الببتيد</strong></td><td>10 فأكثر</td><td>سلسلة طويلة</td></tr>
+          <tr><td><strong>بروتين</strong></td><td>~50 فأكثر حتى 1000+</td><td>مطوي ثلاثي الأبعاد</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call warn" style="margin-top:16px">
+      <span class="ci">🧮</span>
+      <div class="ct">لحساب التتابعات المحتملة: إذا كان الببتيد يتكون من n حمض أميني، فعدد التتابعات = <strong>20ⁿ</strong><br>ببتيد ثنائي: 20² = 400 تتابع محتمل | بروتين من 50 حمضًا: 20⁵⁰ &gt; 10⁶⁵ احتمال!</div>
+    </div>
+  </div>
+
+  <!-- التركيب الثلاثي الأبعاد -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#e0f2fe">🌀</div>التركيب الثلاثي الأبعاد وتغير الخواص الطبيعية</div>
+    <div class="grid2">
+      <div>
+        <h3 class="sub">الطي والتركيب</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px">
+          <li style="background:#f8faf8;border-radius:10px;padding:12px 16px;font-size:14px">🌀 <strong>حلزوني (α-helix):</strong> السلسلة تنثني كحلزون لولبي</li>
+          <li style="background:#f8faf8;border-radius:10px;padding:12px 16px;font-size:14px">📄 <strong>صفيحة (β-sheet):</strong> السلسلة تنطوي كصفيحة مطوية</li>
+          <li style="background:#f8faf8;border-radius:10px;padding:12px 16px;font-size:14px">🔀 <strong>الشكل الكلي ثلاثي الأبعاد</strong> يحدد وظيفة البروتين</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub">تغير الخواص الطبيعية (Denaturation)</h3>
+        <div class="call red">
+          <span class="ci">⚠️</span>
+          <div class="ct"><strong>تعريف:</strong> تشوه تركيب البروتين الثلاثي الأبعاد وتمزقه بسبب التغيرات في: درجة الحرارة، pH، الرقم الهيدروجيني، والعوامل الأخرى.</div>
+        </div>
+        <div class="call warn" style="margin-top:8px">
+          <span class="ci">🥚</span>
+          <div class="ct"><strong>مثال:</strong> سلق البيضة — البيضة تصبح صلبة لأن بروتين الزلال الغنسي تغيرت خواصه الطبيعية بالحرارة → <strong>لا رجعة</strong> في أغلب الأحيان.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ ENZYMES ══════════ -->
+<div id="enzymes" class="sec">
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#d1fae5">⚗️</div>الإنزيمات — عوامل مساعدة حيوية</div>
+    <div class="def">
+      <div class="dlabel">تعريف الإنزيم</div>
+      <p>الإنزيم عامل محفز حيوي يعمل على تسريع التفاعلات الكيميائية في الخلايا الحية دون أن يُستهلك في التفاعل. الإنزيمات بروتينات ذات شكل ثلاثي الأبعاد محدد.</p>
+    </div>
+
+    <h3 class="sub">آلية عمل الإنزيم — خطوة بخطوة</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot" style="background:#dbeafe;color:#1d4ed8">1</div>
+          <div class="step-bar" style="background:#dbeafe"></div>
+        </div>
+        <div class="step-content">
+          <h4 style="color:#1d4ed8">المادة الخاضعة تقترب من الموقع النشط</h4>
+          <p>المادة الخاضعة لفعل الإنزيم هي المادة المتفاعلة. ترتبط بموضع معين على جزيئة الإنزيم يسمى <strong>الموقع النشط</strong> — وهو عادة جيب أو شق في الإنزيم.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot" style="background:#dcfce7;color:#166534">2</div>
+          <div class="step-bar" style="background:#dcfce7"></div>
+        </div>
+        <div class="step-content">
+          <h4 style="color:#166534">المطابقة التأثيرية (Induced Fit)</h4>
+          <p>بعد ارتباط المادة الخاضعة، يغير الموقع النشط شكله قليلاً ليُحيط بها بإحكام أكبر. الأشكال يجب أن تتطابق كـ<strong>قطع الألغاز أو القفل والمفتاح</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot" style="background:#f3e8ff;color:#6d28d9">3</div>
+          <div class="step-bar" style="background:#f3e8ff"></div>
+        </div>
+        <div class="step-content">
+          <h4 style="color:#6d28d9">تكوين مركب الإنزيم والمادة الخاضعة</h4>
+          <p>الإنزيم يكوّن روابط متعددة مع المادة الخاضعة بفضل حجمه الكبير وتنوع سلاسله الجانبية. هذه القوى بين الجزيئية <strong>تخفض طاقة التنشيط</strong> اللازمة.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line">
+          <div class="step-dot" style="background:#fef3c7;color:#b45309">4</div>
+          <div class="step-bar" style="background:#fef3c7"></div>
+        </div>
+        <div class="step-content">
+          <h4 style="color:#b45309">الروابط تتكسر والنواتج تنطلق</h4>
+          <p>تتكسر الروابط في المادة الخاضعة لتتحول إلى نواتج تنطلق من الموقع النشط. بعدها ينطلق الإنزيم بشكله الأصلي ويمكنه التفاعل مع مواد خاضعة أخرى <strong>عدة مرات</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="enzyme-flow" style="margin-top:20px">
+      <div class="ef-box sub"><div class="ef-title">المادة الخاضعة</div><div class="ef-main">سكر مركب</div></div>
+      <div class="ef-arr">+</div>
+      <div class="ef-box enz"><div class="ef-title">الإنزيم</div><div class="ef-main">موقع نشط 🔓</div></div>
+      <div class="ef-arr">→</div>
+      <div class="ef-box cpx"><div class="ef-title">مركب مؤقت</div><div class="ef-main">إنزيم + مادة 🔐</div></div>
+      <div class="ef-arr">→</div>
+      <div class="ef-box prd"><div class="ef-title">النواتج</div><div class="ef-main">سكر بسيط ×2</div></div>
+    </div>
+
+    <div class="call teal" style="margin-top:16px">
+      <span class="ci">🌿</span>
+      <div class="ct"><strong>مثال حقيقي — البابايين:</strong> إنزيم يوجد في البابايا والأناناس ومصادر نباتية أخرى. يعمل عاملاً مساعدًا في التفاعل — يفكك سلاسل ألياف البروتين في اللحم ويحوّلها إلى أحماض أمينية حرة → يجعل اللحم أكثر طراوة!</div>
+    </div>
+
+    <div class="call warn" style="margin-top:10px">
+      <span class="ci">⚠️</span>
+      <div class="ct">إذا تغيرت خواص الإنزيم الطبيعية (برفع الحرارة أو تغيير pH) فقد الإنزيم شكله الثلاثي الأبعاد → <strong>يصبح غير فعال</strong>، لأن الموقع النشط لم يعد يناسب المادة الخاضعة.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FUNCTIONS ══════════ -->
+<div id="functions" class="sec">
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#fef9c3">🔬</div>الوظائف المتعددة للبروتينات</div>
+    <div class="grid3">
+      <div class="fn-card g">
+        <h3>⚗️ تسريع التفاعلات — الإنزيمات</h3>
+        <p>الإنزيمات تسرّع التفاعلات الكيميائية الحيوية بخفض طاقة التنشيط. تعمل في الخلايا الحية دون استهلاك.</p>
+      </div>
+      <div class="fn-card b">
+        <h3>🚢 نقل المواد</h3>
+        <p>الهيموجلوبين ينقل الأكسجين في الدم من الرئتين إلى سائر الجسم. بروتينات أخرى تنقل الليبيدات خلال مجرى الدم.</p>
+      </div>
+      <div class="fn-card t">
+        <h3>🏗️ الدعم البنائي</h3>
+        <p>الكولاجين: أكثر البروتينات البنائية توافرًا في الحيوانات — جزء من الجلد والأوتار والأربطة والعظام.</p>
+      </div>
+      <div class="fn-card o">
+        <h3>📡 الإشارات الخلوية — الهرمونات</h3>
+        <p>الأنسولين: هرمون بروتيني من 51 حمضًا أمينيًّا — يُنظم سكر الدم. نقصه يسبب مرض السكري.</p>
+      </div>
+      <div class="fn-card p">
+        <h3>💪 تقلصات العضلات</h3>
+        <p>بروتينات كالأكتين والميوسين مسؤولة عن تقلص العضلات وحركة الجسم.</p>
+      </div>
+      <div class="fn-card r">
+        <h3>🧱 التراكيب البنائية الأخرى</h3>
+        <p>الكيراتين: بروتين ليفي يكوّن الشعر والريش والفرو والصوف والحوافر والأظفار والشرنقات.</p>
+      </div>
+    </div>
+    <div class="call info" style="margin-top:16px">
+      <span class="ci">💊</span>
+      <div class="ct"><strong>تطبيق طبي:</strong> التقنية الحديثة مكّنت من تصنيع البروتينات في المختبر — الأنسولين وهرمونات الغدة الدرقية وهرمونات النمو تُصنَّع الآن وتُستعمل أدوية.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="quiz" class="sec">
+  <div class="quiz-h">
+    <h2>اختبار البروتينات</h2>
+    <p>10 أسئلة — جميع المعطيات مدرجة داخل كل سؤال</p>
+  </div>
+  <div class="pbar-wrap"><div class="pbar-fill" id="pf" style="width:0%"></div></div>
+  <div class="plabels"><span id="qc">السؤال 0 من 10</span><span id="sc">النقاط: 0</span></div>
+
+  <div id="qs">
+
+    <!-- Q1 -->
+    <div class="qcard"><div class="qnum">1</div>
+    <div class="qtext">ما التعريف الصحيح للبروتينات؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,1,'A')"><span class="ol">أ</span> بوليمرات عضوية تتكون من سكريات مرتبطة بروابط جليكوسيدية</button>
+      <button class="opt" onclick="ans(this,1,'B')"><span class="ol">ب</span> بوليمرات عضوية تتكون من أحماض أمينية مرتبطة بروابط ببتيدية</button>
+      <button class="opt" onclick="ans(this,1,'C')"><span class="ol">ج</span> جزيئات دهنية تُخزن الطاقة في الخلايا</button>
+      <button class="opt" onclick="ans(this,1,'D')"><span class="ol">د</span> مركبات غير عضوية تُنظّم درجة الحموضة</button>
+    </div>
+    <div class="fb" id="fb-1"></div></div>
+
+    <!-- Q2 -->
+    <div class="qcard"><div class="qnum">2</div>
+    <div class="qtext">يحتوي الحمض الأميني على ذرة كربون مركزية محاطة بأربع مجموعات. أيٌّ من التالي ليس من هذه المجموعات الأربع؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,2,'A')"><span class="ol">أ</span> مجموعة الأمين (NH₂-)</button>
+      <button class="opt" onclick="ans(this,2,'B')"><span class="ol">ب</span> مجموعة الكربوكسيل (-COOH)</button>
+      <button class="opt" onclick="ans(this,2,'C')"><span class="ol">ج</span> مجموعة الفوسفات (-PO₄)</button>
+      <button class="opt" onclick="ans(this,2,'D')"><span class="ol">د</span> السلسلة الجانبية المتغيرة (R)</button>
+    </div>
+    <div class="fb" id="fb-2"></div></div>
+
+    <!-- Q3 -->
+    <div class="qcard"><div class="qnum">3</div>
+    <div class="qtext">عند اتحاد حمضين أمينيين لتكوين ببتيد ثنائي، ما الذي ينطلق من هذا التفاعل؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,3,'A')"><span class="ol">أ</span> ثاني أكسيد الكربون (CO₂)</button>
+      <button class="opt" onclick="ans(this,3,'B')"><span class="ol">ب</span> الأمونيا (NH₃)</button>
+      <button class="opt" onclick="ans(this,3,'C')"><span class="ol">ج</span> الماء (H₂O)</button>
+      <button class="opt" onclick="ans(this,3,'D')"><span class="ol">د</span> الأكسجين (O₂)</button>
+    </div>
+    <div class="fb" id="fb-3"></div></div>
+
+    <!-- Q4 -->
+    <div class="qcard"><div class="qnum">4</div>
+    <div class="qtext">
+      للحساب: إذا كان ببتيد يتكون من <strong>3 أحماض أمينية</strong> فقط، وكان هناك 20 نوعًا من الأحماض الأمينية، ما عدد التتابعات المحتملة لهذا الببتيد؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,4,'A')"><span class="ol">أ</span> 60 تتابعًا (20 × 3)</button>
+      <button class="opt" onclick="ans(this,4,'B')"><span class="ol">ب</span> 400 تتابعًا (20²)</button>
+      <button class="opt" onclick="ans(this,4,'C')"><span class="ol">ج</span> 8000 تتابعًا (20³)</button>
+      <button class="opt" onclick="ans(this,4,'D')"><span class="ol">د</span> 160,000 تتابعًا (20⁴)</button>
+    </div>
+    <div class="fb" id="fb-4"></div></div>
+
+    <!-- Q5 -->
+    <div class="qcard"><div class="qnum">5</div>
+    <div class="qtext">
+      النظر في ببتيدَي: <span class="eq-inline">Gly-Phe (جلايسين + فينيل الألنين)<br>Phe-Gly (فينيل الألنين + جلايسين)</span>
+      ما العلاقة الصحيحة بينهما؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,5,'A')"><span class="ol">أ</span> هما مركب واحد لأنهما يحتويان على نفس الأحماض الأمينية</button>
+      <button class="opt" onclick="ans(this,5,'B')"><span class="ol">ب</span> هما مركبان مختلفان لأن ترتيب الارتباط مختلف</button>
+      <button class="opt" onclick="ans(this,5,'C')"><span class="ol">ج</span> هما نفس المركب لأن الرابطة الببتيدية متماثلة</button>
+      <button class="opt" onclick="ans(this,5,'D')"><span class="ol">د</span> لا يمكن تكوين أي منهما</button>
+    </div>
+    <div class="fb" id="fb-5"></div></div>
+
+    <!-- Q6 -->
+    <div class="qcard"><div class="qnum">6</div>
+    <div class="qtext">ما تعريف "تغير الخواص الطبيعية" (Denaturation) للبروتين؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,6,'A')"><span class="ol">أ</span> زيادة عدد الروابط الببتيدية في البروتين</button>
+      <button class="opt" onclick="ans(this,6,'B')"><span class="ol">ب</span> تشوه التركيب الثلاثي الأبعاد للبروتين وتمزقه بسبب الحرارة أو pH</button>
+      <button class="opt" onclick="ans(this,6,'C')"><span class="ol">ج</span> تحول البروتين إلى أحماض أمينية حرة فقط</button>
+      <button class="opt" onclick="ans(this,6,'D')"><span class="ol">د</span> اكتساب البروتين أحماضًا أمينية إضافية</button>
+    </div>
+    <div class="fb" id="fb-6"></div></div>
+
+    <!-- Q7 -->
+    <div class="qcard"><div class="qnum">7</div>
+    <div class="qtext">ما الموقع النشط في الإنزيم؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,7,'A')"><span class="ol">أ</span> الجزء الذي يُخزّن الطاقة في الإنزيم</button>
+      <button class="opt" onclick="ans(this,7,'B')"><span class="ol">ب</span> النقطة التي ترتبط بها المادة الخاضعة على جزيئة الإنزيم</button>
+      <button class="opt" onclick="ans(this,7,'C')"><span class="ol">ج</span> الجزء الذي يُنتج الإنزيم من أحماض أمينية</button>
+      <button class="opt" onclick="ans(this,7,'D')"><span class="ol">د</span> الموضع الذي يُطلق فيه الإنزيم النواتج فقط</button>
+    </div>
+    <div class="fb" id="fb-7"></div></div>
+
+    <!-- Q8 -->
+    <div class="qcard"><div class="qnum">8</div>
+    <div class="qtext">
+      الأنسولين هرمون بروتيني يتكون من <strong>51 حمضًا أمينيًّا</strong>. ما الوظيفة الرئيسية للأنسولين؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,8,'A')"><span class="ol">أ</span> تسريع تفاعلات هضم البروتين</button>
+      <button class="opt" onclick="ans(this,8,'B')"><span class="ol">ب</span> نقل الأكسجين في الدم من الرئتين</button>
+      <button class="opt" onclick="ans(this,8,'C')"><span class="ol">ج</span> إرسال إشارة لخلايا الجسم بأن سكر الدم متوافر ويجب تخزينه</button>
+      <button class="opt" onclick="ans(this,8,'D')"><span class="ol">د</span> بناء ألياف العضلات والأنسجة الضامة</button>
+    </div>
+    <div class="fb" id="fb-8"></div></div>
+
+    <!-- Q9 -->
+    <div class="qcard"><div class="qnum">9</div>
+    <div class="qtext">ما أكثر البروتينات البنائية توافرًا في معظم الحيوانات؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,9,'A')"><span class="ol">أ</span> الكيراتين</button>
+      <button class="opt" onclick="ans(this,9,'B')"><span class="ol">ب</span> الهيموجلوبين</button>
+      <button class="opt" onclick="ans(this,9,'C')"><span class="ol">ج</span> الكولاجين</button>
+      <button class="opt" onclick="ans(this,9,'D')"><span class="ol">د</span> الأنسولين</button>
+    </div>
+    <div class="fb" id="fb-9"></div></div>
+
+    <!-- Q10 -->
+    <div class="qcard"><div class="qnum">10</div>
+    <div class="qtext">كيف يُميّز الإنزيم مادته الخاضعة؟ أي العبارات التالية تصف ذلك بشكل صحيح؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,10,'A')"><span class="ol">أ</span> الإنزيم يتفاعل مع أي مادة كيميائية بشكل عشوائي</button>
+      <button class="opt" onclick="ans(this,10,'B')"><span class="ol">ب</span> المادة الخاضعة يجب أن يتطابق شكلها مع شكل الموقع النشط للإنزيم (كالقفل والمفتاح)</button>
+      <button class="opt" onclick="ans(this,10,'C')"><span class="ol">ج</span> الإنزيم يتعرف على المادة الخاضعة بواسطة درجة حرارتها فقط</button>
+      <button class="opt" onclick="ans(this,10,'D')"><span class="ol">د</span> الإنزيم يتفاعل مع أي مادة خاضعة طالما أنها ذات أصل بروتيني</button>
+    </div>
+    <div class="fb" id="fb-10"></div></div>
+
+  </div>
+
+  <div class="result" id="rp">
+    <div class="ring" id="rring"><span class="sn" id="fscore">0</span><span class="sl">من 10</span></div>
+    <div class="rmsg" id="rmsg"></div>
+    <div class="rsub" id="rsub"></div>
+    <button class="rbtn" onclick="restart()">🔄 إعادة الاختبار</button>
+  </div>
+</div>
+
+<script>
+const ANS = {1:'B',2:'C',3:'C',4:'C',5:'B',6:'B',7:'B',8:'C',9:'C',10:'B'};
+const EXP = {
+  1:'البروتينات بوليمرات عضوية (حيوية) تتكون من أحماض أمينية مرتبطة بروابط ببتيدية بترتيب معين، وتنطوي في تركيب ثلاثي الأبعاد.',
+  2:'مجموعة الفوسفات ليست من مجموعات الحمض الأميني. المجموعات الأربع هي: مجموعة الأمين، مجموعة الكربوكسيل، ذرة الهيدروجين، والسلسلة الجانبية R.',
+  3:'عند اتحاد حمضين أمينيين بتفاعل تكثف، تتحد مجموعة الكربوكسيل مع مجموعة الأمين وتنطلق جزيئة ماء (H₂O).',
+  4:'عدد التتابعات = 20ⁿ حيث n = عدد الأحماض الأمينية. للببتيد من 3 أحماض أمينية: 20³ = 8000 تتابعًا محتملاً.',
+  5:'ترتيب الأحماض الأمينية في السلسلة الببتيدية مهم جدًا. Gly-Phe ≠ Phe-Gly — كلاهما يحتوي على نفس الأحماض الأمينية لكن بترتيب مختلف → مركبان مختلفان تمامًا.',
+  6:'تغير الخواص الطبيعية هو العملية التي تتشوه فيها البنية الثلاثية الأبعاد للبروتين وتتمزق بسبب التغيرات في درجة الحرارة أو pH أو العوامل الأخرى. مثال: سلق البيضة.',
+  7:'الموقع النشط هو النقطة (الجيب أو الشق) على جزيئة الإنزيم التي ترتبط بها المادة الخاضعة لفعل الإنزيم. شكله محدد ويناسب شكل المادة الخاضعة فقط.',
+  8:'الأنسولين هرمون بروتيني تُنتجه خلايا البنكرياس — يُطلق في الدم ليُشير لخلايا الجسم بأن سكر الدم متوافر بكثرة ويجب تخزينه. نقصه يسبب مرض السكري.',
+  9:'الكولاجين هو البروتين البنائي الأكثر توافرًا في معظم الحيوانات — يوجد في الجلد والأوتار والأربطة والعظام. أما الكيراتين فيكوّن الشعر والأظفار والريش.',
+  10:'يجب أن يتطابق شكل المادة الخاضعة مع شكل الموقع النشط للإنزيم بالطريقة نفسها التي تتطابق بها قطع الألغاز أو القفل والمفتاح — هذا ما يجعل الإنزيمات خاصة بموادها الخاضعة.'
+};
+
+let score=0, done=0;
+
+function ans(btn,q,ch){
+  const all=btn.parentElement.querySelectorAll('.opt');
+  all.forEach(b=>b.disabled=true);
+  const opts=['A','B','C','D'];
+  all.forEach((b,i)=>{
+    if(opts[i]===ANS[q]) b.classList.add('ok');
+    else if(opts[i]===ch&&ch!==ANS[q]) b.classList.add('bad');
+  });
+  const fb=document.getElementById('fb-'+q);
+  const ok=ch===ANS[q];
+  if(ok){score++;fb.className='fb show ok-fb';fb.innerHTML='✅ <span><strong>إجابة صحيحة!</strong> '+EXP[q]+'</span>';}
+  else{fb.className='fb show bad-fb';fb.innerHTML='❌ <span><strong>إجابة خاطئة.</strong> '+EXP[q]+'</span>';}
+  done++;
+  document.getElementById('pf').style.width=(done/10*100)+'%';
+  document.getElementById('qc').textContent='السؤال '+done+' من 10';
+  document.getElementById('sc').textContent='النقاط: '+score;
+  if(done===10) setTimeout(showRes,700);
+}
+
+function showRes(){
+  document.getElementById('qs').style.display='none';
+  const rp=document.getElementById('rp'); rp.classList.add('show');
+  document.getElementById('fscore').textContent=score;
+  const ring=document.getElementById('rring');
+  let msg,sub,cls;
+  if(score>=9){cls='ex';msg='🏆 ممتاز! فهمت البروتينات بعمق!';sub='أجبت على '+score+' من 10 — أداء استثنائي!';}
+  else if(score>=6){cls='gd';msg='👍 جيد جدًا!';sub='أجبت على '+score+' من 10 — راجع الأسئلة التي أخطأت فيها.';}
+  else{cls='nw';msg='📚 راجع الدرس وأعد المحاولة';sub='أجبت على '+score+' فقط — ارجع لأقسام الدرس.';}
+  ring.className='ring '+cls;
+  document.getElementById('rmsg').textContent=msg;
+  document.getElementById('rsub').textContent=sub;
+}
+
+function restart(){
+  score=0;done=0;
+  document.getElementById('rp').classList.remove('show');
+  document.getElementById('qs').style.display='block';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('qc').textContent='السؤال 0 من 10';
+  document.getElementById('sc').textContent='النقاط: 0';
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.classList.remove('ok','bad');});
+  document.querySelectorAll('.fb').forEach(f=>{f.className='fb';f.innerHTML='';});
+}
+
+function tab(id,el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

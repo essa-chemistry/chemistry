@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الكربوهيدرات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --p1:#7c2d12; --p2:#c2410c; --p3:#ea580c;
+    --accent:#16a34a; --accent-bg:#f0fdf4;
+    --blue:#1d4ed8; --blue-bg:#eff6ff;
+    --teal:#0f766e; --teal-bg:#f0fdfa;
+    --purple:#6d28d9; --purple-bg:#f5f3ff;
+    --gold:#b45309; --gold-bg:#fffbeb;
+    --red:#b91c1c; --red-bg:#fef2f2;
+    --bg:#fdf8f5; --card:#fff;
+    --text:#1c1408; --muted:#6b5a4e;
+    --border:#e8d5c4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);line-height:1.85;direction:rtl;}
+
+  /* HERO */
+  .hero{background:linear-gradient(145deg,#431407 0%,#7c2d12 50%,#9a3412 100%);color:#fff;padding:56px 40px 48px;text-align:center;position:relative;overflow:hidden;}
+  .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(234,88,12,.25) 0%,transparent 55%),radial-gradient(ellipse at 15% 75%,rgba(22,163,74,.18) 0%,transparent 50%);pointer-events:none;}
+  .hero-tag{display:inline-block;background:rgba(234,88,12,.22);border:1px solid rgba(234,88,12,.4);color:#fed7aa;padding:5px 18px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:18px;position:relative;z-index:1;}
+  .hero h1{font-size:clamp(26px,5vw,46px);font-weight:900;margin-bottom:12px;position:relative;z-index:1;}
+  .hero h1 span{color:#fcd34d;}
+  .hero p{font-size:16px;opacity:.87;max-width:600px;margin:0 auto;position:relative;z-index:1;}
+
+  /* NAV */
+  .nav{display:flex;background:#fff;border-bottom:2px solid var(--border);padding:0 28px;gap:2px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow-x:auto;}
+  .nav button{padding:15px 22px;font-size:15px;font-weight:700;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;font-family:'Tajawal',sans-serif;transition:all .2s;}
+  .nav button:hover{color:var(--p2);}
+  .nav button.active{color:var(--p1);border-bottom-color:var(--p3);background:rgba(234,88,12,.05);}
+
+  /* SECTIONS */
+  .sec{display:none;padding:38px 28px;max-width:980px;margin:0 auto;}
+  .sec.on{display:block;}
+
+  /* CARD */
+  .card{background:var(--card);border-radius:18px;border:1px solid var(--border);padding:28px 30px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .card-h{font-size:18px;font-weight:800;color:var(--p1);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+
+  /* DEF */
+  .def{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-right:6px solid var(--p3);border-radius:14px;padding:20px 24px;margin:14px 0;}
+  .def .dlabel{font-size:12px;font-weight:800;color:var(--p1);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;}
+  .def p{font-size:16px;line-height:1.8;}
+
+  /* CALLOUT */
+  .call{display:flex;gap:14px;padding:14px 18px;border-radius:12px;margin:12px 0;align-items:flex-start;font-size:15px;}
+  .call.info{background:var(--blue-bg);border:1px solid #bfdbfe;}
+  .call.warn{background:var(--gold-bg);border:1px solid #fde68a;}
+  .call.good{background:var(--accent-bg);border:1px solid #86efac;}
+  .call.purple{background:var(--purple-bg);border:1px solid #ddd6fe;}
+  .call.red{background:var(--red-bg);border:1px solid #fca5a5;}
+  .call.teal{background:var(--teal-bg);border:1px solid #99f6e4;}
+  .call.orange{background:#fff7ed;border:1px solid #fed7aa;}
+  .call .ci{font-size:22px;flex-shrink:0;margin-top:1px;}
+  .call .ct{line-height:1.75;}
+  .call .ct strong{font-weight:800;}
+
+  /* SUGAR CARDS */
+  .sugar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:16px 0;}
+  .sugar-card{border-radius:14px;padding:18px;border:1.5px solid;text-align:center;}
+  .sugar-card.g{background:#f0fdf4;border-color:#86efac;}
+  .sugar-card.b{background:var(--blue-bg);border-color:#93c5fd;}
+  .sugar-card.p{background:var(--purple-bg);border-color:#c4b5fd;}
+  .sugar-card.o{background:#fff7ed;border-color:#fed7aa;}
+  .sugar-card.t{background:var(--teal-bg);border-color:#5eead4;}
+  .sugar-card.r{background:var(--red-bg);border-color:#fca5a5;}
+  .sugar-card .sicon{font-size:32px;margin-bottom:8px;}
+  .sugar-card h3{font-size:15px;font-weight:800;margin-bottom:6px;}
+  .sugar-card.g h3{color:#166534;}
+  .sugar-card.b h3{color:var(--blue);}
+  .sugar-card.p h3{color:var(--purple);}
+  .sugar-card.o h3{color:var(--gold);}
+  .sugar-card.t h3{color:var(--teal);}
+  .sugar-card.r h3{color:var(--red);}
+  .sugar-card p{font-size:13px;line-height:1.6;}
+
+  /* FORMULA */
+  .formula{background:#f8f4f0;border:1px solid var(--border);border-radius:12px;padding:16px 20px;text-align:center;font-size:18px;font-weight:700;color:var(--p1);margin:14px 0;font-family:'Courier New',monospace;letter-spacing:.5px;}
+  .formula.green{background:var(--accent-bg);border-color:#86efac;color:#166534;}
+  .formula.blue{background:var(--blue-bg);border-color:#93c5fd;color:var(--blue);}
+  .formula.purple{background:var(--purple-bg);border-color:#c4b5fd;color:var(--purple);}
+
+  /* COMPARE TABLE */
+  .cmp-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;}
+  .cmp-table th{background:var(--p1);color:#fff;padding:11px 14px;font-weight:800;text-align:center;}
+  .cmp-table th:first-child{border-radius:10px 0 0 0;}
+  .cmp-table th:last-child{border-radius:0 10px 0 0;}
+  .cmp-table td{padding:11px 14px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+  .cmp-table tr:nth-child(even) td{background:#fdf8f5;}
+  .cmp-table tr:hover td{background:#fff7ed;}
+
+  /* REACTION VISUAL */
+  .rxn{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:20px;background:#f8f4f0;border-radius:14px;border:1px dashed var(--border);margin:14px 0;}
+  .rxn-box{border-radius:10px;padding:10px 16px;text-align:center;border:1.5px solid;min-width:100px;}
+  .rxn-box.g{background:var(--accent-bg);border-color:#86efac;color:#166534;}
+  .rxn-box.b{background:var(--blue-bg);border-color:#93c5fd;color:var(--blue);}
+  .rxn-box.p{background:var(--purple-bg);border-color:#c4b5fd;color:var(--purple);}
+  .rxn-box.w{background:#f0f9ff;border-color:#7dd3fc;color:#0369a1;}
+  .rxn-box .rt{font-size:11px;font-weight:700;opacity:.7;margin-bottom:3px;}
+  .rxn-box .rm{font-size:14px;font-weight:800;}
+  .rxn-arr{font-size:26px;color:var(--muted);}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+  h3.sub{font-size:16px;font-weight:800;color:var(--p1);margin:18px 0 10px;}
+  .divider{height:1px;background:var(--border);margin:22px 0;}
+
+  /* ═══ QUIZ ═══ */
+  .quiz-h{text-align:center;margin-bottom:28px;}
+  .quiz-h h2{font-size:26px;font-weight:900;color:var(--p1);margin-bottom:6px;}
+  .quiz-h p{color:var(--muted);font-size:15px;}
+  .pbar-wrap{background:var(--border);border-radius:10px;height:8px;margin:18px 0;overflow:hidden;}
+  .pbar-fill{height:100%;background:linear-gradient(90deg,var(--p2),var(--accent));border-radius:10px;transition:width .4s ease;}
+  .plabels{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:5px;}
+
+  .qcard{background:#fff;border-radius:18px;border:1.5px solid var(--border);padding:28px 28px 22px;margin-bottom:20px;box-shadow:0 3px 14px rgba(0,0,0,.06);}
+  .qnum{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--p1);color:#fff;border-radius:50%;font-size:14px;font-weight:800;margin-bottom:12px;}
+  .qtext{font-size:16px;font-weight:700;color:var(--text);margin-bottom:18px;line-height:1.65;}
+  .qtext .ei{display:block;background:#fdf8f5;border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;font-weight:600;color:var(--p1);margin:8px 0;line-height:1.6;}
+
+  .opts{display:flex;flex-direction:column;gap:9px;}
+  .opt{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;font-size:15px;font-weight:500;color:var(--text);background:#fdfaf8;text-align:right;transition:all .18s;font-family:'Tajawal',sans-serif;direction:rtl;width:100%;}
+  .opt:hover:not(:disabled){background:#fff7ed;border-color:#fed7aa;color:var(--p1);}
+  .opt .ol{width:30px;height:30px;border-radius:50%;background:#fff;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;transition:all .18s;}
+  .opt:hover:not(:disabled) .ol{background:var(--p2);border-color:var(--p2);color:#fff;}
+  .opt.ok{background:var(--accent-bg);border-color:#86efac;color:#166534;}
+  .opt.ok .ol{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .opt.bad{background:var(--red-bg);border-color:#fca5a5;color:var(--red);}
+  .opt.bad .ol{background:var(--red);border-color:var(--red);color:#fff;}
+  .opt:disabled{cursor:default;}
+
+  .fb{display:none;margin-top:12px;padding:13px 17px;border-radius:12px;font-size:15px;font-weight:500;line-height:1.7;}
+  .fb.show{display:flex;gap:10px;align-items:flex-start;}
+  .fb.ok-fb{background:var(--accent-bg);color:#14532d;border:1px solid #86efac;}
+  .fb.bad-fb{background:var(--red-bg);color:#7f1d1d;border:1px solid #fca5a5;}
+
+  .result{display:none;text-align:center;padding:40px 24px;}
+  .result.show{display:block;}
+  .ring{width:148px;height:148px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 22px;border:8px solid var(--border);}
+  .ring.ex{border-color:#4ade80;background:#f0fdf4;}
+  .ring.gd{border-color:#fbbf24;background:#fffbeb;}
+  .ring.nw{border-color:#f87171;background:#fef2f2;}
+  .ring .sn{font-size:38px;font-weight:900;}
+  .ring.ex .sn{color:#166534;}
+  .ring.gd .sn{color:var(--gold);}
+  .ring.nw .sn{color:var(--red);}
+  .ring .sl{font-size:14px;color:var(--muted);}
+  .rmsg{font-size:22px;font-weight:800;margin-bottom:8px;}
+  .rsub{color:var(--muted);font-size:16px;margin-bottom:28px;}
+  .rbtn{background:var(--p1);color:#fff;border:none;border-radius:12px;padding:14px 38px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s;}
+  .rbtn:hover{background:var(--p2);transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,45,18,.28);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🍬 كيمياء — القسم 6-2</div>
+  <h1>الكربوهيدرات <span>Carbohydrates</span></h1>
+  <p>السكريات الأحادية • الثنائية • عديدة التسكر • الوظائف الحيوية</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="tab('lesson',this)">📖 الدرس</button>
+  <button onclick="tab('types',this)">🔬 الأنواع</button>
+  <button onclick="tab('compare',this)">📊 المقارنة</button>
+  <button onclick="tab('quiz',this)">✏️ الاختبار</button>
+</div>
+
+<!-- ══════════ LESSON ══════════ -->
+<div id="lesson" class="sec on">
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#ffedd5">🍞</div>ما الكربوهيدرات؟</div>
+    <div class="def">
+      <div class="dlabel">التعريف</div>
+      <p>الكربوهيدرات <strong>مركبات عضوية</strong> تحتوي على مجموعات هيدروكسيل (-OH) متعددة ومجموعة الكربونيل الوظيفية (C=O). الوظيفة الرئيسة: <strong>مصدر للطاقة المختزنة</strong> والمواد البنائية.</p>
+    </div>
+    <div class="formula">Cₙ(H₂O)ₙ — الصيغة الكيميائية العامة للكربوهيدرات</div>
+    <div class="call warn">
+      <span class="ci">📖</span>
+      <div class="ct"><strong>أصل التسمية:</strong> الملاحظات القديمة بينت أن الصيغة تبدو كأنها "هيدرات الكربون" لذا سُميت كربوهيدرات — رغم أن العلماء يعرفون الآن أنه لا توجد جزيئات ماء كاملة مرتبطة بها.</div>
+    </div>
+    <div class="call good">
+      <span class="ci">🥗</span>
+      <div class="ct"><strong>أغذية غنية بالكربوهيدرات:</strong> الحليب، الفواكه، الخبز، البطاطس</div>
+    </div>
+    <div class="call info">
+      <span class="ci">📏</span>
+      <div class="ct">تتراوح الكربوهيدرات في حجمها بين <strong>وحدة بنائية واحدة</strong> (السكريات الأحادية) إلى <strong>بوليمرات</strong> من مئات أو آلاف الوحدات الأساسية.</div>
+    </div>
+  </div>
+
+  <!-- السكريات الأحادية -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#dcfce7">🍇</div>السكريات الأحادية — أبسط الكربوهيدرات</div>
+    <div class="def">
+      <div class="dlabel">تعريف</div>
+      <p>أبسط أنواع الكربوهيدرات، تسمى <strong>سكريات بسيطة</strong>. تحتوي أكثرها شيوعًا على <strong>5 أو 6 ذرات كربون</strong>. تتميز بوجود مجموعة كربونيل على إحدى ذرات الكربون ومجموعات هيدروكسيل على معظم ذرات الكربون الأخرى.</div>
+    </div>
+
+    <div class="sugar-grid">
+      <div class="sugar-card g">
+        <div class="sicon">🍬</div>
+        <h3>الجلوكوز</h3>
+        <p>سكر سداسي الكربون، تركيب <strong>ألدهيدي</strong>. يوجد بتركيز عالٍ في الدم — مصدر رئيس للطاقة الفورية. يسمى "سكر الدم".</p>
+      </div>
+      <div class="sugar-card b">
+        <div class="sicon">🥛</div>
+        <h3>الجلاكتوز</h3>
+        <p>يختلف عن الجلوكوز في <strong>اتجاه</strong> ذرة الهيدروجين ومجموعة الهيدروكسيل حول إحدى ذرات الكربون فقط → متشكلان هندسيان.</p>
+      </div>
+      <div class="sugar-card o">
+        <div class="sicon">🍎</div>
+        <h3>الفركتوز</h3>
+        <p>سكر الفاكهة، 6 ذرات كربون، تركيب <strong>كيتوني</strong>. متشكل بنائي للجلوكوز — نفس الصيغة الجزيئية لكن تركيب مختلف.</p>
+      </div>
+    </div>
+
+    <div class="call purple">
+      <span class="ci">🔄</span>
+      <div class="ct"><strong>الشكلان الحلقي والمفتوح:</strong> في المحاليل المائية توجد السكريات الأحادية في كلا الشكلين وتتحول بينهما باستمرار. الشكل <strong>الحلقي أكثر استقرارًا</strong> وهو السائد. في الشكل الحلقي تتحول مجموعات الكربونيل إلى مجموعات هيدروكسيل.</div>
+    </div>
+    <div class="call warn">
+      <span class="ci">⚗️</span>
+      <div class="ct"><strong>الخواص:</strong> تعدد المجموعات القطبية يجعل السكريات الأحادية <strong>قابلة للذوبان في الماء</strong> ويعطيها درجات انصهار عالية. يمكن أن تكون ألدهيدات أو كيتونات.</div>
+    </div>
+  </div>
+
+  <!-- السكريات الثنائية -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#e0e7ff">🧂</div>السكريات الثنائية — اتحاد سكرين أحاديين</div>
+    <p style="font-size:15px;margin-bottom:14px">عندما يرتبط سكران أحاديان معًا عبر <strong>تفاعل تكثف</strong> (ينطلق الماء) تتكون رابطة إيثرية (C-O-C) وينتج سكر ثنائي.</p>
+
+    <div class="rxn">
+      <div class="rxn-box g"><div class="rt">سكر أحادي 1</div><div class="rm">جلوكوز</div></div>
+      <div class="rxn-arr">+</div>
+      <div class="rxn-box b"><div class="rt">سكر أحادي 2</div><div class="rm">فركتوز</div></div>
+      <div class="rxn-arr">→</div>
+      <div class="rxn-box p"><div class="rt">سكر ثنائي</div><div class="rm">سكروز 🍬</div></div>
+      <div class="rxn-arr">+</div>
+      <div class="rxn-box w"><div class="rt">ينطلق</div><div class="rm">H₂O 💧</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="sugar-card p">
+        <div class="sicon">🍬</div>
+        <h3>السكروز (سكر المائدة)</h3>
+        <p><strong>جلوكوز + فركتوز</strong><br>يستعمل بشكل رئيس في التحلية</p>
+      </div>
+      <div class="sugar-card t">
+        <div class="sicon">🥛</div>
+        <h3>اللاكتوز (سكر الحليب)</h3>
+        <p><strong>جلوكوز + جلاكتوز</strong><br>الكربوهيدرات الأهم في الحليب</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- السكريات عديدة التسكر -->
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#fef3c7">🌾</div>السكريات عديدة التسكر — الكربوهيدرات المعقدة</div>
+    <div class="def">
+      <div class="dlabel">تعريف</div>
+      <p>بوليمرات تتكون من <strong>12 وحدة بناء أساسية أو أكثر</strong> من السكريات البسيطة. ترتبط وحداتها بنفس نوع الروابط التي تجمع سكرين أحاديين. اسم "Polysaccharide" من اليونانية "Polys" (متعدد) + السنسكريتية "Sakkara" (سكر).</p>
+    </div>
+
+    <div class="grid2" style="margin-top:16px">
+      <div>
+        <h3 class="sub" style="color:#b45309">🟡 الجلايكوجين</h3>
+        <div class="call warn">
+          <span class="ci">💪</span>
+          <div class="ct">يتألف من وحدات <strong>جلوكوز</strong>. يوجد في الكبد وعضلات الإنسان والحيوانات وبعض المخلوقات المجهرية (البكتيريا والفطريات). وظيفته: <strong>تخزين الطاقة</strong>.</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub" style="color:var(--gold)">🟤 النشا</h3>
+        <div class="call orange">
+          <span class="ci">🌾</span>
+          <div class="ct">تصنعه النباتات من وحدات <strong>جلوكوز</strong>. جزيء طري لا يذوب في الماء. وظيفته: <strong>تخزين الطاقة</strong> في النباتات. الإنسان يستطيع هضمه.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub">🌿 السليلوز (الألياف الغذائية)</h3>
+    <div class="call teal">
+      <span class="ci">🌿</span>
+      <div class="ct">تصنعه النباتات من وحدات <strong>جلوكوز</strong>. بوليمر لا يذوب في الماء. <strong>يكوّن الجدران القاسية للخلية النباتية</strong> (الخشب). الإنسان <strong>لا يستطيع هضمه</strong> لأن إنزيمات الهضم لا تستطيع استيعابه في مواقعها النشطة. يُسمى "ألياف غذائية".</div>
+    </div>
+
+    <div class="call info" style="margin-top:14px">
+      <span class="ci">🔑</span>
+      <div class="ct"><strong>لماذا يختلف النشا عن السليلوز رغم أن كليهما من الجلوكوز؟</strong><br>لأن الروابط التي تربط وحدات الجلوكوز تتجه <strong>اتجاهات مختلفة في الفراغ</strong> — هذا الاختلاف في شكل الروابط يجعل الإنسان يهضم النشا ولا يهضم السليلوز.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════ TYPES ══════════ -->
+<div id="types" class="sec">
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#dcfce7">🔬</div>تفاصيل السكريات الأحادية الشائعة</div>
+    <div class="grid2">
+      <div>
+        <h3 class="sub">الجلوكوز vs الجلاكتوز</h3>
+        <div class="call info">
+          <span class="ci">🔄</span>
+          <div class="ct">كلاهما سكر سداسي الكربون (C₆H₁₂O₆). يختلفان فقط في <strong>اتجاه</strong> مجموعة OH وH حول <strong>ذرة كربون واحدة</strong> → متشكلان هندسيان. لهما نفس الصيغة الجزيئية لكن خواص مختلفة.</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub">الجلوكوز vs الفركتوز</h3>
+        <div class="call purple">
+          <span class="ci">🔀</span>
+          <div class="ct">كلاهما C₆H₁₂O₆. لكن الجلوكوز له تركيب <strong>ألدهيدي</strong> والفركتوز له تركيب <strong>كيتوني</strong> → متشكلان بنائيان. مجموعة الكربونيل في موضع مختلف.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <h3 class="sub">حساب المتشاكلات المحتملة</h3>
+    <div class="call warn">
+      <span class="ci">🧮</span>
+      <div class="ct">
+        <strong>القاعدة:</strong> عدد المتشاكلات = 2ⁿ حيث n = عدد ذرات الكربون<br><br>
+        • الجلوكوز والجلاكتوز والفركتوز: كلها 6 ذرات كربون → 2⁶ = <strong>64 متشاكلاً محتملاً</strong><br>
+        • سكر خماسي (5C): 2⁵ = <strong>32 متشاكلاً</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#fef3c7">⚗️</div>تفاعل التكثف وتكوين السكريات الثنائية</div>
+    <p style="font-size:15px;margin-bottom:14px">في تفاعل التكثف تتحد مجموعتا هيدروكسيل من سكرين أحاديين مع انطلاق جزيئة ماء وتكوين <strong>رابطة إيثرية C-O-C</strong>:</p>
+    <div class="formula green">سكر أحادي + سكر أحادي → سكر ثنائي + H₂O</div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="sugar-card p">
+        <div class="sicon">🍬</div>
+        <h3>السكروز</h3>
+        <p><strong>جلوكوز + فركتوز</strong><br>سكر المائدة — أكثر السكريات الثنائية استخدامًا في التحلية</p>
+      </div>
+      <div class="sugar-card t">
+        <div class="sicon">🥛</div>
+        <h3>اللاكتوز</h3>
+        <p><strong>جلوكوز + جلاكتوز</strong><br>سكر الحليب — الكربوهيدرات الأساسية في الحليب</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ COMPARE ══════════ -->
+<div id="compare" class="sec">
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#e0e7ff">📊</div>مقارنة شاملة بين أنواع الكربوهيدرات</div>
+    <div style="overflow-x:auto">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>النوع</th>
+            <th>الوحدات</th>
+            <th>أمثلة</th>
+            <th>الرابطة</th>
+            <th>الوظيفة الرئيسة</th>
+            <th>هضمه الإنسان</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:#166534">سكر أحادي</strong></td>
+            <td>1 وحدة</td>
+            <td>جلوكوز، فركتوز، جلاكتوز</td>
+            <td>—</td>
+            <td>طاقة فورية</td>
+            <td style="color:#166534">✅ نعم</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--purple)">سكر ثنائي</strong></td>
+            <td>2 وحدات</td>
+            <td>سكروز، لاكتوز</td>
+            <td>إيثرية C-O-C</td>
+            <td>تحلية، طاقة</td>
+            <td style="color:#166534">✅ نعم</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--gold)">النشا</strong></td>
+            <td>12+ وحدة جلوكوز</td>
+            <td>نشا البطاطس والأرز</td>
+            <td>إيثرية (متفرعة)</td>
+            <td>تخزين طاقة نباتي</td>
+            <td style="color:#166534">✅ نعم</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--teal)">الجلايكوجين</strong></td>
+            <td>12+ وحدة جلوكوز</td>
+            <td>الكبد، العضلات</td>
+            <td>إيثرية (متفرعة)</td>
+            <td>تخزين طاقة حيواني</td>
+            <td style="color:#166534">✅ نعم</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--red)">السليلوز</strong></td>
+            <td>12+ وحدة جلوكوز</td>
+            <td>جدران الخلايا النباتية</td>
+            <td>إيثرية (غير متفرع)</td>
+            <td>دعم بنائي (خشب)</td>
+            <td style="color:var(--red)">❌ لا — ألياف غذائية</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call info" style="margin-top:18px">
+      <span class="ci">🔑</span>
+      <div class="ct"><strong>السر في الهضم:</strong> النشا والسليلوز كلاهما مبني من وحدات جلوكوز — لكن <strong>اتجاه الروابط</strong> في الفراغ مختلف. إنزيمات الهضم لا تستطيع التعرف على روابط السليلوز واستيعابها في مواقعها النشطة.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div class="ico" style="background:#f0fdf4">🎯</div>وظائف الكربوهيدرات في المخلوقات الحية</div>
+    <div class="sugar-grid">
+      <div class="sugar-card g">
+        <div class="sicon">⚡</div>
+        <h3>مصدر الطاقة</h3>
+        <p>الجلوكوز المصدر الرئيس للطاقة الفورية. الجلايكوجين والنشا يخزنانها.</p>
+      </div>
+      <div class="sugar-card b">
+        <div class="sicon">🏗️</div>
+        <h3>المواد البنائية</h3>
+        <p>السليلوز يكوّن جدران الخلايا النباتية القاسية في الخشب والألياف.</p>
+      </div>
+      <div class="sugar-card o">
+        <div class="sicon">🌿</div>
+        <h3>الألياف الغذائية</h3>
+        <p>السليلوز يمر في الجهاز الهضمي دون تغيير — يساعد في عمل الجهاز الهضمي.</p>
+      </div>
+      <div class="sugar-card t">
+        <div class="sicon">🔗</div>
+        <h3>التعرف الخلوي</h3>
+        <p>بعض الكربوهيدرات على أسطح الخلايا تلعب دورًا في التعرف الخلوي والتواصل.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="quiz" class="sec">
+  <div class="quiz-h">
+    <h2>اختبار الكربوهيدرات</h2>
+    <p>10 أسئلة — جميع المعطيات مدرجة داخل كل سؤال</p>
+  </div>
+  <div class="pbar-wrap"><div class="pbar-fill" id="pf" style="width:0%"></div></div>
+  <div class="plabels"><span id="qc">السؤال 0 من 10</span><span id="sc">النقاط: 0</span></div>
+
+  <div id="qs">
+
+    <!-- Q1 -->
+    <div class="qcard"><div class="qnum">1</div>
+    <div class="qtext">ما الصيغة الكيميائية العامة للكربوهيدرات؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,1,'A')"><span class="ol">أ</span> CₙHₙOₙ</button>
+      <button class="opt" onclick="ans(this,1,'B')"><span class="ol">ب</span> Cₙ(H₂O)ₙ</button>
+      <button class="opt" onclick="ans(this,1,'C')"><span class="ol">ج</span> CₙH₂ₙOₙ</button>
+      <button class="opt" onclick="ans(this,1,'D')"><span class="ol">د</span> CₙHₙ(OH)ₙ</button>
+    </div>
+    <div class="fb" id="fb-1"></div></div>
+
+    <!-- Q2 -->
+    <div class="qcard"><div class="qnum">2</div>
+    <div class="qtext">الجلوكوز سكر أحادي سداسي الكربون. ما نوع مجموعة الكربونيل فيه؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,2,'A')"><span class="ol">أ</span> تركيب كيتوني — مجموعة الكربونيل في وسط السلسلة</button>
+      <button class="opt" onclick="ans(this,2,'B')"><span class="ol">ب</span> تركيب ألدهيدي — مجموعة الكربونيل عند طرف السلسلة</button>
+      <button class="opt" onclick="ans(this,2,'C')"><span class="ol">ج</span> لا يحتوي على مجموعة كربونيل</button>
+      <button class="opt" onclick="ans(this,2,'D')"><span class="ol">د</span> تركيب كربوكسيلي — مجموعة COOH</button>
+    </div>
+    <div class="fb" id="fb-2"></div></div>
+
+    <!-- Q3 -->
+    <div class="qcard"><div class="qnum">3</div>
+    <div class="qtext">
+      الجلوكوز والجلاكتوز كلاهما سكر أحادي C₆H₁₂O₆. يختلف الجلاكتوز عن الجلوكوز في:
+      <span class="ei">اتجاه ذرة الهيدروجين ومجموعة الهيدروكسيل حول إحدى ذرات الكربون الست فقط</span>
+      ما العلاقة الصحيحة بينهما؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,3,'A')"><span class="ol">أ</span> متشكلان بنائيان — نفس الصيغة لكن مجموعة الكربونيل في موضع مختلف</button>
+      <button class="opt" onclick="ans(this,3,'B')"><span class="ol">ب</span> متشكلان هندسيان — نفس الترتيب لكن الذرات تتجه في اتجاهات مختلفة في الفراغ</button>
+      <button class="opt" onclick="ans(this,3,'C')"><span class="ol">ج</span> مركبان متطابقان تمامًا</button>
+      <button class="opt" onclick="ans(this,3,'D')"><span class="ol">د</span> أحدهما سكر أحادي والآخر سكر ثنائي</button>
+    </div>
+    <div class="fb" id="fb-3"></div></div>
+
+    <!-- Q4 -->
+    <div class="qcard"><div class="qnum">4</div>
+    <div class="qtext">
+      عند ذوبان الجلوكوز في الماء، في أي شكل يوجد بشكل أساسي عند الاتزان؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,4,'A')"><span class="ol">أ</span> شكل السلسلة المفتوحة فقط لأنه أكثر نشاطًا</button>
+      <button class="opt" onclick="ans(this,4,'B')"><span class="ol">ب</span> الشكل الحلقي هو الأكثر استقرارًا والأكثر شيوعًا</button>
+      <button class="opt" onclick="ans(this,4,'C')"><span class="ol">ج</span> يتحلل تمامًا في الماء</button>
+      <button class="opt" onclick="ans(this,4,'D')"><span class="ol">د</span> يوجد فقط كبلورات صلبة في الماء</button>
+    </div>
+    <div class="fb" id="fb-4"></div></div>
+
+    <!-- Q5 -->
+    <div class="qcard"><div class="qnum">5</div>
+    <div class="qtext">
+      السكروز يتكون من اتحاد: <span class="ei">جلوكوز + فركتوز → سكروز + H₂O</span>
+      ما نوع التفاعل الذي ينتج السكروز؟ وما نوع الرابطة المتكونة؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,5,'A')"><span class="ol">أ</span> تفاعل إضافة — رابطة ببتيدية</button>
+      <button class="opt" onclick="ans(this,5,'B')"><span class="ol">ب</span> تفاعل تكثف — رابطة إيثرية (C-O-C)</button>
+      <button class="opt" onclick="ans(this,5,'C')"><span class="ol">ج</span> تفاعل أكسدة — رابطة كربونيل</button>
+      <button class="opt" onclick="ans(this,5,'D')"><span class="ol">د</span> تفاعل انحلال مائي — رابطة هيدروجينية</button>
+    </div>
+    <div class="fb" id="fb-5"></div></div>
+
+    <!-- Q6 -->
+    <div class="qcard"><div class="qnum">6</div>
+    <div class="qtext">اللاكتوز سكر ثنائي شائع يسمى "سكر الحليب". من أي وحدتين يتكون اللاكتوز؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,6,'A')"><span class="ol">أ</span> جلوكوز + فركتوز</button>
+      <button class="opt" onclick="ans(this,6,'B')"><span class="ol">ب</span> جلوكوز + جلوكوز</button>
+      <button class="opt" onclick="ans(this,6,'C')"><span class="ol">ج</span> جلوكوز + جلاكتوز</button>
+      <button class="opt" onclick="ans(this,6,'D')"><span class="ol">د</span> فركتوز + جلاكتوز</button>
+    </div>
+    <div class="fb" id="fb-6"></div></div>
+
+    <!-- Q7 -->
+    <div class="qcard"><div class="qnum">7</div>
+    <div class="qtext">
+      <strong>حساب:</strong> إذا كان لأحد الكربوهيدرات 2ⁿ متشاكلاً محتملاً حيث n = عدد ذرات الكربون، فكم عدد المتشاكلات المحتملة للفركتوز علمًا بأنه يحتوي على <strong>6 ذرات كربون</strong>؟
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,7,'A')"><span class="ol">أ</span> 12 متشاكلاً (2 × 6)</button>
+      <button class="opt" onclick="ans(this,7,'B')"><span class="ol">ب</span> 32 متشاكلاً (2⁵)</button>
+      <button class="opt" onclick="ans(this,7,'C')"><span class="ol">ج</span> 64 متشاكلاً (2⁶)</button>
+      <button class="opt" onclick="ans(this,7,'D')"><span class="ol">د</span> 128 متشاكلاً (2⁷)</button>
+    </div>
+    <div class="fb" id="fb-7"></div></div>
+
+    <!-- Q8 -->
+    <div class="qcard"><div class="qnum">8</div>
+    <div class="qtext">النشا والسليلوز كلاهما عديدة تسكر مبنية من وحدات الجلوكوز. لماذا يستطيع الإنسان هضم النشا ولا يستطيع هضم السليلوز؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,8,'A')"><span class="ol">أ</span> السليلوز يتكون من الفركتوز وليس الجلوكوز</button>
+      <button class="opt" onclick="ans(this,8,'B')"><span class="ol">ب</span> الروابط في السليلوز تتجه اتجاهات مختلفة في الفراغ فلا تستطيع إنزيمات الهضم استيعابها</button>
+      <button class="opt" onclick="ans(this,8,'C')"><span class="ol">ج</span> السليلوز قابل للذوبان في الماء فلا يمكن هضمه</button>
+      <button class="opt" onclick="ans(this,8,'D')"><span class="ol">د</span> النشا يحتوي على مجموعات هيدروكسيل والسليلوز لا يحتوي عليها</button>
+    </div>
+    <div class="fb" id="fb-8"></div></div>
+
+    <!-- Q9 -->
+    <div class="qcard"><div class="qnum">9</div>
+    <div class="qtext">الجلايكوجين عديدة تسكر يخزن الطاقة في جسم الإنسان. أين يوجد الجلايكوجين بشكل رئيسي؟</div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,9,'A')"><span class="ol">أ</span> الجلد والشعر والأظافر</button>
+      <button class="opt" onclick="ans(this,9,'B')"><span class="ol">ب</span> الكبد وعضلات الإنسان والحيوانات</button>
+      <button class="opt" onclick="ans(this,9,'C')"><span class="ol">ج</span> الدم والرئتان فقط</button>
+      <button class="opt" onclick="ans(this,9,'D')"><span class="ol">د</span> جدران الخلايا النباتية</button>
+    </div>
+    <div class="fb" id="fb-9"></div></div>
+
+    <!-- Q10 -->
+    <div class="qcard"><div class="qnum">10</div>
+    <div class="qtext">
+      أيٌّ من التالي يصف السليلوز بشكل صحيح؟
+      <span class="ei">السليلوز بوليمر يتكون من وحدات جلوكوز مرتبطة بروابط إيثرية في اتجاهات فراغية محددة — يوجد في الفواكه والخضراوات والحبوب</span>
+    </div>
+    <div class="opts">
+      <button class="opt" onclick="ans(this,10,'A')"><span class="ol">أ</span> يذوب في الماء ويوفر طاقة فورية للجسم</button>
+      <button class="opt" onclick="ans(this,10,'B')"><span class="ol">ب</span> يُهضم بسهولة ويُخزَّن في الكبد</button>
+      <button class="opt" onclick="ans(this,10,'C')"><span class="ol">ج</span> لا يُهضم ويُسمى ألياف غذائية — يمر في الجهاز الهضمي دون تغيير كبير</button>
+      <button class="opt" onclick="ans(this,10,'D')"><span class="ol">د</span> يتكون من الفركتوز ويُستعمل في تحلية الأطعمة</button>
+    </div>
+    <div class="fb" id="fb-10"></div></div>
+
+  </div>
+
+  <div class="result" id="rp">
+    <div class="ring" id="rring"><span class="sn" id="fscore">0</span><span class="sl">من 10</span></div>
+    <div class="rmsg" id="rmsg"></div>
+    <div class="rsub" id="rsub"></div>
+    <button class="rbtn" onclick="restart()">🔄 إعادة الاختبار</button>
+  </div>
+</div>
+
+<script>
+const ANS={1:'B',2:'B',3:'B',4:'B',5:'B',6:'C',7:'C',8:'B',9:'B',10:'C'};
+const EXP={
+  1:'الصيغة العامة للكربوهيدرات هي Cₙ(H₂O)ₙ — وهي التي تبدو كأنها "هيدرات الكربون" مما أدى إلى تسميتها كربوهيدرات.',
+  2:'الجلوكوز له تركيب ألدهيدي — مجموعة الكربونيل (C=O) موجودة عند طرف السلسلة. أما الفركتوز فله تركيب كيتوني — الكربونيل في وسط السلسلة.',
+  3:'الجلوكوز والجلاكتوز متشكلان هندسيان (Geometric Isomers) — ذراتهما مرتبطة بنفس الترتيب لكنها تتجه في اتجاهات مختلفة في الفراغ حول إحدى ذرات الكربون.',
+  4:'في المحاليل المائية توجد السكريات الأحادية في كلا الشكلين (الحلقي والمفتوح) وتتحول بينهما باستمرار. الشكل الحلقي أكثر استقرارًا وهو الأكثر شيوعًا عند الاتزان.',
+  5:'تكوين السكريات الثنائية يحدث عبر تفاعل تكثف ينطلق فيه الماء. الرابطة المتكونة هي الرابطة الإيثرية (C-O-C) التي تجمع السكرين الأحاديين.',
+  6:'اللاكتوز (سكر الحليب) يتكون من اتحاد جلوكوز + جلاكتوز بتفاعل تكثف مع انطلاق الماء. بينما السكروز يتكون من جلوكوز + فركتوز.',
+  7:'عدد المتشاكلات = 2ⁿ حيث n = عدد ذرات الكربون. الفركتوز يحتوي على 6 ذرات كربون → 2⁶ = 64 متشاكلاً محتملاً.',
+  8:'رغم أن النشا والسليلوز كلاهما مبني من وحدات الجلوكوز، فإن الروابط في السليلوز تتجه اتجاهات مختلفة في الفراغ. إنزيمات الهضم البشري لا تستطيع استيعاب السليلوز في مواقعها النشطة.',
+  9:'الجلايكوجين يوجد بشكل رئيسي في الكبد وعضلات الإنسان والحيوانات. كما يوجد في بعض المخلوقات المجهرية كالبكتيريا والفطريات.',
+  10:'السليلوز لا يُهضم في الجهاز الهضمي البشري لأن إنزيمات الهضم لا تستطيع استيعابه. يُسمى "ألياف غذائية" لأنه يمر في الجهاز الهضمي دون أن يتغير كثيرًا.'
+};
+
+let score=0,done=0;
+
+function ans(btn,q,ch){
+  const all=btn.parentElement.querySelectorAll('.opt');
+  all.forEach(b=>b.disabled=true);
+  const opts=['A','B','C','D'];
+  all.forEach((b,i)=>{
+    if(opts[i]===ANS[q]) b.classList.add('ok');
+    else if(opts[i]===ch&&ch!==ANS[q]) b.classList.add('bad');
+  });
+  const fb=document.getElementById('fb-'+q);
+  const ok=ch===ANS[q];
+  if(ok){score++;fb.className='fb show ok-fb';fb.innerHTML='✅ <span><strong>إجابة صحيحة!</strong> '+EXP[q]+'</span>';}
+  else{fb.className='fb show bad-fb';fb.innerHTML='❌ <span><strong>إجابة خاطئة.</strong> '+EXP[q]+'</span>';}
+  done++;
+  document.getElementById('pf').style.width=(done/10*100)+'%';
+  document.getElementById('qc').textContent='السؤال '+done+' من 10';
+  document.getElementById('sc').textContent='النقاط: '+score;
+  if(done===10) setTimeout(showRes,700);
+}
+
+function showRes(){
+  document.getElementById('qs').style.display='none';
+  const rp=document.getElementById('rp');rp.classList.add('show');
+  document.getElementById('fscore').textContent=score;
+  const ring=document.getElementById('rring');
+  let msg,sub,cls;
+  if(score>=9){cls='ex';msg='🏆 ممتاز! فهمت الكربوهيدرات بعمق!';sub='أجبت على '+score+' من 10 — أداء رائع!';}
+  else if(score>=6){cls='gd';msg='👍 جيد جدًا!';sub='أجبت على '+score+' من 10 — راجع الأسئلة التي أخطأت فيها.';}
+  else{cls='nw';msg='📚 راجع الدرس وأعد المحاولة';sub='أجبت على '+score+' فقط — ارجع لأقسام الدرس.';}
+  ring.className='ring '+cls;
+  document.getElementById('rmsg').textContent=msg;
+  document.getElementById('rsub').textContent=sub;
+}
+
+function restart(){
+  score=0;done=0;
+  document.getElementById('rp').classList.remove('show');
+  document.getElementById('qs').style.display='block';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('qc').textContent='السؤال 0 من 10';
+  document.getElementById('sc').textContent='النقاط: 0';
+  document.querySelectorAll('.opt').forEach(b=>{b.disabled=false;b.classList.remove('ok','bad');});
+  document.querySelectorAll('.fb').forEach(f=>{f.className='fb';f.innerHTML='';});
+}
+
+function tab(id,el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
