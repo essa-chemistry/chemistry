@@ -14,16 +14,24 @@ body { font-family: Arial, sans-serif; direction: rtl; background: #f5f5f5; colo
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
 .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.5rem; text-align: center; text-decoration: none; color: #1a1a1a; transition: all 0.25s ease; display: flex; flex-direction: column; justify-content: space-between; height: 160px; }
 .card:hover { transform: translateY(-5px); border-color: #185FA5; box-shadow: 0 8px 15px rgba(24, 95, 165, 0.1); }
-/* تمييز بطاقة المراجعة النهائية بلون مختلف لافت للانتباه */
-.card.final-review { border-color: #BA7517; border-bottom: 4px solid #BA7517; }
-.card.final-review:hover { border-color: #BA7517; box-shadow: 0 8px 15px rgba(186, 117, 23, 0.15); }
-.card.final-review .card-btn { background: #FAEEDA; color: #854F0B; }
-.card.final-review:hover .card-btn { background: #BA7517; color: #fff; }
+
+/* تمييز بطاقة المراجعة النهائية في أعلى القائمة بلون ملكي خاص وجذاب */
+.card.final-review { border: 2px solid #711A85; border-bottom: 6px solid #711A85; background: #fff; grid-column: 1 / -1; height: 140px; }
+.card.final-review:hover { border-color: #711A85; box-shadow: 0 8px 20px rgba(113, 26, 133, 0.15); }
+.card.final-review .card-title { font-size: 18px; color: #711A85; font-weight: 800; }
+.card.final-review .card-btn { background: #F5E6F7; color: #711A85; font-size: 14px; border: 1px solid #E6C5EC; }
+.card.final-review:hover .card-btn { background: #711A85; color: #fff; }
+
 .card-icon { font-size: 32px; margin-bottom: 8px; }
 .card-title { font-size: 15px; font-weight: 700; color: #1a1a1a; line-height: 1.5; }
 .card-btn { margin-top: auto; padding: 8px 16px; background: #f0f0f0; color: #555; border-radius: 6px; font-size: 13px; font-weight: 600; transition: all 0.2s; }
 .card:hover .card-btn { background: #185FA5; color: #fff; }
 .footer { text-align: center; color: #888; font-size: 13px; margin-top: 3rem; }
+
+/* ضبط استجابة الشاشات الصغيرة لبطاقة المراجعة العريضة */
+@media (max-width: 540px) {
+  .card.final-review { grid-column: auto; height: 160px; }
+}
 </style>
 </head>
 <body>
@@ -37,6 +45,12 @@ body { font-family: Arial, sans-serif; direction: rtl; background: #f5f5f5; colo
 
   <div class="grid">
     
+    <a href="Final review.html" class="card final-review">
+      <div class="card-icon">👑</div>
+      <div class="card-title">المراجعة الختامية الشاملة للجميع الاختبارات</div>
+      <div class="card-btn">دخول المراجعة النهائية للاختبارات</div>
+    </a>
+
     <a href="lesson1.htm" class="card">
       <div class="card-icon">📘</div>
       <div class="card-title">الدرس 1-1:<br>الطاقة</div>
@@ -125,12 +139,6 @@ body { font-family: Arial, sans-serif; direction: rtl; background: #f5f5f5; colo
       <div class="card-icon">🎯</div>
       <div class="card-title">الدرس 1-15:<br>الدرس الخامس عشر</div>
       <div class="card-btn">دخول الدرس</div>
-    </a>
-
-    <a href="review.html" class="card final-review">
-      <div class="card-icon">👑</div>
-      <div class="card-title" style="color: #854F0B;">المراجعة الشاملة:<br>المراجعة النهائية</div>
-      <div class="card-btn">دخول المراجعة</div>
     </a>
 
   </div>
