@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مراجعة شاملة | كيمياء</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Tajawal',sans-serif;
+  background:#f0f4f8;
+  color:#1e293b;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ══════════════════════════════════════
+   CSS VARIABLES
+══════════════════════════════════════ */
+:root{
+  --pri:#0f4c81;
+  --pri-mid:#1a6db5;
+  --pri-light:#e8f2fc;
+  --pri-xlight:#f0f7ff;
+  --acc:#ff6b35;
+  --acc-light:#fff3ee;
+  --green:#16a34a;
+  --green-bg:#f0fdf4;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --yellow:#d97706;
+  --yellow-bg:#fffbeb;
+  --gray-50:#f8fafc;
+  --gray-100:#f1f5f9;
+  --gray-200:#e2e8f0;
+  --gray-300:#cbd5e1;
+  --gray-400:#94a3b8;
+  --gray-500:#64748b;
+  --gray-600:#475569;
+  --gray-700:#334155;
+  --gray-800:#1e293b;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.13);
+  --shadow-xl:0 16px 48px rgba(0,0,0,.16);
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:20px;
+  --radius-xl:28px;
+  --transition:.2s ease;
+}
+
+/* ══════════════════════════════════════
+   PROGRESS BAR (TOP)
+══════════════════════════════════════ */
+#top-progress{
+  position:fixed;top:0;left:0;right:0;height:4px;
+  background:var(--gray-200);z-index:9999;
+}
+#top-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--pri-mid),var(--acc));
+  transition:width .4s ease;
+  border-radius:0 2px 2px 0;
+}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+header{
+  background:linear-gradient(135deg,var(--pri) 0%,#1a3a5c 60%,#0d2a45 100%);
+  padding:3.5rem 1.5rem 2.5rem;
+  position:relative;overflow:hidden;
+  text-align:center;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 50%,rgba(26,109,181,.3) 0%,transparent 50%),
+    radial-gradient(circle at 80% 20%,rgba(255,107,53,.15) 0%,transparent 40%);
+}
+header::after{
+  content:'';position:absolute;
+  bottom:-2px;left:0;right:0;height:50px;
+  background:linear-gradient(to bottom right,transparent 49%,#f0f4f8 50%);
+}
+.header-inner{position:relative;z-index:1;max-width:800px;margin:0 auto;}
+
+.header-chip{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.9);border-radius:100px;
+  padding:.4rem 1.2rem;font-size:.82rem;font-weight:600;
+  letter-spacing:.05em;margin-bottom:1.2rem;backdrop-filter:blur(8px);
+}
+header h1{
+  font-family:'Cairo',sans-serif;font-weight:900;
+  font-size:clamp(1.8rem,5vw,3rem);color:#fff;
+  line-height:1.2;margin-bottom:.6rem;
+  text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+header h1 span{color:#fbbf24;}
+header p{
+  color:rgba(255,255,255,.75);font-size:1.05rem;
+  max-width:480px;margin:0 auto 1.8rem;
+}
+
+.stats-row{
+  display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;
+}
+.stat-badge{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;padding:.55rem 1.2rem;
+  display:flex;align-items:center;gap:.5rem;
+  backdrop-filter:blur(8px);
+}
+.stat-badge .sn{
+  font-family:'Cairo',sans-serif;font-weight:900;font-size:1.2rem;color:#fbbf24;
+}
+.stat-badge .sl{color:rgba(255,255,255,.8);font-size:.85rem;}
+
+/* ══════════════════════════════════════
+   LAYOUT CONTAINER
+══════════════════════════════════════ */
+.wrap{
+  max-width:1000px;margin:0 auto;
+  padding:2rem 1.2rem 6rem;
+}
+
+/* ══════════════════════════════════════
+   LESSON GRID (sidebar-style tabs)
+══════════════════════════════════════ */
+.page-grid{
+  display:grid;
+  grid-template-columns:230px 1fr;
+  gap:1.5rem;
+  align-items:start;
+}
+@media(max-width:700px){
+  .page-grid{grid-template-columns:1fr;}
+}
+
+/* Sidebar */
+.sidebar{
+  position:sticky;top:1.5rem;
+  background:#fff;border-radius:var(--radius-lg);
+  border:1px solid var(--gray-200);
+  box-shadow:var(--shadow-md);
+  overflow:hidden;
+}
+.sidebar-head{
+  background:var(--pri);color:#fff;
+  padding:.9rem 1rem;
+  font-weight:700;font-size:.9rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.lesson-tab{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.75rem 1rem;
+  cursor:pointer;border-bottom:1px solid var(--gray-100);
+  transition:background var(--transition),color var(--transition);
+  position:relative;
+}
+.lesson-tab:last-child{border-bottom:none;}
+.lesson-tab:hover{background:var(--pri-xlight);}
+.lesson-tab.active{
+  background:var(--pri-light);
+  border-left:3px solid var(--pri);
+}
+.lesson-tab.done .tab-icon{
+  background:var(--green-bg);color:var(--green);
+  border-color:rgba(22,163,74,.2);
+}
+.tab-icon{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  background:var(--gray-100);border:1px solid var(--gray-200);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:all var(--transition);
+}
+.tab-info{flex:1;min-width:0;}
+.tab-num{font-size:.65rem;color:var(--gray-400);font-weight:700;letter-spacing:.06em;}
+.tab-title{font-size:.8rem;font-weight:600;color:var(--gray-700);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tab-score{
+  font-size:.7rem;font-weight:700;
+  background:var(--gray-100);border-radius:100px;
+  padding:.15rem .55rem;color:var(--gray-500);
+  white-space:nowrap;
+}
+.tab-score.done{background:var(--green-bg);color:var(--green);}
+.lesson-tab.active .tab-title{color:var(--pri);}
+.lesson-tab.active .tab-score{background:rgba(15,76,129,.12);color:var(--pri);}
+
+/* Mobile lesson selector */
+.mobile-select-wrap{
+  display:none;
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:var(--radius-md);padding:1rem;
+  margin-bottom:1.2rem;box-shadow:var(--shadow-sm);
+}
+@media(max-width:700px){.mobile-select-wrap{display:block;}.sidebar{display:none;}}
+.mobile-select{
+  width:100%;padding:.7rem 1rem;border:1px solid var(--gray-200);
+  border-radius:10px;font-family:'Tajawal',sans-serif;font-size:.95rem;
+  color:var(--gray-700);background:var(--gray-50);cursor:pointer;
+  direction:rtl;
+}
+
+/* ══════════════════════════════════════
+   QUIZ SECTIONS
+══════════════════════════════════════ */
+.quiz-panel{display:none;}
+.quiz-panel.active{display:block;animation:fadeUp .35s ease;}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.section-header{
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:var(--radius-lg);padding:1.4rem 1.6rem;
+  margin-bottom:1.5rem;box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:1rem;
+}
+.section-emoji{
+  width:54px;height:54px;border-radius:16px;flex-shrink:0;
+  background:var(--pri-light);border:1px solid rgba(15,76,129,.15);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+}
+.section-meta h2{
+  font-family:'Cairo',sans-serif;font-size:1.25rem;font-weight:800;
+  color:var(--pri);margin-bottom:.25rem;
+}
+.section-meta p{font-size:.85rem;color:var(--gray-500);}
+
+/* Mini progress inside section */
+.section-progress{
+  background:var(--gray-100);height:6px;border-radius:3px;
+  margin-top:.6rem;overflow:hidden;
+}
+.section-prog-fill{
+  height:100%;width:0%;border-radius:3px;
+  background:linear-gradient(90deg,var(--pri-mid),#38bdf8);
+  transition:width .4s ease;
+}
+
+/* ══════════════════════════════════════
+   QUESTION CARDS
+══════════════════════════════════════ */
+.q-card{
+  background:#fff;
+  border:1px solid var(--gray-200);
+  border-radius:var(--radius-lg);
+  padding:1.6rem 1.6rem 1.4rem;
+  margin-bottom:1.2rem;
+  box-shadow:var(--shadow-sm);
+  transition:border-color .25s,box-shadow .25s;
+  position:relative;overflow:hidden;
+}
+.q-card::before{
+  content:'';position:absolute;
+  right:0;top:0;bottom:0;width:4px;
+  background:var(--gray-200);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  transition:background .3s;
+}
+.q-card.correct{border-color:rgba(22,163,74,.35);box-shadow:0 0 0 1px rgba(22,163,74,.15),var(--shadow-sm);}
+.q-card.correct::before{background:var(--green);}
+.q-card.wrong{border-color:rgba(220,38,38,.3);box-shadow:0 0 0 1px rgba(220,38,38,.1),var(--shadow-sm);}
+.q-card.wrong::before{background:var(--red);}
+
+.q-header{
+  display:flex;align-items:flex-start;gap:1rem;
+  margin-bottom:1.2rem;
+}
+.q-num{
+  width:36px;height:36px;flex-shrink:0;
+  background:var(--pri-light);color:var(--pri);
+  border-radius:10px;border:1px solid rgba(15,76,129,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.9rem;
+  font-family:'Cairo',sans-serif;
+}
+.q-text{
+  font-size:1.05rem;font-weight:700;
+  color:var(--gray-800);line-height:1.75;
+  flex:1;padding-top:.35rem;
+}
+
+/* ══════════════════════════════════════
+   OPTIONS
+══════════════════════════════════════ */
+.options{display:flex;flex-direction:column;gap:.6rem;}
+.opt-btn{
+  display:flex;align-items:center;gap:.9rem;
+  padding:.85rem 1.1rem;
+  border:1.5px solid var(--gray-200);
+  border-radius:var(--radius-md);
+  background:var(--gray-50);
+  cursor:pointer;text-align:right;
+  font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:500;
+  color:var(--gray-700);
+  transition:all .18s ease;
+  width:100%;direction:rtl;
+}
+.opt-btn:hover:not(:disabled){
+  border-color:var(--pri-mid);
+  background:var(--pri-xlight);
+  color:var(--pri);
+  transform:translateX(-2px);
+}
+.opt-btn:hover:not(:disabled) .opt-letter{
+  background:var(--pri-mid);color:#fff;border-color:var(--pri-mid);
+}
+.opt-letter{
+  width:32px;height:32px;border-radius:9px;flex-shrink:0;
+  background:#fff;border:1.5px solid var(--gray-300);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;color:var(--gray-500);
+  transition:all .18s;font-family:'Cairo',sans-serif;
+}
+.opt-text{flex:1;text-align:right;line-height:1.55;}
+
+/* States */
+.opt-btn.correct{
+  background:var(--green-bg);border-color:rgba(22,163,74,.4);
+  color:var(--green);cursor:default;
+}
+.opt-btn.correct .opt-letter{
+  background:var(--green);color:#fff;border-color:var(--green);
+}
+.opt-btn.wrong{
+  background:var(--red-bg);border-color:rgba(220,38,38,.35);
+  color:var(--red);cursor:default;
+}
+.opt-btn.wrong .opt-letter{
+  background:var(--red);color:#fff;border-color:var(--red);
+}
+.opt-btn.reveal{
+  background:rgba(22,163,74,.05);
+  border-color:rgba(22,163,74,.2);cursor:default;
+}
+.opt-btn:disabled{pointer-events:none;}
+
+/* ══════════════════════════════════════
+   FEEDBACK STRIP
+══════════════════════════════════════ */
+.feedback{
+  display:none;margin-top:.9rem;
+  padding:.85rem 1rem;border-radius:var(--radius-md);
+  font-size:.9rem;line-height:1.65;font-weight:500;
+}
+.feedback.show{display:flex;align-items:flex-start;gap:.65rem;animation:fadeUp .25s ease;}
+.feedback.ok{background:var(--green-bg);border:1px solid rgba(22,163,74,.25);color:#166534;}
+.feedback.bad{background:var(--red-bg);border:1px solid rgba(220,38,38,.2);color:#991b1b;}
+.feedback .fb-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.feedback strong{display:block;margin-bottom:.15rem;}
+
+/* ══════════════════════════════════════
+   SECTION RESULT PANEL
+══════════════════════════════════════ */
+.result-panel{
+  display:none;
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:var(--radius-xl);padding:2.5rem 2rem;
+  margin-top:1.5rem;text-align:center;
+  box-shadow:var(--shadow-md);
+  animation:fadeUp .5s ease;
+}
+.result-panel.show{display:block;}
+
+.score-ring{
+  width:110px;height:110px;border-radius:50%;
+  border:8px solid var(--gray-200);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;transition:border-color .5s;
+  position:relative;
+}
+.score-ring::after{
+  content:'';position:absolute;inset:-8px;
+  border-radius:50%;border:8px solid transparent;
+  border-top-color:var(--pri-mid);
+  animation:spin 1s linear infinite;
+  display:none;
+}
+.score-ring .ring-score{
+  font-family:'Cairo',sans-serif;font-size:2rem;font-weight:900;
+  color:var(--pri);line-height:1;
+}
+.score-ring .ring-label{font-size:.7rem;color:var(--gray-400);}
+.score-ring.ex{border-color:var(--green);}
+.score-ring.ex .ring-score{color:var(--green);}
+.score-ring.gd{border-color:var(--yellow);}
+.score-ring.gd .ring-score{color:var(--yellow);}
+.score-ring.nw{border-color:var(--red);}
+.score-ring.nw .ring-score{color:var(--red);}
+
+.result-msg{font-family:'Cairo',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.4rem;}
+.result-sub{color:var(--gray-500);font-size:.95rem;margin-bottom:1.6rem;}
+
+.result-actions{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.6rem;border-radius:12px;
+  font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:700;
+  cursor:pointer;border:none;transition:all .2s;
+}
+.btn-pri{background:var(--pri);color:#fff;}
+.btn-pri:hover{background:var(--pri-mid);transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.btn-sec{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);}
+.btn-sec:hover{background:var(--gray-200);}
+
+/* ══════════════════════════════════════
+   FLOATING SCORE BAR
+══════════════════════════════════════ */
+#scorebar{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  background:#fff;border:1px solid var(--gray-200);
+  border-radius:100px;padding:.6rem 1.6rem;
+  display:flex;align-items:center;gap:1.4rem;
+  box-shadow:var(--shadow-xl);z-index:500;
+  font-size:.83rem;white-space:nowrap;
+  backdrop-filter:blur(12px);
+}
+.sb-item{display:flex;align-items:center;gap:.35rem;}
+.sb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sb-dot.g{background:var(--green);}
+.sb-dot.r{background:var(--red);}
+.sb-dot.b{background:var(--pri);}
+.sb-val{font-weight:800;color:var(--gray-800);}
+.sb-lbl{color:var(--gray-400);}
+.sb-div{width:1px;height:18px;background:var(--gray-200);}
+
+/* ══════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════ */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--gray-100);}
+::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:var(--pri-mid);}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:500px){
+  header{padding:2.5rem 1rem 2rem;}
+  .wrap{padding:1.2rem .9rem 5rem;}
+  .q-card{padding:1.2rem;}
+  .section-header{padding:1rem;}
+  #scorebar{gap:.8rem;padding:.55rem 1rem;font-size:.75rem;}
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes bounce{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.12);}
+}
+.pop{animation:bounce .35s ease;}
+</style>
+</head>
+<body>
+
+<div id="top-progress"><div id="top-fill"></div></div>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <div class="header-chip">⚗️ &nbsp; كيمياء — الصف الثاني الثانوي</div>
+    <h1>مراجعة <span>شاملة</span> للاختبار النهائي</h1>
+    <p>تدرّب على جميع الأسئلة وتابع أداءك درسًا بدرس — الإجابة الصحيحة تظهر فور اختيارك</p>
+    <div class="stats-row">
+      <div class="stat-badge"><span class="sn">15</span><span class="sl">درسًا</span></div>
+      <div class="stat-badge"><span class="sn">149</span><span class="sl">سؤالًا</span></div>
+      <div class="stat-badge"><span class="sn" id="hdr-correct">0</span><span class="sl">إجابة صحيحة</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ MAIN ══ -->
+<div class="wrap">
+
+  <!-- Mobile selector -->
+  <div class="mobile-select-wrap">
+    <select class="mobile-select" id="mobileSelect" onchange="switchLesson(+this.value)">
+    </select>
+  </div>
+
+  <div class="page-grid">
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-head">📚 الدروس</div>
+      <div id="tabList"></div>
+    </nav>
+
+    <!-- Panels -->
+    <div id="panels"></div>
+
+  </div>
+</div>
+
+<!-- ══ FLOATING SCOREBAR ══ -->
+<div id="scorebar">
+  <div class="sb-item"><div class="sb-dot g"></div><span class="sb-val" id="sb-c">0</span><span class="sb-lbl">صحيح</span></div>
+  <div class="sb-div"></div>
+  <div class="sb-item"><div class="sb-dot r"></div><span class="sb-val" id="sb-w">0</span><span class="sb-lbl">خطأ</span></div>
+  <div class="sb-div"></div>
+  <div class="sb-item"><div class="sb-dot b"></div><span class="sb-val" id="sb-t">0/149</span><span class="sb-lbl">مجاب</span></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   DATA
+══════════════════════════════════════ */
+const LESSONS=[
+  {num:1,title:'الطاقة',icon:'⚡',questions:[
+      {q:'ما تعريف الطاقة في علم الكيمياء؟',opts:['القدرة على بذل شغل أو إنتاج حرارة', 'كمية المادة في الجسم', 'سرعة حركة الجسيمات', 'درجة حرارة الجسم'],ans:0,exp:'الطاقة تُعرَّف بأنها القدرة على بذل شغل أو إنتاج حرارة.'},
+      {q:'ما نوع الطاقة التي تعتمد على تركيب الجسم أو موضعه؟',opts:['الطاقة الحركية', 'طاقة الوضع', 'الطاقة الحرارية', 'الطاقة الكهربائية'],ans:1,exp:'طاقة الوضع هي الطاقة التي تعتمد على تركيب الجسم أو موضعه.'},
+      {q:'ماذا ينص قانون حفظ الطاقة؟',opts:['الطاقة تُستحدث في التفاعلات الكيميائية', 'الطاقة لا تُستحدث ولا تفنى بل تتحول من شكل إلى آخر', 'الطاقة تفنى عند انتقالها من جسم إلى آخر', 'مجموع الطاقة يتغير باستمرار'],ans:1,exp:'قانون حفظ الطاقة: الطاقة لا تُستحدث ولا تفنى، بل تتحول من شكل إلى آخر مع بقاء المجموع ثابتًا.'},
+      {q:'بأي قانون آخر يُعرف قانون حفظ الطاقة؟',opts:['القانون الثاني في الديناميكا الحرارية', 'قانون نيوتن الأول', 'القانون الأول في الديناميكا الحرارية', 'قانون بويل'],ans:2,exp:'قانون حفظ الطاقة يُعرف أيضًا بالقانون الأول في الديناميكا الحرارية.'},
+      {q:'أين تُخزَّن طاقة الوضع الكيميائية في المادة؟',opts:['في حركة الذرات', 'في الروابط الكيميائية', 'في درجة حرارة المادة', 'في كتلة المادة'],ans:1,exp:'طاقة الوضع الكيميائية تُخزَّن في الروابط الكيميائية للمادة.'},
+      {q:'كم تساوي 1 سُعر (cal) بالجول (J)؟',opts:['1 J', '0.2390 J', '4.184 J', '1000 J'],ans:2,exp:'1 cal = 4.184 J — هذا عامل التحويل الأساسي بين السعر والجول.'},
+      {q:'ما السُّعر الغذائي (Cal)؟',opts:['يساوي 1 cal', 'يساوي 100 cal', 'يساوي 1000 cal (1 kcal)', 'يساوي 4.184 J'],ans:2,exp:'السُّعر الغذائي (Cal) = 1000 cal = 1 kcal. يُستخدم لقياس طاقة الغذاء.'},
+      {q:'ما الرمز الذي يُستخدم للدلالة على الحرارة؟',opts:['T', 'E', 'q', 'H'],ans:2,exp:'الرمز q يُستخدم للدلالة على الحرارة في الكيمياء.'},
+      {q:'وجبة تحتوي على 142 Cal. ما مقدار هذه الطاقة بالسعرات (cal)؟',opts:['14200 cal', '142000 cal', '1420 cal', '1.42 cal'],ans:1,exp:'142 Cal × 1000 = 142000 cal، لأن 1 Cal = 1000 cal.'},
+      {q:'ما العلاقة بين درجة الحرارة والطاقة الحركية للجسيمات؟',opts:['درجة الحرارة لا تؤثر في الطاقة الحركية', 'كلما ارتفعت درجة الحرارة قلّت الطاقة الحركية', 'كلما ارتفعت درجة الحرارة ازدادت الطاقة الحركية للجسيمات', 'درجة الحرارة تساوي الطاقة الحركية'],ans:2,exp:'درجة الحرارة هي مقياس لمتوسط الطاقة الحركية للجسيمات — كلما ارتفعت ازدادت حركة الجسيمات.'}
+    ]},
+  {num:2,title:'الحرارة النوعية',icon:'🌡️',questions:[
+      {q:'ما تعريف الحرارة النوعية لمادة ما؟',opts:['كمية الحرارة اللازمة لرفع درجة حرارة 1g منها 1°C', 'كمية الحرارة الكلية في المادة', 'درجة حرارة المادة عند الغليان', 'الطاقة المخزنة في روابطها الكيميائية'],ans:0,exp:'الحرارة النوعية هي كمية الحرارة اللازمة لرفع درجة حرارة جرام واحد من المادة درجة سيليزية واحدة.'},
+      {q:'ما وحدة قياس الحرارة النوعية؟',opts:['J', 'J/g', 'J/g·°C', 'cal/mol'],ans:2,exp:'وحدة الحرارة النوعية هي J/g·°C أي جول لكل جرام لكل درجة سيليزية.'},
+      {q:'ما المعادلة الصحيحة لحساب الحرارة q؟',opts:['q = c + m + ΔT', 'q = c × m × ΔT', 'q = c ÷ (m × ΔT)', 'q = m ÷ (c × ΔT)'],ans:1,exp:'المعادلة الصحيحة هي q = c × m × ΔT حيث c الحرارة النوعية وm الكتلة وΔT تغير درجة الحرارة.'},
+      {q:'ما الحرارة النوعية للماء السائل؟',opts:['2.03 J/g·°C', '4.184 J/g·°C', '2.44 J/g·°C', '1.825 J/g·°C'],ans:1,exp:'الحرارة النوعية للماء السائل هي 4.184 J/g·°C وهي من أعلى القيم بين المواد الشائعة.'},
+      {q:'أي المواد التالية لها أعلى حرارة نوعية؟',opts:['الحديد', 'الذهب', 'الماء', 'الفضة'],ans:2,exp:'الماء له أعلى حرارة نوعية بين المواد المذكورة (4.184 J/g·°C) لهذا يتأخر في السخونة والبرودة.'},
+      {q:'قطعة أسمنت كتلتها 5000g ارتفعت حرارتها 6°C. كم حرارة امتصتها؟ (c = 0.84)',opts:['25,200 J', '4184 J', '10,000 J', '50,400 J'],ans:0,exp:'q = 0.84 × 5000 × 6 = 25,200 J. الحرارة النوعية للأسمنت أقل بكثير من الماء.'},
+      {q:'ما معنى ΔT في معادلة الحرارة؟',opts:['درجة الحرارة الابتدائية', 'درجة الحرارة النهائية', 'الفرق بين درجة الحرارة النهائية والابتدائية', 'مجموع درجتي الحرارة'],ans:2,exp:'ΔT = Tf − Ti أي الفرق بين درجة الحرارة النهائية والابتدائية.'},
+      {q:'حديد كتلته 10g تغيرت حرارته من 25°C إلى 50.4°C وانطلق منه 114J. ما حرارته النوعية؟',opts:['0.235 J/g·°C', '0.449 J/g·°C', '0.897 J/g·°C', '0.128 J/g·°C'],ans:1,exp:'c = q/(m×ΔT) = 114/(10×25.4) = 0.449 J/g·°C وهي الحرارة النوعية للحديد في الجدول.'},
+      {q:'أي المواد التالية تسخن بأسرع وقت إذا أُعطيت كتلًا متساوية منها نفس كمية الطاقة؟',opts:['الماء', 'الألومنيوم', 'الذهب', 'الأسمنت'],ans:2,exp:'الذهب (0.129 J/g·°C) له أدنى حرارة نوعية مما يعني أنه يسخن بأسرع وقت لنفس الكتلة وكمية الطاقة.'},
+      {q:'لماذا يُستخدم الماء لتخزين الطاقة الشمسية؟',opts:['لأنه رخيص الثمن', 'لأنه شفاف', 'لأن حرارته النوعية عالية فيخزن طاقة كبيرة', 'لأنه يغلي بسرعة'],ans:2,exp:'الحرارة النوعية العالية للماء (4.184 J/g·°C) تجعله يخزن كميات كبيرة من الطاقة مقارنة بمواد أخرى.'}
+    ]},
+  {num:3,title:'المسعر والكيمياء الحرارية',icon:'🔬',questions:[
+      {q:'ما تعريف المسعر؟',opts:['جهاز لقياس كتلة المواد الكيميائية', 'جهاز معزول حراريًا يقيس الحرارة الممتصة أو المنطلقة في التفاعلات', 'جهاز لقياس الضغط داخل الأوعية', 'ميزان دقيق لقياس التغيرات الكيميائية'],ans:1,exp:'المسعر جهاز معزول حراريًا يُستخدم لقياس كمية الحرارة الممتصة أو المنطلقة أثناء عملية كيميائية أو فيزيائية.'},
+      {q:'في تجربة مسعر الكأس، وضع فلز ساخن في ماء بارد. ما العلاقة الصحيحة بين الحرارة المكتسبة والمفقودة؟',opts:['q_فلز = q_ماء', 'q_فلز = − q_ماء', 'q_فلز > q_ماء دائمًا', 'لا علاقة بينهما'],ans:1,exp:'الحرارة التي يفقدها الفلز تساوي الحرارة التي يكتسبها الماء بإشارة معاكسة: q_فلز = − q_ماء.'},
+      {q:'ما الشرط الأساسي لصحة معادلة q_فلز = − q_ماء في المسعر؟',opts:['أن تكون كتلة الفلز أكبر من كتلة الماء', 'أن يكون المسعر معزولًا تمامًا ولا تُفقد حرارة للمحيط', 'أن تكون درجة حرارة الفلز أعلى من 100°C', 'أن يكون الماء مقطرًا'],ans:1,exp:'يشترط ألا تُفقد أي حرارة للمحيط الخارجي حتى تكون الحرارة المفقودة من الفلز مساوية للحرارة المكتسبة للماء.'},
+      {q:'وضع فلز ساخن في مسعر يحتوي على 200g من الماء (c=4.184 J/g·°C). ارتفعت درجة حرارة الماء من 20°C إلى 25°C. كم الحرارة التي اكتسبها الماء؟',opts:['2092 J', '4184 J', '836 J', '1000 J'],ans:0,exp:'q = 4.184 × 200 × (25−20) = 4.184 × 200 × 5 = 4184 J ÷ 2 = 4184 J. الحساب: 4.184×200×5 = 4184 J.'},
+      {q:'ما الفرق الرئيسي بين مسعر القنبلة ومسعر الكأس؟',opts:['مسعر القنبلة يعمل تحت ضغط مرتفع ومغلق، بينما مسعر الكأس مفتوح على الجو تحت ضغط ثابت', 'مسعر الكأس أكثر دقة من مسعر القنبلة', 'مسعر القنبلة يقيس الحرارة النوعية فقط', 'لا فرق بينهما في الاستخدام'],ans:0,exp:'مسعر القنبلة يعمل تحت ضغط عالٍ مغلق ويُستخدم لقياس طاقة الغذاء، أما مسعر الكأس فمفتوح تحت ضغط ثابت ويُستخدم في المختبرات.'},
+      {q:'ما المقصود بالكيمياء الحرارية؟',opts:['دراسة الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية', 'دراسة درجات الحرارة العالية فقط', 'قياس كتلة المواد عند درجات حرارة مختلفة', 'دراسة التفاعلات الكيميائية تحت الضغط'],ans:0,exp:'الكيمياء الحرارية هي فرع الكيمياء الذي يدرس الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية.'},
+      {q:'ماذا يعني أن تغير المحتوى الحراري ΔH لتفاعل ما سالب القيمة؟',opts:['التفاعل ماص للحرارة', 'التفاعل طارد للحرارة ويُطلق حرارة للمحيط', 'درجة حرارة النظام تنخفض دائمًا', 'لا يمكن حدوث التفاعل'],ans:1,exp:'ΔH سالب يعني أن المنتجات أقل طاقة من المواد المتفاعلة، أي أن التفاعل طارد للحرارة ويُطلق طاقة للمحيط.'},
+      {q:'فلز كتلته 50g سُخّن إلى 100°C ووضع في ماء درجة حرارته 25°C. عندما تتساوى الدرجتان عند 30°C، ما ΔT للفلز؟',opts:['70°C', '−70°C', '30°C', '−30°C'],ans:1,exp:'ΔT للفلز = T_f − T_i = 30 − 100 = −70°C. الإشارة سالبة لأن الفلز فقد حرارة (انخفضت درجته).'},
+      {q:'ما العلاقة الصحيحة بين النظام والمحيط والكون؟',opts:['الكون = النظام فقط', 'الكون = المحيط فقط', 'الكون = النظام + المحيط', 'النظام = المحيط + الكون'],ans:2,exp:'الكون في الكيمياء الحرارية = النظام (التفاعل) + المحيط (كل ما يحيط بالنظام).'},
+      {q:'عينة فلز كتلتها 90g امتصت 25.6J من الحرارة وازدادت درجة حرارتها 1.18°C. ما الحرارة النوعية للفلز؟',opts:['0.241 J/g·°C', '0.449 J/g·°C', '0.129 J/g·°C', '0.301 J/g·°C'],ans:0,exp:'c = q ÷ (m × ΔT) = 25.6 ÷ (90 × 1.18) = 25.6 ÷ 106.2 ≈ 0.241 J/g·°C. جميع المعطيات اللازمة موجودة في السؤال.'}
+    ]},
+  {num:4,title:'الطاقة الكيميائية والكون',icon:'🌌',questions:[
+      {q:'ما تعريف الكيمياء الحرارية؟',opts:['فرع الكيمياء الذي يدرس تغيرات الحرارة المرتبطة بالتفاعلات والعمليات الكيميائية', 'فرع يدرس الحرارة العالية فقط', 'فرع يدرس الضغط والحجم في الغازات', 'فرع يدرس الطاقة الكهربائية فقط'],ans:0,exp:'الكيمياء الحرارية تدرس تغيرات الحرارة التي ترافق التفاعلات الكيميائية والعمليات الفيزيائية.'},
+      {q:'ما العلاقة الصحيحة بين النظام والمحيط والكون؟',opts:['الكون = النظام فقط', 'الكون = المحيط فقط', 'الكون = النظام + المحيط', 'النظام = الكون − الكيمياء'],ans:2,exp:'الكون = النظام + المحيط. النظام هو الجزء الذي ندرسه، والمحيط هو كل ما عداه.'},
+      {q:'في تفاعل طارد للحرارة، ما اتجاه انتقال الحرارة؟',opts:['من المحيط إلى النظام', 'من النظام إلى المحيط', 'لا تنتقل الحرارة أصلًا', 'تنتقل في الاتجاهين معًا'],ans:1,exp:'في التفاعل الطارد للحرارة تنتقل الحرارة من النظام (التفاعل) إلى المحيط، مما يجعل المحيط أكثر سخونة.'},
+      {q:'في تفاعل ماص للحرارة، ما اتجاه انتقال الحرارة؟',opts:['من النظام إلى المحيط', 'من المحيط إلى النظام', 'لا تنتقل الحرارة', 'تُدمَّر الحرارة داخل النظام'],ans:1,exp:'في التفاعل الماص للحرارة تنتقل الحرارة من المحيط إلى النظام، مما يجعل المحيط أكثر برودة.'},
+      {q:'ما إشارة ΔH للتفاعل الطارد للحرارة؟',opts:['موجبة دائمًا', 'سالبة دائمًا', 'صفر دائمًا', 'تعتمد على درجة الحرارة فقط'],ans:1,exp:'ΔH سالب للتفاعلات الطاردة للحرارة، لأن H المنتجات < H المواد المتفاعلة، فيكون الفرق سالبًا.'},
+      {q:'ما إشارة ΔH للتفاعل الماص للحرارة؟',opts:['سالبة دائمًا', 'موجبة دائمًا', 'صفر دائمًا', 'تعتمد على كتلة المواد فقط'],ans:1,exp:'ΔH موجب للتفاعلات الماصة للحرارة، لأن H المنتجات > H المواد المتفاعلة، فيكون الفرق موجبًا.'},
+      {q:'تفاعل معطى: 4Fe(s) + 3O₂(g) → 2Fe₂O₃(s) ، ΔH = −1625 kJ. ما نوع هذا التفاعل؟',opts:['ماص للحرارة لأن ΔH سالب', 'طارد للحرارة لأن ΔH سالب', 'ماص للحرارة لأن ΔH موجب', 'لا يمكن تحديد نوعه من المعطيات'],ans:1,exp:'ΔH = −1625 kJ سالب، وهذا يعني أن التفاعل طارد للحرارة يُطلق 1625 kJ للمحيط.'},
+      {q:'تفاعل معطى: NH₄NO₃(s) → NH₄⁺(aq) + NO₃⁻(aq) ، ΔH = +27 kJ. كم الحرارة الممتصة من المحيط؟',opts:['صفر', '27 kJ', '−27 kJ', '54 kJ'],ans:1,exp:'ΔH = +27 kJ موجب يعني أن التفاعل يمتص 27 kJ من المحيط. هذا هو مبدأ عمل الكمادة الباردة.'},
+      {q:'ما المعادلة الصحيحة لتغير المحتوى الحراري للتفاعل؟',opts:['ΔH = H(متفاعلات) − H(منتجات)', 'ΔH = H(منتجات) − H(متفاعلات)', 'ΔH = H(منتجات) + H(متفاعلات)', 'ΔH = H(منتجات) × H(متفاعلات)'],ans:1,exp:'ΔH_rxn = H(منتجات) − H(متفاعلات) = H_final − H_initial. الترتيب مهم: النهائي ناقص الابتدائي.'},
+      {q:'عند الضغط الثابت، ما علاقة ΔH بـ q (الحرارة المقاسة)؟',opts:['ΔH = 2q', 'ΔH = q/2', 'ΔH = q', 'ΔH لا علاقة له بـ q'],ans:2,exp:'عند الضغط الثابت: ΔH_rxn = q_p. لهذا يمكن قياس ΔH مباشرة بالمسعر في التجارب التي تُجرى بكؤوس مفتوحة.'}
+    ]},
+  {num:5,title:'المعادلات الحرارية وتغيرات الحالة',icon:'❄️',questions:[
+      {q:'ما الذي يجب أن تتضمنه المعادلة الكيميائية الحرارية؟',opts:['المعادلة الموزونة فقط', 'المعادلة الموزونة + الحالات الفيزيائية لجميع المواد + قيمة ΔH', 'أسماء المواد وكتلها فقط', 'درجة الحرارة والضغط فقط'],ans:1,exp:'المعادلة الكيميائية الحرارية = معادلة موزونة + حالات فيزيائية (s,l,g,aq) لجميع المواد + قيمة ΔH.'},
+      {q:'ما تعريف حرارة الاحتراق ΔH°comb؟',opts:['الحرارة الناتجة عن تبخر مول من المادة', 'المحتوى الحراري الناتج عن حرق مول واحد من المادة احتراقًا كاملًا بالأكسجين', 'الحرارة اللازمة لإذابة مول من المادة', 'درجة حرارة التفاعل عند الظروف القياسية'],ans:1,exp:'حرارة الاحتراق هي المحتوى الحراري الناتج عن حرق مول واحد كاملًا بالأكسجين — دائمًا سالبة لأن الاحتراق طارد للحرارة.'},
+      {q:'تفاعل: CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)، ΔH°comb = −891 kJ/mol. كم الحرارة الناتجة عن احتراق 3 mol من الميثان؟',opts:['297 kJ', '891 kJ', '2673 kJ', '1782 kJ'],ans:2,exp:'q = 3 mol × 891 kJ/mol = 2673 kJ. الحرارة تتناسب طرديًا مع عدد المولات المحترقة.'},
+      {q:'ما الظروف القياسية المستخدمة في تحديد ΔH° للمعادلات الكيميائية الحرارية؟',opts:['0°C و1 atm (مثل STP)', '25°C و1 atm', '100°C وضغط 2 atm', '25°C وضغط 2 atm'],ans:1,exp:'الظروف القياسية لـ ΔH° هي 25°C و1 atm — وهذا يختلف عن STP (0°C و1 atm).'},
+      {q:'ما تعريف حرارة التبخر المولارية ΔH_vap؟',opts:['الحرارة المنطلقة عند تبخر مول من السائل', 'الحرارة اللازمة لتبخر مول واحد من السائل — عملية ماصة', 'الحرارة اللازمة لصهر مول من الصلب', 'الحرارة الناتجة عند تكثف مول من الغاز'],ans:1,exp:'ΔHvap هي الحرارة اللازمة لتبخر مول واحد من السائل، وهي عملية ماصة للحرارة (ΔH موجب).'},
+      {q:'إذا كانت حرارة تبخر الماء ΔHvap = +40.7 kJ/mol، فما حرارة تكثفه ΔHcond؟',opts:['+40.7 kJ/mol', '−40.7 kJ/mol', '0 kJ/mol', '+81.4 kJ/mol'],ans:1,exp:'ΔHcond = −ΔHvap = −40.7 kJ/mol. العملية العكسية لها نفس المقدار وإشارة معاكسة — التكثف طارد للحرارة.'},
+      {q:'أي من العمليات التالية ماصة للحرارة (ΔH موجب)؟',opts:['تجمد الماء (سائل → صلب)', 'تكثف بخار الماء (غاز → سائل)', 'انصهار الجليد (صلب → سائل)', 'احتراق الميثان بالأكسجين'],ans:2,exp:'الانصهار (صلب → سائل) ماص للحرارة — ΔHfus موجب. التجمد والتكثف والاحتراق كلها طاردة (ΔH سالب).'},
+      {q:'تفاعل: C₆H₁₂O₆(s) + 6O₂(g) → 6CO₂(g) + 6H₂O(l)، ΔHcomb = −2808 kJ/mol. الكتلة المولية للجلوكوز 180 g/mol. كم الحرارة الناتجة عن احتراق 90g جلوكوز؟',opts:['2808 kJ', '702 kJ', '1404 kJ', '5616 kJ'],ans:2,exp:'مولات = 90 ÷ 180 = 0.5 mol. q = 0.5 × 2808 = 1404 kJ. جميع المعطيات مذكورة في السؤال.'},
+      {q:'إذا كانت حرارة انصهار الماء ΔHfus = +6.01 kJ/mol، فما حرارة تجمد الماء ΔHsolid؟',opts:['+6.01 kJ/mol', '−6.01 kJ/mol', '0 kJ/mol', '+12.02 kJ/mol'],ans:1,exp:'ΔHsolid = −ΔHfus = −6.01 kJ/mol. التجمد عكس الانصهار — يطلق نفس كمية الحرارة بإشارة سالبة.'},
+      {q:'لماذا يغمر المزارعون بساتينهم بالماء ليلة التجمد لحماية المحاصيل؟',opts:['لأن الماء عازل حراري جيد', 'لأن تجمد الماء عملية طاردة للحرارة تُطلق حرارة تدفئ الهواء المحيط', 'لأن الماء يمنع وصول الهواء البارد', 'لأن الماء يمتص أشعة الشمس'],ans:1,exp:'تجمد الماء: ΔHsolid = −6.01 kJ/mol — عملية طاردة تُطلق حرارة كافية لتدفئة الهواء المحيط ومنع تلف المحاصيل.'}
+    ]},
+  {num:6,title:'قانون هس وحرارة التكوين القياسية',icon:'📐',questions:[
+      {q:'ما الذي ينص عليه قانون هس؟',opts:['حرارة التفاعل تتوقف على الخطوات التي يمر بها التفاعل', 'حرارة التفاعل تتوقف على طبيعة المواد الداخلة والناتجة فقط، وليس على مسار التفاعل', 'حرارة التفاعل تزداد كلما زادت خطوات التفاعل', 'حرارة التفاعل لا يمكن حسابها بدون المسعر'],ans:1,exp:'قانون هس: ΔH يتوقف على طبيعة المواد الداخلة والناتجة فقط، وليس على الخطوات أو المسار — لذا يمكن جمع معادلات وسيطة للحصول على ΔH للتفاعل الكلي.'},
+      {q:'عند تطبيق قانون هس، ماذا يحدث لـ ΔH عند عكس معادلة كيميائية؟',opts:['يبقى ΔH كما هو', 'تتضاعف قيمة ΔH', 'تتغير إشارة ΔH (موجب يصبح سالبًا والعكس)', 'تصبح قيمة ΔH صفرًا'],ans:2,exp:'عند عكس معادلة كيميائية يجب تغيير إشارة ΔH. إذا كان التفاعل الأصلي ΔH = −200 kJ فعند عكسه يصبح ΔH = +200 kJ.'},
+      {q:'معادلة a: A→B ΔH = −100 kJ. إذا احتجنا إلى 3mol من B، كيف نعدّل المعادلة والـ ΔH؟',opts:['3A→3B ΔH = −100 kJ', '3A→3B ΔH = −300 kJ', '3A→3B ΔH = +300 kJ', 'A→B ΔH = −300 kJ'],ans:1,exp:'عند ضرب معادلة في عدد، تُضرب جميع المعاملات وقيمة ΔH في نفس العدد. 3 × (−100) = −300 kJ.'},
+      {q:'ما تعريف حرارة التكوين القياسية (ΔH°f) لمركب ما؟',opts:['التغير في المحتوى الحراري عند احتراق مول واحد من المركب', 'التغير في المحتوى الحراري عند تكوين مول واحد من المركب في الظروف القياسية من عناصره', 'التغير في الحرارة عند تبخر مول واحد من المركب', 'درجة حرارة تفكك المركب'],ans:1,exp:'ΔH°f هو التغير في المحتوى الحراري لتكوين مول واحد من المركب في الظروف القياسية (25°C, 1atm) من عناصره في حالاتها القياسية.'},
+      {q:'ما قيمة حرارة التكوين القياسية (ΔH°f) لغاز الأكسجين O₂(g)؟',opts:['−393 kJ/mol', '+33 kJ/mol', '0.0 kJ/mol', '−286 kJ/mol'],ans:2,exp:'ΔH°f لأي عنصر في حالته القياسية = 0.0 kJ/mol. والأكسجين في حالته القياسية هو O₂(g)، إذن ΔH°f = 0.0 kJ/mol.'},
+      {q:'ما الصيغة الصحيحة لحساب ΔH°rxn من حرارات التكوين القياسية؟',opts:['ΔH°rxn = Σ ΔH°f(متفاعلات) − Σ ΔH°f(منتجات)', 'ΔH°rxn = Σ ΔH°f(منتجات) + Σ ΔH°f(متفاعلات)', 'ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات)', 'ΔH°rxn = Σ ΔH°f(منتجات) × Σ ΔH°f(متفاعلات)'],ans:2,exp:'الصيغة الصحيحة: ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات). الترتيب مهم: المنتجات ناقص المتفاعلات.'},
+      {q:'باستخدام قانون هس: a: X→Y ΔH = −200 kJ ، b: Y→Z ΔH = −150 kJ. ما ΔH للتفاعل X→Z؟',opts:['−50 kJ', '−350 kJ', '+350 kJ', '+50 kJ'],ans:1,exp:'نجمع المعادلتين a + b مباشرة: X→Y→Z، فيكون ΔH = −200 + (−150) = −350 kJ. Y تُحذف لأنها ناتج في a ومتفاعل في b.'},
+      {q:'تفاعل: N₂(g) + O₂(g) → 2NO(g). ΔH°f للـ NO(g) = +91.3 kJ/mol. ما ΔH°rxn؟',opts:['−91.3 kJ', '+91.3 kJ', '+182.6 kJ', '−182.6 kJ'],ans:2,exp:'ΔH°rxn = Σ ΔH°f(منتجات) − Σ ΔH°f(متفاعلات) = [2×(+91.3)] − [0+0] = +182.6 kJ. N₂ وO₂ عناصر في حالتها القياسية فـ ΔH°f لهما = 0.'},
+      {q:'ما المقصود بالتآصل (Allotropy)؟',opts:['تحول المادة من صلب إلى سائل', 'وجود شكل أو أكثر لعنصر بتراكيب وخصائص مختلفة عند نفس الحالة الفيزيائية', 'اتحاد عنصرين لتكوين مركب', 'تفكك المركب إلى عناصره'],ans:1,exp:'التآصل: وجود شكل أو أكثر لعنصر بتراكيب وخصائص مختلفة عند نفس الحالة الفيزيائية. مثال: الكربون يوجد كألماس وجرافيت — كلاهما صلب لكن بخصائص مختلفة.'}
+    ]},
+  {num:7,title:'سرعة التفاعل — نظرية التصادم',icon:'💥',questions:[
+      {q:'ما تعريف سرعة التفاعل الكيميائي؟',opts:['كمية المواد الناتجة في نهاية التفاعل', 'التغير في تركيز المواد المتفاعلة أو الناتجة في وحدة الزمن', 'درجة حرارة التفاعل عند بدايته', 'كتلة المواد المتفاعلة قبل التفاعل'],ans:1,exp:'سرعة التفاعل الكيميائي: التغير في تركيز المواد المتفاعلة أو الناتجة في وحدة الزمن، وتُقاس بوحدة mol/L·s.'},
+      {q:'ما وحدة قياس سرعة التفاعل الكيميائي؟',opts:['mol فقط', 'mol/L', 'mol/L·s', 'kJ/mol'],ans:2,exp:'سرعة التفاعل تُقاس بـ mol/L·s أي مول لكل لتر في الثانية، لأنها تعبر عن التغير في التركيز مع الزمن.'},
+      {q:'تفاعل كيميائي: تركيز ناتج NO كان 0.000 M عند t=0.00s وأصبح 0.010 M عند t=2.00s. ما متوسط سرعة التفاعل؟',opts:['0.020 mol/L·s', '0.0050 mol/L·s', '0.010 mol/L·s', '0.0025 mol/L·s'],ans:1,exp:'Rate = Δ[NO]/Δt = (0.010 − 0.000)/(2.00 − 0.00) = 0.010/2.00 = 0.0050 mol/L·s.'},
+      {q:'تركيز مادة متفاعلة A كان 1.00 M وأصبح 0.50 M بعد 2.00s. ما متوسط سرعة استهلاكها؟',opts:['−0.25 mol/L·s', '0.25 mol/L·s', '0.50 mol/L·s', '1.00 mol/L·s'],ans:1,exp:'Rate = −Δ[A]/Δt = −(0.50 − 1.00)/2.00 = −(−0.50)/2.00 = 0.25 mol/L·s. السرعة دائمًا موجبة.'},
+      {q:'ماذا تنص نظرية التصادم؟',opts:['يحدث التفاعل تلقائيًا دون تصادم', 'يجب أن تتصادم الذرات والأيونات والجزيئات بعضها ببعض لكي يتم التفاعل', 'كل تصادم بين الجزيئات يؤدي إلى تفاعل', 'التفاعل يحدث فقط عند درجات حرارة عالية'],ans:1,exp:'نظرية التصادم: يجب أن تتصادم الذرات والأيونات والجزيئات بعضها ببعض لكي يتم التفاعل الكيميائي.'},
+      {q:'ما الشرطان اللازمان لحدوث تصادم فعّال (مثمر) بين الجزيئات؟',opts:['درجة الحرارة المناسبة والضغط العالي', 'الاتجاه الصحيح للجزيئات وامتلاكها طاقة كافية', 'الكتلة الكبيرة والسرعة العالية', 'التركيز العالي والحجم الكبير'],ans:1,exp:'التصادم الفعال يحتاج: (1) الاتجاه الصحيح — بحيث ترتبط الذرات المناسبة، (2) طاقة كافية — لتكوين المعقد المنشط.'},
+      {q:'ما المعقد المنشَّط (Activated Complex)؟',opts:['المادة الناتجة عن التفاعل', 'حالة انتقالية غير مستقرة تتكون خلالها روابط جديدة وتتكسر روابط قديمة', 'المادة المتفاعلة قبل التصادم', 'الحفاز المستخدم في التفاعل'],ans:1,exp:'المعقد المنشَّط: جسيمات قصيرة العمر تتكون عند التصادم الفعال، وهي حالة انتقالية يحدث فيها تكسير وتكوين روابط — قد تؤدي إلى نواتج أو تعود لمتفاعلات.'},
+      {q:'ما طاقة التنشيط (Eₐ)؟',opts:['الطاقة الكلية للمواد الناتجة', 'الحد الأدنى من الطاقة اللازمة لتكوين المعقد المنشط وإحداث التفاعل', 'الطاقة المنطلقة من التفاعل', 'فرق الطاقة بين المتفاعلات والنواتج'],ans:1,exp:'طاقة التنشيط Eₐ: الحد الأدنى من الطاقة الذي يجب أن تمتلكه الجزيئات المتصادمة لتكوين المعقد المنشط وإحداث التفاعل.'},
+      {q:'تفاعل له طاقة تنشيط Eₐ عالية جدًا. ماذا يعني ذلك على سرعة التفاعل؟',opts:['التفاعل سيكون سريعًا جدًا', 'التفاعل سيكون بطيئًا لأن عدد التصادمات ذات الطاقة الكافية قليل', 'لا تأثير لـ Eₐ على سرعة التفاعل', 'التفاعل لن يحدث أبدًا'],ans:1,exp:'Eₐ عالية ← عدد قليل من الاصطدامات له طاقة كافية لتكوين المعقد المنشط ← التفاعل بطيء. والعكس صحيح: Eₐ منخفضة ← تفاعل أسرع.'},
+      {q:'في مخطط طاقة التفاعل الطارد للحرارة: أي المستويات أعلى طاقة؟',opts:['المنتجات أعلى طاقة من المتفاعلات', 'المتفاعلات أعلى طاقة من المنتجات', 'المتفاعلات والمنتجات لهما نفس الطاقة', 'المعقد المنشط أقل طاقة من المتفاعلات'],ans:1,exp:'في التفاعل الطارد للحرارة: طاقة المتفاعلات > طاقة المنتجات، لذا ΔH سالب. يقع المعقد المنشط في القمة (أعلى من كليهما).'}
+    ]},
+  {num:8,title:'العوامل المؤثرة في سرعة التفاعل',icon:'🚀',questions:[
+      {q:'ما العوامل الخمسة الرئيسية المؤثرة في سرعة التفاعل الكيميائي؟',opts:['اللون والكثافة والكتلة والحجم والشكل', 'طبيعة المواد المتفاعلة والتركيز ومساحة السطح ودرجة الحرارة والمحفزات', 'الضغط والكتلة والحجم والتركيز واللون', 'درجة الحرارة فقط'],ans:1,exp:'العوامل الخمسة: ① طبيعة المواد المتفاعلة ② التركيز ③ مساحة السطح ④ درجة الحرارة ⑤ المحفزات والمثبطات.'},
+      {q:'وُضع شريط خارصين وشريط نحاس كلٌّ منهما في محلول نترات فضة بنفس التركيز. لماذا تفاعل الخارصين بسرعة أكبر؟',opts:['لأن كتلة الخارصين أكبر', 'لأن الخارصين أنشط كيميائيًا من النحاس', 'لأن التركيز كان مختلفًا', 'لأن درجة الحرارة كانت أعلى للخارصين'],ans:1,exp:'الخارصين أنشط كيميائيًا من النحاس، لذا يتفاعل بسرعة أكبر — هذا يعود لطبيعة المادة المتفاعلة.'},
+      {q:'وفق نظرية التصادم، كيف تؤثر زيادة تركيز المواد المتفاعلة في سرعة التفاعل؟',opts:['تقلل عدد الاصطدامات فتبطئ التفاعل', 'تزيد عدد الجسيمات فتزيد عدد الاصطدامات فتزيد سرعة التفاعل', 'لا تأثير للتركيز على سرعة التفاعل', 'تغير طاقة التنشيط فقط'],ans:1,exp:'زيادة التركيز → زيادة عدد الجسيمات → زيادة عدد التصادمات بينها → زيادة سرعة التفاعل. هذا مباشرةً من نظرية التصادم.'},
+      {q:'شمعة تحترق في هواء عادي (أكسجين 20%). ماذا يحدث لسرعة احتراقها إذا وُضعت في وعاء أكسجين نقي 100%؟',opts:['تبطؤ سرعة الاحتراق', 'لا يتغير شيء', 'تزداد سرعة الاحتراق بسبب زيادة تركيز الأكسجين', 'تتوقف عن الاحتراق'],ans:2,exp:'تركيز الأكسجين النقي (100%) أعلى بـ5 أضعاف من الهواء العادي (20%) ← تصادمات أكثر ← سرعة احتراق أعلى بكثير.'},
+      {q:'لماذا تزيد مساحة السطح من سرعة التفاعل الكيميائي؟',opts:['لأنها تخفض درجة الحرارة', 'لأنها تزيد عدد الجسيمات المعرضة للتصادم مع المادة الأخرى', 'لأنها تغير طبيعة المادة المتفاعلة', 'لأنها ترفع طاقة التنشيط'],ans:1,exp:'زيادة مساحة السطح → مزيد من الجسيمات المعرضة للتصادم المباشر → زيادة عدد التصادمات المثمرة → سرعة أعلى.'},
+      {q:'تفاعل كيميائي سرعته النسبية عند 300 K هي 4. إذا كانت زيادة 10 K تضاعف السرعة، ما السرعة النسبية عند 320 K؟',opts:['4', '8', '16', '32'],ans:2,exp:'من 300 K → 310 K: السرعة تضاعف من 4 إلى 8. من 310 K → 320 K: تضاعف من 8 إلى 16. الإجابة: 16.'},
+      {q:'ما تأثير رفع درجة الحرارة على طاقة التنشيط Eₐ؟',opts:['يرفع طاقة التنشيط', 'يخفض طاقة التنشيط', 'لا يؤثر في طاقة التنشيط — بل يزيد عدد الجسيمات ذات الطاقة الكافية', 'يلغي طاقة التنشيط تمامًا'],ans:2,exp:'رفع درجة الحرارة لا يغير طاقة التنشيط Eₐ — بل يزيد عدد الجسيمات التي تمتلك طاقة ≥ Eₐ، مما يزيد التصادمات المثمرة.'},
+      {q:'ما تعريف المحفز (Catalyst)؟',opts:['مادة تبطئ التفاعل وتُستهلك فيه', 'مادة تزيد سرعة التفاعل دون أن تُستهلك فيه', 'مادة تغير ΔH للتفاعل', 'مادة تمنع التفاعل من الحدوث'],ans:1,exp:'المحفز يزيد سرعة التفاعل بتخفيض طاقة التنشيط، دون أن يُستهلك في التفاعل ولا يُضمَّن في المعادلة الكيميائية.'},
+      {q:'كيف يؤثر المحفز في طاقة التنشيط ومخطط الطاقة؟',opts:['يرفع طاقة التنشيط', 'يخفض طاقة التنشيط مع بقاء ΔH ثابتًا', 'يغير ΔH للتفاعل', 'يلغي الحاجة إلى طاقة تنشيط'],ans:1,exp:'المحفز يخفض طاقة التنشيط Eₐ (الحاجز الطاقوي) مما يسمح لتصادمات أكثر بتجاوزه — لكن ΔH (الطاقة الكلية المنطلقة) لا يتغير.'},
+      {q:'ما الفرق الجوهري بين المحفز والمثبط؟',opts:['المحفز يزيد سرعة التفاعل بتخفيض Eₐ، والمثبط يبطئه برفع Eₐ أو تعطيل المحفز', 'المحفز يُستهلك في التفاعل والمثبط لا يُستهلك', 'المحفز مادة صلبة والمثبط مادة سائلة', 'لا فرق بينهما في التأثير على سرعة التفاعل'],ans:0,exp:'المحفز: يزيد السرعة بتخفيض طاقة التنشيط. المثبط: يبطئ التفاعل برفع Eₐ أو تعطيل المحفز أو منع التفاعل كليًا — مثال: المواد الحافظة في الأغذية.'}
+    ]},
+  {num:9,title:'قوانين سرعة التفاعل الكيميائي',icon:'📊',questions:[
+      {q:'ما تعريف قانون سرعة التفاعل؟',opts:['معادلة توازن التفاعل الكيميائي', 'معادلة رياضية تعبر عن العلاقة بين سرعة التفاعل وتركيز المواد المتفاعلة', 'معادلة حساب الطاقة المنطلقة من التفاعل', 'معادلة حساب كتلة المواد الناتجة'],ans:1,exp:'قانون سرعة التفاعل: معادلة رياضية تُحدَّد تجريبيًا، تربط سرعة التفاعل بتركيز المواد المتفاعلة على شكل R = k[A]ᵐ[B]ⁿ.'},
+      {q:'تفاعل A → B: قانون سرعته R = k[A]. ماذا يحدث لسرعة التفاعل إذا تضاعف تركيز A ثلاث مرات؟',opts:['تتضاعف السرعة 9 مرات', 'تتضاعف السرعة 3 مرات', 'تتضاعف السرعة مرة واحدة', 'تنخفض السرعة إلى الثلث'],ans:1,exp:'قانون السرعة R = k[A]¹ — رتبة أولى. إذا تضاعف [A] ثلاث مرات، تتضاعف R ثلاث مرات. الرتبة الأولى: السرعة تتغير بنفس نسبة تغير التركيز.'},
+      {q:'ما المقصود بثابت سرعة التفاعل k؟',opts:['قيمة تتغير بتغير تركيز المواد المتفاعلة', 'قيمة ثابتة عند درجة حرارة معينة تربط سرعة التفاعل بالتركيز', 'رتبة التفاعل الكلية', 'عدد مولات المواد المتفاعلة'],ans:1,exp:'ثابت سرعة التفاعل k قيمة ثابتة لكل تفاعل عند درجة حرارة محددة. لا يتغير بتغير التركيز لكنه يتغير بتغير درجة الحرارة.'},
+      {q:'تفاعل له قانون السرعة: R = k[A]²[B]. ما الرتبة الكلية للتفاعل؟',opts:['رتبة أولى', 'رتبة ثانية', 'رتبة ثالثة', 'رتبة رابعة'],ans:2,exp:'الرتبة الكلية = مجموع جميع الأسس = 2 (للمادة A) + 1 (للمادة B) = 3. إذن التفاعل من الرتبة الثالثة.'},
+      {q:'بيانات تجريبية لتفاعل A → نواتج: في المحاولة 1: [A]=0.10M، السرعة=2×10⁻³ mol/L·s. في المحاولة 2: [A]=0.20M، السرعة=4×10⁻³ mol/L·s. ما رتبة التفاعل في A؟',opts:['رتبة صفرية', 'رتبة أولى', 'رتبة ثانية', 'رتبة ثالثة'],ans:1,exp:'[A] تضاعف (0.10→0.20) والسرعة تضاعفت مرتين (2→4). نسبة السرعة/نسبة التركيز = 2/2 = 2¹ → الرتبة = 1 (أولى).'},
+      {q:'في تفاعل A + B → نواتج: عند مضاعفة [B] مع ثبات [A]، تضاعفت السرعة 4 مرات. ما رتبة التفاعل في المادة B؟',opts:['رتبة صفرية', 'رتبة أولى', 'رتبة ثانية', 'رتبة ثالثة'],ans:2,exp:'تضاعف التركيز (×2) وتضاعفت السرعة 4 مرات (×4). 2ⁿ = 4 → n = 2. إذن رتبة B ثانية.'},
+      {q:'قانون سرعة تفاعل: R = k[NO]²[H₂]. ما الرتبة الكلية للتفاعل؟',opts:['رتبة أولى', 'رتبة ثانية', 'رتبة ثالثة', 'رتبة رابعة'],ans:2,exp:'الرتبة الكلية = 2 (لـ NO) + 1 (لـ H₂) = 3. التفاعل من الرتبة الثالثة الكلية. هذا من بيانات تفاعل NO مع H₂ في الكتاب.'},
+      {q:'كيف تُحدَّد رتبة التفاعل؟',opts:['من معاملات المعادلة الكيميائية الموزونة مباشرة', 'من البيانات التجريبية بمقارنة السرعات الابتدائية', 'من حساب ΔH للتفاعل', 'من قياس درجة الحرارة'],ans:1,exp:'رتبة التفاعل تُحدَّد تجريبيًا من مقارنة السرعات الابتدائية عند تراكيز مختلفة — ليس من معاملات المعادلة الموزونة.'},
+      {q:'تفاعل A → نواتج، رتبته الثانية: R = k[A]². إذا تضاعف [A] مرتين، كم تتضاعف سرعة التفاعل؟',opts:['مرتين', 'ثلاث مرات', 'أربع مرات', 'ثماني مرات'],ans:2,exp:'في الرتبة الثانية: مضاعفة التركيز مرتين تعني السرعة تتضاعف 2² = 4 مرات. هذه قاعدة الرتب الأساسية.'},
+      {q:'تفاعل A → B، قانون سرعته R = k[A]. ما الذي يحدث لقيمة k إذا رُفعت درجة حرارة التفاعل؟',opts:['تبقى k ثابتة لأنها ثابت سرعة', 'تتغير k لأنها تعتمد على درجة الحرارة', 'تنخفض k لأن التركيز ثابت', 'تصبح k = صفر'],ans:1,exp:'ثابت السرعة k ثابت عند درجة حرارة معينة — لكنه يتغير بتغير درجة الحرارة. رفع الحرارة يزيد k مما يزيد سرعة التفاعل.'}
+    ]},
+  {num:10,title:'حالة الاتزان الديناميكي',icon:'⚖️',questions:[
+      {q:'ما تعريف الاتزان الكيميائي؟',opts:['حالة يتوقف فيها التفاعل الكيميائي كليًا', 'حالة تتساوى فيها سرعتا التفاعل الأمامي والعكسي وتثبت التراكيز', 'حالة تتساوى فيها كميات المتفاعلات والنواتج', 'حالة تنتهي فيها المتفاعلات كليًا'],ans:1,exp:'الاتزان الكيميائي هو الحالة التي تتساوى فيها سرعتا التفاعل الأمامي والعكسي — التفاعلان يستمران لكن بنفس السرعة، لذا تبقى التراكيز ثابتة.'},
+      {q:'ما الرمز المستخدم للدلالة على التفاعل العكسي (المزدوج الاتجاه) في المعادلة الكيميائية؟',opts:['→', '←', '⇌', '↔'],ans:2,exp:'السهم المزدوج (⇌) يُستخدم للدلالة على أن التفاعل يحدث في كلا الاتجاهين (أمامي وعكسي).'},
+      {q:'للتفاعل: N₂(g) + 3H₂(g) ⇌ 2NH₃(g) — ما تعبير ثابت الاتزان الصحيح؟',opts:['Keq = [NH₃] ÷ ([N₂][H₂])', 'Keq = [NH₃]² ÷ ([N₂][H₂]³)', 'Keq = [N₂][H₂]³ ÷ [NH₃]²', 'Keq = [NH₃]² × [N₂] × [H₂]³'],ans:1,exp:'القاعدة: تراكيز النواتج في البسط وتراكيز المتفاعلات في المقام، كل تركيز يُرفع إلى أسٍّ مساوٍ لمعامله. NH₃ معاملها 2 → [NH₃]²، وH₂ معاملها 3 → [H₂]³.'},
+      {q:'إذا كانت قيمة Keq = 0.0001 لتفاعل معين عند درجة حرارة معينة، فماذا يعني ذلك؟',opts:['النواتج أكثر بكثير من المتفاعلات عند الاتزان', 'كميات المتفاعلات والنواتج متساوية عند الاتزان', 'المتفاعلات أكثر بكثير من النواتج عند الاتزان', 'التفاعل لم يبدأ بعد'],ans:2,exp:'عندما Keq < 1 (خاصة جداً صغيرة مثل 0.0001)، فهذا يعني أن تراكيز المتفاعلات أكبر بكثير من النواتج عند الاتزان — التفاعل لا يسير كثيرًا للأمام.'},
+      {q:'للتفاعل: H₂(g) + I₂(g) ⇌ 2HI(g) المعطيات عند الاتزان: [H₂] = 0.06587 M، [I₂] = 1.0659 M، [HI] = 1.8682 M احسب قيمة Keq:',opts:['49.70', '3.48', '0.02', '28.34'],ans:0,exp:'Keq = [HI]² ÷ ([H₂][I₂]) = (1.8682)² ÷ (0.06587 × 1.0659) = 3.4902 ÷ 0.07021 ≈ 49.70'},
+      {q:'أي من الآتية صحيحة بشأن المواد الصلبة النقية في تعبير ثابت الاتزان غير المتجانس؟',opts:['تُوضع في البسط فقط', 'تُوضع في المقام فقط', 'تُحذف من تعبير ثابت الاتزان كليًا', 'تُضرب في قيمة Keq'],ans:2,exp:'المواد الصلبة والسائلة النقية تُحذف كليًا من تعبير ثابت الاتزان؛ لأن تراكيزها (كثافاتها) ثابتة عند درجة حرارة ثابتة وتُدمج مع K لتعطي Keq.'},
+      {q:'للتفاعل: 2NaHCO₃(s) ⇌ Na₂CO₃(s) + CO₂(g) + H₂O(g) ما تعبير ثابت الاتزان الصحيح؟',opts:['Keq = [Na₂CO₃][CO₂][H₂O] ÷ [NaHCO₃]²', 'Keq = [CO₂][H₂O]', 'Keq = [CO₂] ÷ [H₂O]', 'Keq = [CO₂][H₂O] ÷ [NaHCO₃]²'],ans:1,exp:'NaHCO₃ وNa₂CO₃ مواد صلبة → تُحذف. يبقى فقط الغازات: Keq = [CO₂][H₂O]'},
+      {q:'أيٌّ من الشروط الآتية ضروري لحدوث الاتزان الكيميائي؟',opts:['أن يكون النظام مفتوحًا لتجديد المتفاعلات', 'أن يُستهلك أحد المتفاعلات تمامًا', 'أن يتم التفاعل في نظام مغلق بدرجة حرارة ثابتة', 'أن تكون جميع المواد في الحالة الغازية'],ans:2,exp:'شرطا الاتزان الأساسيان: (1) نظام مغلق لا يدخله أو يخرج منه شيء، (2) درجة حرارة ثابتة.'},
+      {q:'التفاعل: PCl₅(g) ⇌ PCl₃(g) + Cl₂(g) عند الاتزان: [PCl₅] = 0.135 M، [PCl₃] = 0.550 M، [Cl₂] = 0.550 M ما قيمة Keq؟',opts:['0.240', '2.24', '0.135', '4.47'],ans:1,exp:'Keq = [PCl₃][Cl₂] ÷ [PCl₅] = (0.550 × 0.550) ÷ 0.135 = 0.3025 ÷ 0.135 ≈ 2.24'},
+      {q:'ما الذي يتغير قيمة ثابت الاتزان Keq لتفاعل معين؟',opts:['تغيير التراكيز الابتدائية للمتفاعلات فقط', 'تغيير التراكيز الابتدائية للنواتج فقط', 'تغيير درجة الحرارة', 'إضافة عامل حفاز'],ans:2,exp:'قيمة Keq ثابتة عند درجة حرارة معينة — تتغير فقط بتغير درجة الحرارة. تغيير التراكيز أو إضافة عامل حفاز لا يغير قيمة Keq.'}
+    ]},
+  {num:11,title:'العوامل المؤثرة في الاتزان الكيميائي',icon:'🔄',questions:[
+      {q:'ما نص مبدأ لوتشاتلييه؟',opts:['إذا ارتفعت درجة الحرارة زادت سرعة التفاعل فقط', 'إذا بُذل جهد على نظام متزن، يُزاح في الاتجاه الذي يُخفف هذا الجهد', 'إضافة الحفاز يزيد كمية النواتج دائمًا', 'ثابت الاتزان يتغير بتغير التراكيز'],ans:1,exp:'مبدأ لوتشاتلييه ينص على أن أي جهد يُبذل على نظام متزن يجعله يُزاح في الاتجاه الذي يُخفف هذا الجهد.'},
+      {q:'للتفاعل: CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) إذا أُضيف غاز CO إلى الجهاز المتزن، ما اتجاه إزاحة الاتزان؟',opts:['نحو اليسار (نحو المتفاعلات)', 'نحو اليمين (نحو النواتج)', 'لا تأثير على الاتزان', 'تتغير قيمة Keq فقط'],ans:1,exp:'إضافة CO (متفاعل) → تزداد سرعة التفاعل الأمامي → إزاحة نحو اليمين → تزداد كمية CH₄. Keq لا يتغير.'},
+      {q:'للتفاعل: CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) ΔH°= −206.5 kJ ما أثر إزالة بخار الماء H₂O من وعاء التفاعل؟',opts:['الاتزان يزاح نحو اليسار وتقل كمية CH₄', 'لا يتأثر الاتزان', 'الاتزان يزاح نحو اليمين وتزداد كمية CH₄', 'تتغير قيمة Keq فقط'],ans:2,exp:'إزالة H₂O (ناتج) → النظام يعوّضه بإنتاج المزيد → الاتزان يزاح نحو اليمين → تزداد كمية CH₄.'},
+      {q:'للتفاعل: CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) المتفاعلات: 4 مولات من الغاز | النواتج: 2 مولات من الغاز ما أثر تقليل حجم وعاء التفاعل (رفع الضغط)؟',opts:['إزاحة نحو اليسار لأن عدد مولات المتفاعلات أكثر', 'إزاحة نحو اليمين لأن عدد مولات النواتج أقل — يخفف الضغط', 'لا تأثير لأن الغازات متشابهة', 'إزاحة نحو اليمين وتغير Keq'],ans:1,exp:'تقليل الحجم = رفع الضغط. الجهاز يُخفف بالإزاحة نحو جهة المولات الأقل (النواتج = 2 مول).'},
+      {q:'التفاعل: H₂(g) + Cl₂(g) ⇌ 2HCl(g) مولات المتفاعلات الغازية = 2 مول | مولات النواتج الغازية = 2 مول ما أثر رفع الضغط على هذا الاتزان؟',opts:['إزاحة نحو اليمين', 'إزاحة نحو اليسار', 'لا تأثير — المولات متساوية على الطرفين', 'تتغير قيمة Keq'],ans:2,exp:'عدد مولات الغازات متساوٍ على الطرفين (2=2)، لذا تغيير الضغط لا يؤثر في الاتزان.'},
+      {q:'التفاعل: CO(g) + 3H₂(g) ⇌ CH₄(g) + H₂O(g) ΔH°= −206.5 kJ التفاعل طارد للحرارة. ما أثر رفع درجة الحرارة؟',opts:['الاتزان يزاح نحو اليمين وتزداد Keq', 'الاتزان يزاح نحو اليسار وتقل Keq', 'لا تأثير على Keq فقط الموضع يتغير', 'الاتزان يزاح نحو اليمين وتقل Keq'],ans:1,exp:'التفاعل طارد للحرارة → الحرارة ناتج → رفع الحرارة يزاح نحو اليسار (يستهلك الحرارة الزائدة) وتقل Keq.'},
+      {q:'التفاعل: N₂O₄(g) ⇌ 2NO₂(g) ΔH°= +55.3 kJ N₂O₄ عديم اللون، NO₂ بني اللون. عند تبريد مزيج الاتزان، ما الذي يُلاحَظ؟',opts:['يزداد لون بني → يزداد NO₂', 'يخف اللون البني → يزداد N₂O₄ عديم اللون', 'لا تغير في اللون', 'يزداد اللون البني وتقل Keq'],ans:1,exp:'التفاعل ماص للحرارة → التبريد يزيل الحرارة → الاتزان يزاح نحو اليسار → يزداد N₂O₄ عديم اللون → يخف اللون البني.'},
+      {q:'ما العامل الوحيد الذي يغيّر قيمة ثابت الاتزان Keq؟',opts:['إضافة متفاعل', 'إزالة ناتج', 'تغيير درجة الحرارة', 'تغيير حجم الوعاء'],ans:2,exp:'فقط تغيير درجة الحرارة يغيّر Keq. كل العوامل الأخرى تغير موضع الاتزان فقط.'},
+      {q:'ما أثر إضافة عامل محفز إلى تفاعل في حالة اتزان؟',opts:['يزداد تركيز النواتج فقط', 'يصل التفاعل إلى الاتزان بسرعة أكبر دون تغيير Keq أو كميات النواتج', 'يزاح الاتزان نحو اليمين', 'تتغير قيمة Keq'],ans:1,exp:'الحفاز يزيد سرعة التفاعل في كلا الاتجاهين بالتساوي → يُسرّع الوصول للاتزان دون تغيير موضعه أو Keq.'},
+      {q:'التفاعل: 2SO₂(g) + O₂(g) ⇌ 2SO₃(g) مولات المتفاعلات الغازية = 3 مول | مولات النواتج الغازية = 2 مول لزيادة إنتاج SO₃ باستخدام مبدأ لوتشاتلييه، أيٌّ من الإجراءات التالية يكون صحيحًا؟',opts:['تقليل الضغط (زيادة الحجم)', 'إزالة SO₂ من الوعاء', 'زيادة الضغط (تقليل الحجم) → الاتزان نحو جهة المولات الأقل (نحو SO₃)', 'إضافة SO₃ إلى الوعاء'],ans:2,exp:'مولات المتفاعلات (3) > مولات النواتج (2) → رفع الضغط يُزيح الاتزان نحو اليمين (المولات الأقل) → ينتج المزيد من SO₃.'}
+    ]},
+  {num:12,title:'البروتينات',icon:'🧬',questions:[
+      {q:'ما التعريف الصحيح للبروتينات؟',opts:['بوليمرات عضوية تتكون من سكريات مرتبطة بروابط جليكوسيدية', 'بوليمرات عضوية تتكون من أحماض أمينية مرتبطة بروابط ببتيدية', 'جزيئات دهنية تُخزن الطاقة في الخلايا', 'مركبات غير عضوية تُنظّم درجة الحموضة'],ans:1,exp:'البروتينات بوليمرات عضوية (حيوية) تتكون من أحماض أمينية مرتبطة بروابط ببتيدية بترتيب معين، وتنطوي في تركيب ثلاثي الأبعاد.'},
+      {q:'يحتوي الحمض الأميني على ذرة كربون مركزية محاطة بأربع مجموعات. أيٌّ من التالي ليس من هذه المجموعات الأربع؟',opts:['مجموعة الأمين (NH₂-)', 'مجموعة الكربوكسيل (-COOH)', 'مجموعة الفوسفات (-PO₄)', 'السلسلة الجانبية المتغيرة (R)'],ans:2,exp:'مجموعة الفوسفات ليست من مجموعات الحمض الأميني. المجموعات الأربع هي: مجموعة الأمين، مجموعة الكربوكسيل، ذرة الهيدروجين، والسلسلة الجانبية R.'},
+      {q:'عند اتحاد حمضين أمينيين لتكوين ببتيد ثنائي، ما الذي ينطلق من هذا التفاعل؟',opts:['ثاني أكسيد الكربون (CO₂)', 'الأمونيا (NH₃)', 'الماء (H₂O)', 'الأكسجين (O₂)'],ans:2,exp:'عند اتحاد حمضين أمينيين بتفاعل تكثف، تتحد مجموعة الكربوكسيل مع مجموعة الأمين وتنطلق جزيئة ماء (H₂O).'},
+      {q:'للحساب: إذا كان ببتيد يتكون من 3 أحماض أمينية فقط، وكان هناك 20 نوعًا من الأحماض الأمينية، ما عدد التتابعات المحتملة لهذا الببتيد؟',opts:['60 تتابعًا (20 × 3)', '400 تتابعًا (20²)', '8000 تتابعًا (20³)', '160,000 تتابعًا (20⁴)'],ans:2,exp:'عدد التتابعات = 20ⁿ حيث n = عدد الأحماض الأمينية. للببتيد من 3 أحماض أمينية: 20³ = 8000 تتابعًا محتملاً.'},
+      {q:'النظر في ببتيدَي: Gly-Phe (جلايسين + فينيل الألنين) Phe-Gly (فينيل الألنين + جلايسين) ما العلاقة الصحيحة بينهما؟',opts:['هما مركب واحد لأنهما يحتويان على نفس الأحماض الأمينية', 'هما مركبان مختلفان لأن ترتيب الارتباط مختلف', 'هما نفس المركب لأن الرابطة الببتيدية متماثلة', 'لا يمكن تكوين أي منهما'],ans:1,exp:'ترتيب الأحماض الأمينية في السلسلة الببتيدية مهم جدًا. Gly-Phe ≠ Phe-Gly — كلاهما يحتوي على نفس الأحماض الأمينية لكن بترتيب مختلف → مركبان مختلفان تمامًا.'},
+      {q:'ما تعريف "تغير الخواص الطبيعية" (Denaturation) للبروتين؟',opts:['زيادة عدد الروابط الببتيدية في البروتين', 'تشوه التركيب الثلاثي الأبعاد للبروتين وتمزقه بسبب الحرارة أو pH', 'تحول البروتين إلى أحماض أمينية حرة فقط', 'اكتساب البروتين أحماضًا أمينية إضافية'],ans:1,exp:'تغير الخواص الطبيعية هو العملية التي تتشوه فيها البنية الثلاثية الأبعاد للبروتين وتتمزق بسبب التغيرات في درجة الحرارة أو pH أو العوامل الأخرى. مثال: سلق البيضة.'},
+      {q:'ما الموقع النشط في الإنزيم؟',opts:['الجزء الذي يُخزّن الطاقة في الإنزيم', 'النقطة التي ترتبط بها المادة الخاضعة على جزيئة الإنزيم', 'الجزء الذي يُنتج الإنزيم من أحماض أمينية', 'الموضع الذي يُطلق فيه الإنزيم النواتج فقط'],ans:1,exp:'الموقع النشط هو النقطة (الجيب أو الشق) على جزيئة الإنزيم التي ترتبط بها المادة الخاضعة لفعل الإنزيم. شكله محدد ويناسب شكل المادة الخاضعة فقط.'},
+      {q:'الأنسولين هرمون بروتيني يتكون من 51 حمضًا أمينيًّا . ما الوظيفة الرئيسية للأنسولين؟',opts:['تسريع تفاعلات هضم البروتين', 'نقل الأكسجين في الدم من الرئتين', 'إرسال إشارة لخلايا الجسم بأن سكر الدم متوافر ويجب تخزينه', 'بناء ألياف العضلات والأنسجة الضامة'],ans:2,exp:'الأنسولين هرمون بروتيني تُنتجه خلايا البنكرياس — يُطلق في الدم ليُشير لخلايا الجسم بأن سكر الدم متوافر بكثرة ويجب تخزينه. نقصه يسبب مرض السكري.'},
+      {q:'ما أكثر البروتينات البنائية توافرًا في معظم الحيوانات؟',opts:['الكيراتين', 'الهيموجلوبين', 'الكولاجين', 'الأنسولين'],ans:2,exp:'الكولاجين هو البروتين البنائي الأكثر توافرًا في معظم الحيوانات — يوجد في الجلد والأوتار والأربطة والعظام. أما الكيراتين فيكوّن الشعر والأظفار والريش.'},
+      {q:'كيف يُميّز الإنزيم مادته الخاضعة؟ أي العبارات التالية تصف ذلك بشكل صحيح؟',opts:['الإنزيم يتفاعل مع أي مادة كيميائية بشكل عشوائي', 'المادة الخاضعة يجب أن يتطابق شكلها مع شكل الموقع النشط للإنزيم (كالقفل والمفتاح)', 'الإنزيم يتعرف على المادة الخاضعة بواسطة درجة حرارتها فقط', 'الإنزيم يتفاعل مع أي مادة خاضعة طالما أنها ذات أصل بروتيني'],ans:1,exp:'يجب أن يتطابق شكل المادة الخاضعة مع شكل الموقع النشط للإنزيم بالطريقة نفسها التي تتطابق بها قطع الألغاز أو القفل والمفتاح — هذا ما يجعل الإنزيمات خاصة بموادها الخاضعة.'}
+    ]},
+  {num:13,title:'الكربوهيدرات',icon:'🍬',questions:[
+      {q:'ما الصيغة الكيميائية العامة للكربوهيدرات؟',opts:['CₙHₙOₙ', 'Cₙ(H₂O)ₙ', 'CₙH₂ₙOₙ', 'CₙHₙ(OH)ₙ'],ans:1,exp:'الصيغة العامة للكربوهيدرات هي Cₙ(H₂O)ₙ — وهي التي تبدو كأنها '},
+      {q:'الجلوكوز سكر أحادي سداسي الكربون. ما نوع مجموعة الكربونيل فيه؟',opts:['تركيب كيتوني — مجموعة الكربونيل في وسط السلسلة', 'تركيب ألدهيدي — مجموعة الكربونيل عند طرف السلسلة', 'لا يحتوي على مجموعة كربونيل', 'تركيب كربوكسيلي — مجموعة COOH'],ans:1,exp:'الجلوكوز له تركيب ألدهيدي — مجموعة الكربونيل (C=O) موجودة عند طرف السلسلة. أما الفركتوز فله تركيب كيتوني — الكربونيل في وسط السلسلة.'},
+      {q:'الجلوكوز والجلاكتوز كلاهما سكر أحادي C₆H₁₂O₆. يختلف الجلاكتوز عن الجلوكوز في: اتجاه ذرة الهيدروجين ومجموعة الهيدروكسيل حول إحدى ذرات الكربون الست فقط ما العلاقة الصحيحة بينهما؟',opts:['متشكلان بنائيان — نفس الصيغة لكن مجموعة الكربونيل في موضع مختلف', 'متشكلان هندسيان — نفس الترتيب لكن الذرات تتجه في اتجاهات مختلفة في الفراغ', 'مركبان متطابقان تمامًا', 'أحدهما سكر أحادي والآخر سكر ثنائي'],ans:1,exp:'الجلوكوز والجلاكتوز متشكلان هندسيان (Geometric Isomers) — ذراتهما مرتبطة بنفس الترتيب لكنها تتجه في اتجاهات مختلفة في الفراغ حول إحدى ذرات الكربون.'},
+      {q:'عند ذوبان الجلوكوز في الماء، في أي شكل يوجد بشكل أساسي عند الاتزان؟',opts:['شكل السلسلة المفتوحة فقط لأنه أكثر نشاطًا', 'الشكل الحلقي هو الأكثر استقرارًا والأكثر شيوعًا', 'يتحلل تمامًا في الماء', 'يوجد فقط كبلورات صلبة في الماء'],ans:1,exp:'في المحاليل المائية توجد السكريات الأحادية في كلا الشكلين (الحلقي والمفتوح) وتتحول بينهما باستمرار. الشكل الحلقي أكثر استقرارًا وهو الأكثر شيوعًا عند الاتزان.'},
+      {q:'السكروز يتكون من اتحاد: جلوكوز + فركتوز → سكروز + H₂O ما نوع التفاعل الذي ينتج السكروز؟ وما نوع الرابطة المتكونة؟',opts:['تفاعل إضافة — رابطة ببتيدية', 'تفاعل تكثف — رابطة إيثرية (C-O-C)', 'تفاعل أكسدة — رابطة كربونيل', 'تفاعل انحلال مائي — رابطة هيدروجينية'],ans:1,exp:'تكوين السكريات الثنائية يحدث عبر تفاعل تكثف ينطلق فيه الماء. الرابطة المتكونة هي الرابطة الإيثرية (C-O-C) التي تجمع السكرين الأحاديين.'},
+      {q:'اللاكتوز سكر ثنائي شائع يسمى "سكر الحليب". من أي وحدتين يتكون اللاكتوز؟',opts:['جلوكوز + فركتوز', 'جلوكوز + جلوكوز', 'جلوكوز + جلاكتوز', 'فركتوز + جلاكتوز'],ans:2,exp:'اللاكتوز (سكر الحليب) يتكون من اتحاد جلوكوز + جلاكتوز بتفاعل تكثف مع انطلاق الماء. بينما السكروز يتكون من جلوكوز + فركتوز.'},
+      {q:'حساب: إذا كان لأحد الكربوهيدرات 2ⁿ متشاكلاً محتملاً حيث n = عدد ذرات الكربون، فكم عدد المتشاكلات المحتملة للفركتوز علمًا بأنه يحتوي على 6 ذرات كربون ؟',opts:['12 متشاكلاً (2 × 6)', '32 متشاكلاً (2⁵)', '64 متشاكلاً (2⁶)', '128 متشاكلاً (2⁷)'],ans:2,exp:'عدد المتشاكلات = 2ⁿ حيث n = عدد ذرات الكربون. الفركتوز يحتوي على 6 ذرات كربون → 2⁶ = 64 متشاكلاً محتملاً.'},
+      {q:'النشا والسليلوز كلاهما عديدة تسكر مبنية من وحدات الجلوكوز. لماذا يستطيع الإنسان هضم النشا ولا يستطيع هضم السليلوز؟',opts:['السليلوز يتكون من الفركتوز وليس الجلوكوز', 'الروابط في السليلوز تتجه اتجاهات مختلفة في الفراغ فلا تستطيع إنزيمات الهضم استيعابها', 'السليلوز قابل للذوبان في الماء فلا يمكن هضمه', 'النشا يحتوي على مجموعات هيدروكسيل والسليلوز لا يحتوي عليها'],ans:1,exp:'رغم أن النشا والسليلوز كلاهما مبني من وحدات الجلوكوز، فإن الروابط في السليلوز تتجه اتجاهات مختلفة في الفراغ. إنزيمات الهضم البشري لا تستطيع استيعاب السليلوز في مواقعها النشطة.'},
+      {q:'الجلايكوجين عديدة تسكر يخزن الطاقة في جسم الإنسان. أين يوجد الجلايكوجين بشكل رئيسي؟',opts:['الجلد والشعر والأظافر', 'الكبد وعضلات الإنسان والحيوانات', 'الدم والرئتان فقط', 'جدران الخلايا النباتية'],ans:1,exp:'الجلايكوجين يوجد بشكل رئيسي في الكبد وعضلات الإنسان والحيوانات. كما يوجد في بعض المخلوقات المجهرية كالبكتيريا والفطريات.'},
+      {q:'أيٌّ من التالي يصف السليلوز بشكل صحيح؟ السليلوز بوليمر يتكون من وحدات جلوكوز مرتبطة بروابط إيثرية في اتجاهات فراغية محددة — يوجد في الفواكه والخضراوات والحبوب',opts:['يذوب في الماء ويوفر طاقة فورية للجسم', 'يُهضم بسهولة ويُخزَّن في الكبد', 'لا يُهضم ويُسمى ألياف غذائية — يمر في الجهاز الهضمي دون تغيير كبير', 'يتكون من الفركتوز ويُستعمل في تحلية الأطعمة'],ans:2,exp:'السليلوز لا يُهضم في الجهاز الهضمي البشري لأن إنزيمات الهضم لا تستطيع استيعابه. يُسمى '}
+    ]},
+  {num:14,title:'الليبيدات',icon:'💧',questions:[
+      {q:'ما الخاصية الكيميائية الرئيسية التي تميّز الليبيدات عن غيرها من الجزيئات الحيوية؟',opts:['قطبية وقابلة للذوبان في الماء', 'غير قطبية وغير قابلة للذوبان في الماء', 'تحتوي على النيتروجين', 'بوليمرات ذات وحدات بناء متكررة'],ans:1,exp:'الليبيدات جزيئات حيوية كبيرة غير قطبية، ولأنها غير قطبية فهي غير قابلة للذوبان في الماء. هذه الخاصية تميزها عن البروتينات والكربوهيدرات القطبية.'},
+      {q:'الأحماض الدهنية أحماض كربوكسيلية ذات سلاسل طويلة. كم يبلغ عدد ذرات الكربون في معظم الأحماض الدهنية الطبيعية؟',opts:['بين 2 و6 ذرات كربون', 'بين 6 و10 ذرات كربون', 'بين 12 و24 ذرة كربون', 'أكثر من 50 ذرة كربون'],ans:2,exp:'تحتوي معظم الأحماض الدهنية الطبيعية على ما بين 12 و24 ذرة كربون. كما تحتوي عادةً على عدد زوجي من ذرات الكربون نتيجة إضافتها ذرتين في كل مرة.'},
+      {q:'حمض الأولييك يُوصف بأنه غير مشبع . ما الذي يعنيه هذا الوصف؟',opts:['لا يحتوي على ذرات كربون في سلسلته', 'يحتوي على رابطة ثنائية أو أكثر بين ذرات الكربون', 'يذوب في الماء', 'يحتوي على مجموعات هيدروكسيل متعددة'],ans:1,exp:'الحمض الدهني غير المشبع يحتوي على رابطة ثنائية (C=C) أو أكثر بين ذرات الكربون. وعندما لا توجد روابط ثنائية يُسمى مشبعًا.'},
+      {q:'لتحويل حمض الأولييك (غير مشبع) إلى حمض السيتريك (مشبع)، ما التفاعل المطلوب؟ حمض الأولييك يحتوي على رابطة ثنائية C=C في سلسلته',opts:['تفاعل أكسدة مع الأكسجين', 'تفاعل هدرجة — إضافة H₂ إلى الرابطة الثنائية', 'تفاعل تكثف مع إطلاق الماء', 'تفاعل تصبّن مع هيدروكسيد الصوديوم'],ans:1,exp:'تفاعل الهدرجة هو تفاعل إضافة يتفاعل فيه H₂ مع ذرات الكربون المرتبطة بروابط ثنائية. يتحول حمض الأولييك (غير مشبع) إلى حمض السيتريك (مشبع) بإضافة H₂.'},
+      {q:'عند تكوين الجليسريد الثلاثي من الجليسرول وثلاثة أحماض دهنية، ما نوع الروابط المتكونة وما المادة المنطلقة؟',opts:['روابط ببتيدية — ينطلق CO₂', 'روابط إيثرية — ينطلق H₂O', 'روابط إستر — ينطلق H₂O', 'روابط هيدروجينية — لا ينطلق شيء'],ans:2,exp:'عند اتحاد الجليسرول مع ثلاثة أحماض دهنية تتكون روابط إستر وينطلق 3 جزيئات ماء (H₂O) في تفاعل تكثف.'},
+      {q:'الزيوت النباتية سائلة في درجة حرارة الغرفة بينما الدهون الحيوانية صلبة. ما السبب الكيميائي لهذا الفرق؟',opts:['الزيوت تحتوي على أحماض دهنية مشبعة بينما الدهون تحتوي على غير مشبعة', 'الزيوت تحتوي على أحماض دهنية غير مشبعة (روابط ثنائية تمنع التراص) بينما الدهون تحتوي على أحماض دهنية مشبعة', 'الزيوت تحتوي على جليسرول إضافي', 'لا فرق كيميائي، الفرق في درجة الحرارة فقط'],ans:1,exp:'الزيوت تحتوي على أحماض دهنية غير مشبعة — الروابط الثنائية بصورة سيس تمنع تراص الجزيئات بعضها مع بعض → درجة انصهار منخفضة → سائلة. الدهون تحتوي على أحماض مشبعة تتراص بسهولة → صلبة.'},
+      {q:'تفاعل التصبّن (Saponification) يُنتج الصابون. ما مكونات هذا التفاعل؟ جليسريد ثلاثي + قاعدة قوية (مثل NaOH) → ؟ + جليسرول',opts:['أحماض دهنية حرة', 'أملاح الكربوكسيلات (الصابون)', 'جليسريد ثنائي', 'ليبيدات فوسفورية'],ans:1,exp:'تفاعل التصبّن (Saponification) هو تفاعل الجليسريد الثلاثي مع قاعدة قوية (NaOH) لإنتاج أملاح الكربوكسيلات (الصابون) والجليسرول.'},
+      {q:'الليبيد الفوسفوري يتركب من جزأين رئيسيين. كيف يترتبان في الغشاء الخلوي؟ الرأس القطبي: محبّ للماء | الذيل غير القطبي: كاره للماء',opts:['الرأس القطبي نحو الداخل والذيل غير القطبي نحو الخارج', 'الرأس القطبي نحو الخارج (الماء) والذيل غير القطبي نحو الداخل', 'كلاهما يتجهان نحو الخارج', 'الترتيب عشوائي ويتغير باستمرار'],ans:1,exp:'في الغشاء الخلوي الرأس القطبي (محبّ للماء) يتجه نحو الخارج (نحو الماء) والذيل غير القطبي (كاره للماء) يتجه نحو الداخل بعيدًا عن الماء. هذا يُكوّن الطبقة المزدوجة.'},
+      {q:'الستيرويدات نوع من الليبيدات. ما الذي يُميّز تركيبها عن بقية الليبيدات؟',opts:['تحتوي على سلاسل أحماض دهنية طويلة جدًا', 'تحتوي على تراكيب حلقات متعددة (4 حلقات) وليس سلاسل أحماض دهنية', 'تذوب في الماء بسهولة', 'تحتوي على مجموعة فوسفات'],ans:1,exp:'الستيرويدات تحتوي على تراكيب حلقات متعددة (4 حلقات كربونية مترابطة) وليس على سلاسل أحماض دهنية. مثال: الكولسترول، الهرمونات الجنسية، فيتامين (د).'},
+      {q:'الشموع ليبيدات تُغطي أوراق النباتات. من أي مركبَين تتكون الشموع؟ الصيغة العامة للشمع: CH₃(CH₂)ₓ — C(=O) — O — (CH₂)yCH₃',opts:['جليسرول + 3 أحماض دهنية', 'حمض دهني + مجموعة فوسفات', 'حمض دهني + كحول ذو سلسلة طويلة برابطة إستر', '4 حلقات كربونية مترابطة'],ans:2,exp:'الشموع تتكون من اتحاد حمض دهني مع كحول ذي سلسلة طويلة برابطة إستر. تحتوي على درجات انصهار منخفضة نسبيًا وتتميل إلى الاحتراق ببطء وهدوء.'}
+    ]},
+  {num:15,title:'الأحماض النووية — DNA و RNA',icon:'🔑',questions:[
+      {q:'ما الوحدة الأساسية البنائية للأحماض النووية؟',opts:['الحمض الأميني', 'النيوكليوتيد', 'الجلوكوز', 'الرابطة الببتيدية'],ans:1,exp:'النيوكليوتيد هو وحدة البناء الأساسية للأحماض النووية. يتكون من ثلاثة أجزاء: مجموعة فوسفات + سكر خماسي + قاعدة نيتروجينية.'},
+      {q:'يتكون كل نيوكليوتيد من ثلاثة أجزاء. أيٌّ مما يلي ليس من هذه الأجزاء الثلاثة؟',opts:['مجموعة فوسفات غير عضوية', 'سكر خماسي (بنتوز) ذو 5 ذرات كربون', 'قاعدة نيتروجينية', 'مجموعة كربوكسيل (-COOH)'],ans:3,exp:'مجموعة الكربوكسيل (-COOH) تنتمي للأحماض الأمينية وليس للنيوكليوتيدات. الأجزاء الثلاثة للنيوكليوتيد هي: مجموعة فوسفات، سكر خماسي، وقاعدة نيتروجينية.'},
+      {q:'يحتوي DNA على أربع قواعد نيتروجينية. أيٌّ من القواعد التالية يوجد في DNA فقط ولا يوجد في RNA؟',opts:['الأدينين (A)', 'الثايمين (T)', 'السايتوسين (C)', 'الجوانين (G)'],ans:1,exp:'الثايمين (T) يوجد في DNA فقط. أما اليوراسيل (U) فيوجد في RNA فقط بدلاً من الثايمين. القواعد A وC وG توجد في كلا الحمضين.'},
+      {q:'في جزيء DNA، إذا كانت نسبة الأدينين (A) في سلسلة ما = 30%، ما نسبة الثايمين (T) في الجزيء كله؟ القاعدة: A يقترن دائمًا بـ T | G يقترن دائمًا بـ C',opts:['70%', '20%', '30%', '60%'],ans:2,exp:'بحسب قانون التزاوج: A يقترن دائمًا بـ T → كمية A = كمية T دائمًا. إذا كانت A = 30% فإن T = 30% أيضًا.'},
+      {q:'ما الفرق بين سكر DNA وسكر RNA؟',opts:['سكر DNA هو رايبوز وسكر RNA هو ديوكسي رايبوز', 'سكر DNA هو ديوكسي رايبوز (منقوص الأكسجين) وسكر RNA هو رايبوز', 'كلاهما نفس السكر (رايبوز) لكن بترتيب مختلف', 'سكر DNA سداسي الكربون وسكر RNA خماسي الكربون'],ans:1,exp:'سكر DNA هو ديوكسي رايبوز — منقوص الأكسجين (يحتوي على ذرة H بدل مجموعة OH في أحد المواقع). سكر RNA هو رايبوز — يحتوي على OH في ذلك الموقع.'},
+      {q:'في اللولب المزدوج لـ DNA، ما الجزء الذي يُشكّل "العمود الفقري" الخارجي؟ اللولب المزدوج: يشبه السحاب المنزلق — جانبان خارجيان وقواعد داخلية',opts:['القواعد النيتروجينية المرتبطة بروابط هيدروجينية', 'جزيئات ديوكسي رايبوز ومجموعات فوسفات المتعاقبة', 'الأحماض الأمينية المرتبطة ببعضها', 'الروابط الهيدروجينية فقط'],ans:1,exp:'العمود الفقري الخارجي للولب المزدوج يتكون من جزيئات ديوكسي رايبوز ومجموعات فوسفات المتعاقبة. أما القواعد النيتروجينية فتوجد داخل التركيب مرتبطة بروابط هيدروجينية.'},
+      {q:'ما القاعدة النيتروجينية التي توجد في RNA بدلاً من الثايمين (T)؟',opts:['الأدينين (A)', 'الجوانين (G)', 'اليوراسيل (U)', 'السايتوسين (C)'],ans:2,exp:'اليوراسيل (U) يوجد في RNA بدلاً من الثايمين (T). هذا أحد الفروق الثلاثة الرئيسية بين DNA وRNA.'},
+      {q:'ما الفرق الرئيسي في الشكل بين DNA وRNA؟',opts:['DNA شريط واحد وRNA لولب مزدوج', 'DNA لولب مزدوج (شريطان) وRNA شريط واحد', 'كلاهما لولب مزدوج لكن بأحجام مختلفة', 'كلاهما شريط واحد ولكن بقواعد مختلفة'],ans:1,exp:'DNA يتكون من سلسلتين ملتفتين بشكل لولب مزدوج (شريطان مرتبطان بروابط هيدروجينية بين قواعدها). RNA يتكون من شريط واحد فقط بدون روابط هيدروجينية بين القواعد.'},
+      {q:'ما التسلسل الصحيح لكيفية تحكم DNA في صنع البروتينات؟ الخطوات المتاحة: (1) يُصنع RNA | (2) يُصنع بروتين | (3) يخزن DNA المعلومات في تسلسل قواعده',opts:['بروتين ← RNA ← DNA', 'DNA → RNA → بروتين', 'RNA → DNA → بروتين', 'DNA → بروتين → RNA'],ans:1,exp:'التسلسل الصحيح: DNA يخزن المعلومات في تسلسل قواعده ← الخلايا تستعمل ذلك التسلسل لتكوين RNA ← ثم يستعمل RNA لصنع بروتينات بتسلسل من الأحماض الأمينية.'},
+      {q:'في جزيء DNA، كم عدد الروابط الهيدروجينية بين زوج الجوانين والسايتوسين (G-C)؟ A-T: رابطتان هيدروجينيتان | G-C: ثلاث روابط هيدروجينية',opts:['رابطة هيدروجينية واحدة', 'رابطتان هيدروجينيتان', 'ثلاث روابط هيدروجينية', 'أربع روابط هيدروجينية'],ans:2,exp:'زوج G-C يرتبط بثلاث روابط هيدروجينية (أقوى من زوج A-T الذي يرتبط برابطتين فقط). هذا الاختلاف يجعل مناطق G-C أكثر استقرارًا في DNA.'}
+    ]}
+];
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let gCorrect=0, gWrong=0, gAnswered=0;
+const secState = LESSONS.map(()=>({c:0,w:0,done:0}));
+const LETTERS=['أ','ب','ج','د'];
+let activeLi=0;
+
+/* ══════════════════════════════════════
+   BUILD UI
+══════════════════════════════════════ */
+const tabList  = document.getElementById('tabList');
+const panels   = document.getElementById('panels');
+const mobSel   = document.getElementById('mobileSelect');
+
+LESSONS.forEach((lesson,li)=>{
+  /* ── TAB ── */
+  const tab=document.createElement('div');
+  tab.className='lesson-tab'+(li===0?' active':'');
+  tab.dataset.li=li;
+  tab.onclick=()=>switchLesson(li);
+  tab.innerHTML=`
+    <div class="tab-icon">${lesson.icon}</div>
+    <div class="tab-info">
+      <div class="tab-num">الدرس ${lesson.num}</div>
+      <div class="tab-title">${lesson.title}</div>
+    </div>
+    <div class="tab-score" id="tscore-${li}">0/${lesson.questions.length}</div>
+  `;
+  tabList.appendChild(tab);
+
+  /* ── MOBILE OPTION ── */
+  const opt=document.createElement('option');
+  opt.value=li; opt.textContent=`${lesson.icon} الدرس ${lesson.num}: ${lesson.title}`;
+  mobSel.appendChild(opt);
+
+  /* ── PANEL ── */
+  const panel=document.createElement('div');
+  panel.className='quiz-panel'+(li===0?' active':'');
+  panel.id=`panel-${li}`;
+
+  /* Section header */
+  panel.innerHTML=`
+    <div class="section-header">
+      <div class="section-emoji">${lesson.icon}</div>
+      <div class="section-meta">
+        <h2>الدرس ${lesson.num}: ${lesson.title}</h2>
+        <p>${lesson.questions.length} سؤال اختيار متعدد</p>
+        <div class="section-progress">
+          <div class="section-prog-fill" id="spf-${li}"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  /* Questions */
+  lesson.questions.forEach((q,qi)=>{
+    const card=document.createElement('div');
+    card.className='q-card';
+    card.id=`card-${li}-${qi}`;
+
+    const optsHtml=q.opts.map((o,oi)=>`
+      <button class="opt-btn" id="opt-${li}-${qi}-${oi}"
+        onclick="pick(${li},${qi},${oi})" >
+        <span class="opt-letter">${LETTERS[oi]}</span>
+        <span class="opt-text">${escHTML(o)}</span>
+      </button>`).join('');
+
+    card.innerHTML=`
+      <div class="q-header">
+        <div class="q-num">${qi+1}</div>
+        <div class="q-text">${escHTML(q.q)}</div>
+      </div>
+      <div class="options">${optsHtml}</div>
+      <div class="feedback" id="fb-${li}-${qi}">
+        <span class="fb-icon"></span>
+        <div class="fb-body"><strong></strong><span></span></div>
+      </div>
+    `;
+    panel.appendChild(card);
+  });
+
+  /* Result panel */
+  const res=document.createElement('div');
+  res.className='result-panel';
+  res.id=`res-${li}`;
+  res.innerHTML=`
+    <div class="score-ring" id="ring-${li}">
+      <span class="ring-score" id="rscore-${li}">0</span>
+      <span class="ring-label">من ${lesson.questions.length}</span>
+    </div>
+    <div class="result-msg" id="rmsg-${li}"></div>
+    <div class="result-sub" id="rsub-${li}"></div>
+    <div class="result-actions">
+      <button class="btn btn-pri" onclick="retryLesson(${li})">🔄 إعادة المحاولة</button>
+      <button class="btn btn-sec" onclick="nextLesson(${li})">الدرس التالي ←</button>
+    </div>
+  `;
+  panel.appendChild(res);
+  panels.appendChild(panel);
+});
+
+/* ══════════════════════════════════════
+   SWITCH LESSON
+══════════════════════════════════════ */
+function switchLesson(li){
+  activeLi=li;
+  document.querySelectorAll('.lesson-tab').forEach((t,i)=>t.classList.toggle('active',i===li));
+  document.querySelectorAll('.quiz-panel').forEach((p,i)=>p.classList.toggle('active',i===li));
+  mobSel.value=li;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextLesson(li){
+  const nx=(li+1)%LESSONS.length;
+  switchLesson(nx);
+}
+
+/* ══════════════════════════════════════
+   ANSWER
+══════════════════════════════════════ */
+function pick(li,qi,chosen){
+  const q=LESSONS[li].questions[qi];
+  const allOpts=document.querySelectorAll(`#card-${li}-${qi} .opt-btn`);
+
+  /* Already answered? */
+  if(allOpts[0].disabled) return;
+
+  const correct=chosen===q.ans;
+
+  /* Lock & style buttons */
+  allOpts.forEach((b,oi)=>{
+    b.disabled=true;
+    if(oi===q.ans) b.classList.add('correct');
+    else if(oi===chosen) b.classList.add('wrong');
+    else b.classList.add('reveal');
+  });
+
+  /* Card state */
+  const card=document.getElementById(`card-${li}-${qi}`);
+  card.classList.add(correct?'correct':'wrong');
+
+  /* Feedback */
+  const fb=document.getElementById(`fb-${li}-${qi}`);
+  fb.classList.add('show', correct?'ok':'bad');
+  fb.querySelector('.fb-icon').textContent=correct?'✅':'❌';
+  fb.querySelector('strong').textContent=correct?'إجابة صحيحة!':'إجابة خاطئة.';
+  fb.querySelector('span:last-child').textContent=q.exp||'';
+
+  /* Update state */
+  if(correct){gCorrect++;secState[li].c++;}
+  else{gWrong++;secState[li].w++;}
+  gAnswered++;secState[li].done++;
+
+  updateAll(li);
+
+  /* Section complete? */
+  if(secState[li].done===LESSONS[li].questions.length){
+    setTimeout(()=>showResult(li),600);
+  }
+}
+
+/* ══════════════════════════════════════
+   UPDATE UI
+══════════════════════════════════════ */
+function updateAll(li){
+  /* Scorebar */
+  document.getElementById('sb-c').textContent=gCorrect;
+  document.getElementById('sb-w').textContent=gWrong;
+  document.getElementById('sb-t').textContent=`${gAnswered}/149`;
+  document.getElementById('hdr-correct').textContent=gCorrect;
+
+  /* Top progress */
+  document.getElementById('top-fill').style.width=(gAnswered/149*100)+'%';
+
+  /* Section progress */
+  const total=LESSONS[li].questions.length;
+  const pct=secState[li].done/total*100;
+  document.getElementById(`spf-${li}`).style.width=pct+'%';
+
+  /* Tab score */
+  const sc=secState[li];
+  const tsel=document.getElementById(`tscore-${li}`);
+  tsel.textContent=`${sc.c}/${total}`;
+  if(sc.done===total){
+    tsel.classList.add('done');
+    document.querySelector(`.lesson-tab[data-li="${li}"]`).classList.add('done');
+  }
+}
+
+/* ══════════════════════════════════════
+   SECTION RESULT
+══════════════════════════════════════ */
+function showResult(li){
+  const total=LESSONS[li].questions.length;
+  const sc=secState[li].c;
+  const pct=sc/total;
+
+  const res=document.getElementById(`res-${li}`);
+  res.classList.add('show');
+
+  const ring=document.getElementById(`ring-${li}`);
+  document.getElementById(`rscore-${li}`).textContent=sc;
+
+  let cls,msg,sub;
+  if(pct===1){cls='ex';msg='🏆 ممتاز! أداء مثالي!';sub='أتقنت هذا الدرس تمامًا — أحسنت!';}
+  else if(pct>=.8){cls='ex';msg='⭐ أداء رائع!';sub=`أجبت على ${sc} من ${total} بشكل صحيح.`;}
+  else if(pct>=.6){cls='gd';msg='👍 جيد، واصل!';sub='راجع الأسئلة التي أخطأت فيها وأعد المحاولة.';}
+  else{cls='nw';msg='📚 تحتاج مزيدًا من المراجعة';sub='ارجع للدرس وأعد المحاولة — أنت تستطيع!';}
+
+  ring.className=`score-ring ${cls}`;
+  document.getElementById(`rmsg-${li}`).textContent=msg;
+  document.getElementById(`rsub-${li}`).textContent=sub;
+
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ══════════════════════════════════════
+   RETRY
+══════════════════════════════════════ */
+function retryLesson(li){
+  /* Subtract from global */
+  gCorrect-=secState[li].c;
+  gWrong-=secState[li].w;
+  gAnswered-=secState[li].done;
+  secState[li]={c:0,w:0,done:0};
+
+  /* Reset cards */
+  LESSONS[li].questions.forEach((_,qi)=>{
+    const card=document.getElementById(`card-${li}-${qi}`);
+    card.classList.remove('correct','wrong');
+
+    document.querySelectorAll(`#card-${li}-${qi} .opt-btn`).forEach(b=>{
+      b.disabled=false;
+      b.classList.remove('correct','wrong','reveal');
+    });
+
+    const fb=document.getElementById(`fb-${li}-${qi}`);
+    fb.className='feedback';
+  });
+
+  /* Reset result panel */
+  const res=document.getElementById(`res-${li}`);
+  res.classList.remove('show');
+
+  /* Reset tab */
+  const tsel=document.getElementById(`tscore-${li}`);
+  tsel.textContent=`0/${LESSONS[li].questions.length}`;
+  tsel.classList.remove('done');
+  document.querySelector(`.lesson-tab[data-li="${li}"]`).classList.remove('done');
+
+  document.getElementById(`spf-${li}`).style.width='0%';
+  updateAll(li);
+
+  /* Scroll top of panel */
+  document.getElementById(`panel-${li}`).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ══════════════════════════════════════
+   UTIL
+══════════════════════════════════════ */
+function escHTML(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
